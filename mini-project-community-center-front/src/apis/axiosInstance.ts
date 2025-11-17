@@ -1,5 +1,3 @@
-// axiosInstance.ts
-
 import axios, { type InternalAxiosRequestConfig } from "axios";
 
 const API_BASE =
