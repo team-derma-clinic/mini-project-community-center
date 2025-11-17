@@ -74,7 +74,7 @@ CREATE TABLE courses (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   center_id BIGINT NOT NULL,
   title VARCHAR(200) NOT NULL,
-  category VARCHAR(50) NOT NULL,             -- 예: ART/MUSIC/COOKING/FITNESS/IT 등
+  category VARCHAR(50) NOT NULL,             -- ART/MUSIC/COOKING/FITNESS/IT/LANGUAGE
   level VARCHAR(20) NOT NULL DEFAULT 'BEGINNER', -- BEGINNER/INTERMEDIATE/ADVANCED
   capacity INT NOT NULL,                      -- 강좌 정원(세션 공통)
   fee DECIMAL(10,2) NOT NULL DEFAULT 0,
@@ -85,6 +85,7 @@ CREATE TABLE courses (
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   FOREIGN KEY (center_id) REFERENCES centers(id),
+  CHECK (category IN ('ART', 'MUSIC', 'COOKING', 'FITNESS', 'IT', 'LANGUAGE')),
   CHECK (level IN ('BEGINNER','INTERMEDIATE','ADVANCED')),
   CHECK (status IN ('OPEN','CLOSED','CANCELED')),
   INDEX idx_courses_center (center_id, status, category, level),
