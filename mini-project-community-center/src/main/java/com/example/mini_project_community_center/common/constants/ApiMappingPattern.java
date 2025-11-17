@@ -32,16 +32,17 @@ public class ApiMappingPattern {
     public static final class Courses {
         private Courses() {}
         public static final String ROOT = BASE + "/courses";
-        public static final String BY_COURSE_ID = ROOT + "/{courseId}";
-        public static final String BY_STATUS = BY_COURSE_ID + "/status";
+        public static final String BY_COURSE_ID_ONLY = "/{courseId}";
+        public static final String BY_COURSE_ID = "/courses/{courseId}";
+        public static final String STATUS = BY_COURSE_ID_ONLY + "/status";
     }
 
     public static final class Sessions {
         private Sessions() {}
-        public static final String ROOT = BASE + "/sessions";
+        public static final String ROOT = "/sessions";
         public static final String BY_SESSION_ID = ROOT + "/{sessionId}";
-        public static final String BY_COURSE_ID = Courses.BY_COURSE_ID + "/sessions";
-        public static final String BY_STATUS = BY_SESSION_ID + "/status";
+        public static final String BY_COURSE_ID =  Courses.BY_COURSE_ID + "/sessions";
+        public static final String STATUS = BY_SESSION_ID + "/status";
     }
 
     public static final class Attendance {
