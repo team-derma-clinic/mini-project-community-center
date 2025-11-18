@@ -271,11 +271,14 @@ CREATE TABLE `reviews` (
   
   rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
   content TEXT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'DRAFT',
   
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   
   FOREIGN KEY (course_id) REFERENCES courses(id),
   FOREIGN KEY (user_id) REFERENCES users(id),
+  
+  CHECK (status IN ('DRAFT', 'APPROVED', 'REJECTED')),
   
   UNIQUE KEY `uk_review_once` (course_id, user_id),
   
