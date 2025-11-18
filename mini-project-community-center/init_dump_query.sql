@@ -36,11 +36,11 @@ CREATE TABLE `users` (
   UNIQUE KEY `uk_users_login` (login_id),
   UNIQUE KEY `uk_users_email` (email)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='사용자';
-    
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='사용자';
+  
 -- Seed: USERS (20명)
 INSERT INTO `users` (id, name, login_id, password, email, phone, created_at, updated_at) VALUES
 (1,'김민수','user001','pass001!','user001@example.com','010-1000-0001','2024-01-01 09:00:00','2024-01-01 09:00:00'),
@@ -67,11 +67,11 @@ INSERT INTO `users` (id, name, login_id, password, email, phone, created_at, upd
 CREATE TABLE `roles` (
   role_name VARCHAR(30) PRIMARY KEY  -- STUDENT/INSTRUCTOR/STAFF/ADMIN
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='역할';
-    
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='역할';
+  
 INSERT INTO roles VALUES ('ROLE_STUDENT'), ('ROLE_INSTRUCTOR'), ('ROLE_STAFF'), ('ROLE_ADMIN');
 
 CREATE TABLE `user_roles` (
@@ -83,11 +83,11 @@ CREATE TABLE `user_roles` (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (role_name) REFERENCES roles(role_name)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='사용자-역할 매핑';
-    
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='사용자-역할 매핑';
+  
 -- Seed: User Roles (ADMIN 1 / INSTRUCTOR 5 / STAFF 3 / STUDENT 11)
 INSERT INTO `user_roles` (user_id, role_name) VALUES
 (1,'ROLE_STUDENT'),
@@ -114,21 +114,21 @@ INSERT INTO `user_roles` (user_id, role_name) VALUES
 -- 2) refresh token
 CREATE TABLE `refresh_tokens` (
   id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    
+  
   login_id VARCHAR(100) NOT NULL, 
-    
+  
   token VARCHAR(512) NOT NULL,
   expiry BIGINT NOT NULL,
-    
+  
   FOREIGN KEY (login_id) REFERENCES users(login_id),
-    
+  
   UNIQUE KEY `uk_refresh_login` (login_id),
   UNIQUE KEY `uk_refresh_token` (token)
 )
-	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8mb4
-	COLLATE = utf8mb4_unicode_ci
-	COMMENT = 'JWT Refresh Token 저장 테이블';
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = 'JWT Refresh Token 저장 테이블';
 
 -- Seed: Refresh Tokens (20개)
 INSERT INTO `refresh_tokens` (id, login_id, token, expiry) VALUES
@@ -167,10 +167,10 @@ CREATE TABLE `centers` (
   
   INDEX `idx_centers_geo` (latitude, longitude)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='지점(센터)';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='지점(센터)';
 
 -- Seed: Centers (5개)
 INSERT INTO `centers` (id, name, address, latitude, longitude, phone, created_at) VALUES
@@ -186,9 +186,9 @@ CREATE TABLE `courses` (
   center_id BIGINT NOT NULL,
   
   title VARCHAR(200) NOT NULL,
-  category VARCHAR(50) NOT NULL,             -- ART/MUSIC/COOKING/FITNESS/IT/LANGUAGE
+  category VARCHAR(50) NOT NULL,       -- ART/MUSIC/COOKING/FITNESS/IT/LANGUAGE
   level VARCHAR(20) NOT NULL DEFAULT 'BEGINNER', -- BEGINNER/INTERMEDIATE/ADVANCED
-  capacity INT NOT NULL,                      -- 강좌 정원(세션 공통)
+  capacity INT NOT NULL,            -- 강좌 정원(세션 공통)
   fee DECIMAL(10,2) NOT NULL DEFAULT 0,
   status VARCHAR(20) NOT NULL DEFAULT 'OPEN', -- OPEN/CLOSED/CANCELED
   description TEXT NOT NULL,
@@ -207,10 +207,10 @@ CREATE TABLE `courses` (
   INDEX `idx_courses_center` (center_id, status, category, level),
   INDEX `idx_courses_period` (start_date, end_date)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='강좌(마스터)';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='강좌(마스터)';
 
 -- Seed: Courses (10개)
 INSERT INTO `courses` (id, center_id, title, category, level, capacity, fee, status, description, start_date, end_date, created_at, updated_at) VALUES
@@ -227,25 +227,25 @@ INSERT INTO `courses` (id, center_id, title, category, level, capacity, fee, sta
 
 CREATE TABLE `course_instructors` (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    
+  
   course_id BIGINT NOT NULL,
   instructor_id BIGINT NOT NULL,
   
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-    
+  
   FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
   FOREIGN KEY (instructor_id) REFERENCES users(id),
-    
+  
   UNIQUE KEY `uk_course_instructor` (course_id, instructor_id),
-    
+  
   INDEX `idx_course_instructor_course` (course_id),
   INDEX `idx_course_instructor_instructor` (instructor_id)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='강좌-강사 매핑';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='강좌-강사 매핑';
 
 -- Seed: Course Instructors (10개)
 INSERT INTO `course_instructors` (id, course_id, instructor_id, created_at, updated_at) VALUES
@@ -282,10 +282,10 @@ CREATE TABLE `course_sessions` (
   
   INDEX `idx_sessions_time` (start_time, end_time)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='강좌 회차(세션)';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='강좌 회차(세션)';
 
 -- Seed: Course Sessions (10개)
 INSERT INTO `course_sessions` (id, course_id, start_time, end_time, room, status, created_at, updated_at) VALUES
@@ -322,10 +322,10 @@ CREATE TABLE `enrollments` (
   INDEX `idx_enroll_course_status` (course_id, status),
   INDEX `idx_enroll_user` (user_id, status)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='수강 등록';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='수강 등록';
 
 -- Seed: Enrollments (10개)
 INSERT INTO `enrollments` (id, course_id, user_id, status, cancel_reason, enrolled_at) VALUES
@@ -348,7 +348,7 @@ CREATE TABLE `payments` (
   
   amount DECIMAL(10,2) NOT NULL,
   currency CHAR(3) NOT NULL DEFAULT 'KRW',
-  method VARCHAR(20) NOT NULL,                -- CARD/TRANSFER 등
+  method VARCHAR(20) NOT NULL,        -- CARD/TRANSFER 등
   status VARCHAR(20) NOT NULL DEFAULT 'PAID', -- PAID/PENDING/FAILED/REFUNDED
   
   paid_at DATETIME(6) NULL,
@@ -362,10 +362,10 @@ CREATE TABLE `payments` (
   INDEX `idx_pay_enroll` (enrollment_id, status),
   INDEX `idx_pay_paid_at` (paid_at)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='결제 내역';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='결제 내역';
 
 -- Seed: Payments (10개)
 INSERT INTO `payments` (id, enrollment_id, amount, currency, method, status, paid_at, created_at, updated_at) VALUES
@@ -401,10 +401,10 @@ CREATE TABLE `attendance` (
   
   INDEX `idx_attend_session` (session_id, status)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='출석 기록';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='출석 기록';
 
 -- Seed: Attendance (10개)
 INSERT INTO `attendance` (id, session_id, user_id, status, note, marked_at) VALUES
@@ -438,10 +438,10 @@ CREATE TABLE `reviews` (
   
   INDEX `idx_review_course` (course_id, rating)
 )
-	ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci
-    COMMENT='수강 후기';
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='수강 후기';
 
 -- Seed: Reviews (10개)
 INSERT INTO `reviews` (id, course_id, user_id, rating, content, created_at) VALUES
@@ -455,5 +455,5 @@ INSERT INTO `reviews` (id, course_id, user_id, rating, content, created_at) VALU
 (8,8,8,4,'공방 시설이 좋아요.','2024-03-09 09:00:00'),
 (9,9,9,5,'라틴댄스가 정말 신났습니다.','2024-03-10 09:00:00'),
 (10,10,10,4,'새벽 수업이 색다른 경험이었어요.','2024-03-11 09:00:00');
-    
+  
 SET FOREIGN_KEY_CHECKS = 1;
