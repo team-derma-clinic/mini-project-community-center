@@ -218,7 +218,7 @@ CREATE TABLE `payments` (
   amount DECIMAL(10,2) NOT NULL,
   currency CHAR(3) NOT NULL DEFAULT 'KRW',
   method VARCHAR(20) NOT NULL,  -- CARD/TRANSFER 등
-  status VARCHAR(20) NOT NULL DEFAULT 'PAID', -- PAID/PENDING/FAILED/REFUNDED
+  status VARCHAR(20) NOT NULL DEFAULT 'PENDING', -- PAID/PENDING/FAILED/REFUNDED
   
   paid_at DATETIME(6) NULL,
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -271,11 +271,14 @@ CREATE TABLE `reviews` (
   
   rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
   content TEXT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'DRAFT',
   
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   
   FOREIGN KEY (course_id) REFERENCES courses(id),
   FOREIGN KEY (user_id) REFERENCES users(id),
+  
+  CHECK (status IN ('DRAFT', 'APPROVED', 'REJECTED')),
   
   UNIQUE KEY `uk_review_once` (course_id, user_id),
   
