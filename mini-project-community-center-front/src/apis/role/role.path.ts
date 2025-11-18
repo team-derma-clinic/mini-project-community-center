@@ -1,8 +1,5 @@
 import { BASE } from "../common/base.path";
 
-const ROLE_PREFIX = `${BASE}/users`;
+const ROLE_PREFIX = `${BASE}/roles`;
 
-export const ROLE_PATH = {
-  ROOT: (userId: number) => `${ROLE_PREFIX}/${userId}/roles`,
-  BY_NAME: (userId: number, roleName: string) => `${ROLE_PREFIX}/${userId}/${roleName}`
-}
+export const ROLE_PATH = {}
