@@ -1,6 +1,6 @@
 import type { CourseCategory, CourseLevel, CourseStatus } from "./course.enum.type";
 
-export interface CreateCourseRequest {
+export interface CourseCreateRequest {
   centerId: number;
   title: string; 
   category: CourseCategory;
@@ -14,7 +14,7 @@ export interface CreateCourseRequest {
   endDate: string;
 }
 
-export interface UpdateCourseRequest {
+export interface CourseUpdateRequest {
   title?: string; 
   category?: CourseCategory;
   level?: CourseLevel; 
@@ -27,6 +27,9 @@ export interface UpdateCourseRequest {
   endDate?: string;
 }
 
+export interface CourseStatusUpdateRequest {
+  status: CourseStatus;
+}
 export interface CourseListItemResponse {
   id: number;
   title: string;
