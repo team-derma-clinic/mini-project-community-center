@@ -1,4 +1,4 @@
-export interface CreateCenterForm {
+export interface CenterCreateForm {
   name: string;
   address?: string;
   latitude?: number;
@@ -6,7 +6,7 @@ export interface CreateCenterForm {
   phone?: string;
 }
 
-export interface UpdateCenterForm {
+export interface CenterUpdateForm {
   name?: string;
   address?: string;
   latitude?: number;
