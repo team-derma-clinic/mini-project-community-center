@@ -1,6 +1,6 @@
 import type { CourseListResponse } from "../course/course.dto";
 
-export interface CreateCenterRequest {
+export interface CenterCreateRequest {
   name: string;
   address?: string;
   latitude?: number;
@@ -8,7 +8,7 @@ export interface CreateCenterRequest {
   phone?: string;
 }
 
-export interface UpdateCenterRequest {
+export interface CenterUpdateRequest {
   name: string;
   address?: string;
   latitude?: number;
