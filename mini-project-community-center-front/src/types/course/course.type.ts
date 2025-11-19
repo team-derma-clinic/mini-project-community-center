@@ -1,6 +1,6 @@
 import type { CourseCategory, CourseLevel, CourseStatus } from "./course.enum.type";
 
-export interface CreateCourseForm {
+export interface CourseCreateForm {
   centerId: number;
   title: string; 
   category: CourseCategory;
@@ -14,7 +14,7 @@ export interface CreateCourseForm {
   endDate: string;
 }
 
-export interface UpdateCourseForm {
+export interface CourseUpdateForm {
   title?: string; 
   category?: CourseCategory;
   level?: CourseLevel; 
@@ -25,4 +25,8 @@ export interface UpdateCourseForm {
   instructorIds?: number[];
   startDate?: string;
   endDate?: string;
+}
+
+export interface CourseStatusUpdateForm {
+  status: CourseStatus;
 }
