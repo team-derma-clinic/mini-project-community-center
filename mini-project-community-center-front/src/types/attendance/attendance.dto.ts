@@ -4,7 +4,6 @@ export interface CreateAttendanceRequest {
     sessionId: number;
     userId: number;
     status: AttendanceStatus;
-    note?: string;
 }
 
 export interface UpdateAttendanceRequest {
