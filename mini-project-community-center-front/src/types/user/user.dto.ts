@@ -1,4 +1,5 @@
-import type { RoleType } from "../role/role.dto";
+import type { RoleType } from "../role/role.enum.type";
+
 
 export interface UserCreateRequest {
   name: string;

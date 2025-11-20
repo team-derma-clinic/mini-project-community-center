@@ -1,4 +1,4 @@
-export type RoleType = "STUDENT" | "INSTRUCTOR" | "STAFF" | "ADMIN";
+import type { RoleType } from "./role.enum.type";
 
 export interface UserRoleAddRequest {
   roleName: RoleType;

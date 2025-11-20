@@ -1,4 +1,4 @@
-import type { RoleType } from "../role/role.dto";
+import type { RoleType } from "../role/role.enum.type";
 
 export interface RegisterRequest {
   loginId: string;
@@ -21,6 +21,7 @@ export interface PasswordChangeRequest {
 export interface LoginResponse {
   tokenType: string;
   accessToken: string;
+  refreshToken: string;
   loginId: string;
   roles: RoleType[];
 }
