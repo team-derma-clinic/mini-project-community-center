@@ -24,7 +24,7 @@ export interface CenterListItemResponse {
 
 export type CenterListResponse = CenterListItemResponse[];
 
-export interface CenterSearchRequest {
+export interface CenterSearchParams {
   q?: string;
   page: number;
   size: number;
