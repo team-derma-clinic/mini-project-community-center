@@ -4,8 +4,10 @@ const AUTH_PREFIX = `${BASE}/auth`;
 
 // endpoint만 정의
 export const AUTH_PATH = {
-  REGISTER: `${AUTH_PREFIX}/register`,
-  LOGIN: `${AUTH_PREFIX}/login`,
+  SIGNUP: `${AUTH_PREFIX}/signup`,
+  STUDENT_LOGIN: `${AUTH_PREFIX}/login`,
+  TEACHER_LOGIN: `${AUTH_PREFIX}/teacher/login`,
+  STAFF_LOGIN: `${AUTH_PREFIX}/staff/login`,
   LOGOUT: `${AUTH_PREFIX}/logout`,
   REFRESH: `${AUTH_PREFIX}/refresh`,
 
