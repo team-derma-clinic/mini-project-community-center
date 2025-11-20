@@ -3,7 +3,7 @@ import type {
   SystemInfoResponse,
 } from "@/types/system/system.dto";
 import { publicApi } from "../common/axiosInstance";
-import { ApiResponse } from "@/types/common/ApiResponse";
+import type { ApiResponse } from "@/types/common/ApiResponse";
 import { SYSTEM_PATH } from "./system.path";
 
 export const systemApi = {
