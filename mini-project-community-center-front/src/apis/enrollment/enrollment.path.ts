@@ -3,10 +3,10 @@ import { BASE } from "../common/base.path";
 const ENROLLMENT_PREFIX = `${BASE}/enrollments`;
 
 export const ENROLLMENT_PATH = {
-  ROOT: `${ENROLLMENT_PREFIX}`,
+  ROOT: ENROLLMENT_PREFIX,
   
-  LIST: `${ENROLLMENT_PREFIX}`,
-  CREATE: `${ENROLLMENT_PREFIX}`,
+  LIST: ENROLLMENT_PREFIX,
+  CREATE: ENROLLMENT_PREFIX,
 
   ME: `${ENROLLMENT_PREFIX}/me`,
 
