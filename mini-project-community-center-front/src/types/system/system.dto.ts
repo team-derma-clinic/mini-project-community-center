@@ -1,9 +1,9 @@
 export interface SystemHealthResponse {
-  satus: "UP" | "DOWN";
+  status: "UP" | "DOWN";
   timestamp?: string;
   version?: string;
   database?: {
-    satus: "UP" | "DOWN";
+    status: "UP" | "DOWN";
     responseTime?: number;
   };
 }
