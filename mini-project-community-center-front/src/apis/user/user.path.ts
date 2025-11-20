@@ -12,7 +12,6 @@ export const USER_PATH = {
   UPDATE: `${USER_PREFIX}/me`,
 
   BY_ID: (userId: number) => `${USER_PREFIX}/${userId}`,
-
   ROLES: (userId: number) => `${USER_PREFIX}/${userId}/roles`,
   BY_NAME: (userId: number, roleName: string) => `${USER_PREFIX}/${userId}/roles/${roleName}`
 }
