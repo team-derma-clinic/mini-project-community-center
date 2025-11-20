@@ -4,7 +4,6 @@ export interface CreateAttendanceForm {
   sessionId: number;
   userId: number;
   status: AttendanceStatus;
-  note?: string;
 }
 
 export interface UpdateAttendanceForm {
