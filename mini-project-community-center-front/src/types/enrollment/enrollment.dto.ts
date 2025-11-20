@@ -21,6 +21,6 @@ export interface EnrollmentDetailResponse {
   courseId: number;
   courseName: string;
   status: EnrollmentStatus;
-  cancelReason: string;
+  cancelReason?: string;
   enrolledAt: string;
 }

@@ -1,4 +1,4 @@
-import type { PaymentMethod } from "./payment.enum.type";
+import type { PaymentMethod, PaymentRefundOption } from "./payment.enum.type";
 
 export interface PaymentCreateForm {
   enrollmentId: number;
@@ -7,5 +7,6 @@ export interface PaymentCreateForm {
 }
 
 export interface PaymentRefundForm {
-  reason: string;
+  reasonOption: PaymentRefundOption;
+  otherReason?: string;
 }
