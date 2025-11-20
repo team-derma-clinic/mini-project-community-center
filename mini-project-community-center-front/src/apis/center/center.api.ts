@@ -25,8 +25,6 @@ export const centerApi = {
   },
 
   deleteCenter: async(centerId: number, hardDelete: boolean = false): Promise<void> => {
-    await privateApi.delete<ApiResponse<void>>(CENTER_PATH.BY_CENTER_ID(centerId), {
-      params: { hardDelete }
-    });
+    await privateApi.delete<ApiResponse<void>>(CENTER_PATH.BY_CENTER_ID(centerId), { params: { hardDelete }});
   }
 }
