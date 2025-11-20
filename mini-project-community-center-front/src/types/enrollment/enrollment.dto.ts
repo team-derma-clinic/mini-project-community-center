@@ -1,13 +1,15 @@
+import type { EnrollmentMethod, EnrollmentStatus } from "./enrollment.enum.type";
+
 export interface EnrollmentCreateRequest {
   couresId: number;
-  method: 'CARD' | 'TRANSFER';
+  method: EnrollmentMethod;
 }
 
 export interface EnrollmentListItemResponse {
   id: number;
   courseId: number;
   courseName: string;
-  status: 'PENDING' | 'CONFIRMED' | 'CANCELED' | 'REFUNDED';
+  status: EnrollmentStatus;
   enrolledAt: string;
 }
 
@@ -18,7 +20,7 @@ export interface EnrollmentDetailResponse {
   userId:number;
   courseId: number;
   courseName: string;
-  status: 'PENDING' | 'CONFIRMED' | 'CANCELED' | 'REFUNDED';
+  status: EnrollmentStatus;
   cancelReason: string;
   enrolledAt: string;
 }
