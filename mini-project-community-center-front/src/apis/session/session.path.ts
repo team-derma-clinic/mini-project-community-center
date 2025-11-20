@@ -7,7 +7,6 @@ export const SESSION_PATH = {
 
   DETAIL: (sessionId: number) => `${SESSION_PREFIX}/${sessionId}`,
   UPDATE: (sessionId: number) => `${SESSION_PREFIX}/${sessionId}`,
-  DELETE: (sessionId: number) => `${SESSION_PREFIX}/${sessionId}`,
   BY_SESSION_ID: (sessionId: number) => `${SESSION_PREFIX}/${sessionId}`,
   STATUS: (sessionId: number) => `${SESSION_PREFIX}/${sessionId}/status`
 }
