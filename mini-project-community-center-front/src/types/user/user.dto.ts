@@ -10,8 +10,13 @@ export interface UserCreateRequest {
 }
 
 export interface UserUpdateRequest {
+  name?: string;
   email?: string;
   phone?: string;
+}
+
+export interface UserListRequest {
+  role?: RoleType;
 }
 
 export interface UserDetailResponse {
@@ -20,7 +25,7 @@ export interface UserDetailResponse {
   loginId: string;
   email: string;
   phone?: string;
-  roles: string[];
+  role: RoleType;
   createdAt: string;
   updatedAt: string;
 }
@@ -31,7 +36,7 @@ export interface UserListItemResponse {
   loginId: string;
   email: string;
   phone?: string;
-  roles: RoleType[];
+  role: RoleType;
 }
 
 export type UserListResponse = UserListItemResponse[];

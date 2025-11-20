@@ -1,6 +1,6 @@
 import type { RoleType } from "../role/role.enum.type";
 
-export interface RegisterRequest {
+export interface SignupRequest {
   loginId: string;
   password: string;
   name: string;
@@ -23,5 +23,5 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
   loginId: string;
-  roles: RoleType[];
+  role: RoleType;
 }
