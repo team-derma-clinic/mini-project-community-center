@@ -1,0 +1,1 @@
+export type RoleType = "STUDENT" | "INSTRUCTOR" | "STAFF" | "ADMIN";
