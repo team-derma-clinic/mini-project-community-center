@@ -1,4 +1,4 @@
 export interface EnrollmentCreateForm {
-  couresId: number;
+  courseId: number;
   method: 'CARD' | 'TRANSFER';
 }
