@@ -29,6 +29,16 @@ export interface SessionListItemResponse {
 
 export type SessionListResponse = SessionListItemResponse[];
 
+export interface SessionSearchParams {
+  from?: string;
+  to?: string;
+  weekday?: number;
+  timeRange?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+}
+
 export interface SessionDetailResponse {
   id: number;
   courseId: number;
