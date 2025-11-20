@@ -32,6 +32,7 @@ export interface CourseStatusUpdateRequest {
 }
 export interface CourseListItemResponse {
   id: number;
+  centerId: number;
   title: string;
   category: CourseCategory;
   level: CourseLevel;
@@ -41,15 +42,30 @@ export interface CourseListItemResponse {
 
 export type CourseListResponse = CourseListItemResponse[];
 
+export interface CourseSearchParams {
+  centerId?: number;
+  category?: CourseCategory;
+  level?: CourseLevel;
+  status?: CourseStatus;
+  from?: string;
+  to?: string;
+  weekday?: number;
+  timeRange?: string;
+  q?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+}
+
 export interface CourseDetailResponse {
   id: number;
   centerId: number;
   title: string; 
-  category: string;
-  level?: string; 
+  category: CourseCategory;
+  level: CourseLevel; 
   capacity: string;
   fee: number;
-  status?: string;
+  status: CourseStatus;
   description: string;
   instructorIds: number[];
   startDate: string;
