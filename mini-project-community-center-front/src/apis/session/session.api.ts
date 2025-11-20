@@ -1,4 +1,4 @@
-import type { SessionCreateRequest, SessionDetailResponse, SessionListResponse, SessionStatusUpdateRequest, SessionUpdateRequest } from "@/types/session/session.dto"
+import type { SessionCreateRequest, SessionDetailResponse, SessionListResponse, SessionSearchParams, SessionStatusUpdateRequest, SessionUpdateRequest } from "@/types/session/session.dto"
 import { privateApi, publicApi } from "../common/axiosInstance"
 import { COURSE_SESSION_PATH } from "./course.session.path"
 import { SESSION_PATH } from "./session.path";
@@ -10,8 +10,8 @@ export const sessionApi = {
     return res.data.data;
   },
 
-  getSessions: async (courseId: number): Promise<SessionListResponse> => {
-    const res = await publicApi.get<ApiResponse<SessionListResponse>>(COURSE_SESSION_PATH.LIST(courseId));
+  searchSessions: async (courseId: number, params?: SessionSearchParams): Promise<SessionListResponse> => {
+    const res = await publicApi.get<ApiResponse<SessionListResponse>>(COURSE_SESSION_PATH.LIST(courseId), { params });
     return res.data.data;
   },
 
@@ -30,7 +30,7 @@ export const sessionApi = {
     return res.data.data;
   },
 
-  deleteSession: async (sessionId: number): Promise<void> => {
-    await privateApi.delete<ApiResponse<void>>(SESSION_PATH.BY_SESSION_ID(sessionId));
+  deleteSession: async (sessionId: number, hardDelete: boolean = false): Promise<void> => {
+    await privateApi.delete<ApiResponse<void>>(SESSION_PATH.BY_SESSION_ID(sessionId), { params: hardDelete });
   }
 }
