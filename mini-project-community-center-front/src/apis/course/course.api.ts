@@ -9,7 +9,7 @@ export const courseApi = {
     return res.data.data;
   },
 
-  searchCourses: async (params: CourseSearchParams): Promise<CourseListResponse> => {
+  searchCourses: async (params?: CourseSearchParams): Promise<CourseListResponse> => {
     const res = await publicApi.get<ApiResponse<CourseListResponse>>(COURSE_PATH.LIST, { params });
     return res.data.data;
   },
