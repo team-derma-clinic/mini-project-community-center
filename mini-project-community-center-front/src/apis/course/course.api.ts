@@ -8,7 +8,7 @@ export const courseApi = {
     return res.data.data;
   },
 
-  getCourse: async (): Promise<CourseListResponse> => {
+  getCourses: async (): Promise<CourseListResponse> => {
     const res = await publicApi.get(COURSE_PATH.LIST);
     return res.data.data;
   },
