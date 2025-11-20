@@ -1,4 +1,4 @@
-import type { CenterCreateRequest, CenterDetailResponse, CenterListResponse, CenterSearchRequest, CenterUpdateRequest } from "@/types/center/center.dto";
+import type { CenterCreateRequest, CenterDetailResponse, CenterListResponse, CenterSearchParams, CenterUpdateRequest } from "@/types/center/center.dto";
 import { privateApi, publicApi } from "../common/axiosInstance";
 import { CENTER_PATH } from "./center.path";
 import type { ApiResponse } from "@/types/common/ApiResponse";
@@ -9,7 +9,7 @@ export const centerApi = {
     return res.data.data;
   },
 
-  searchCenters: async (params?: CenterSearchRequest): Promise<CenterListResponse> => {
+  searchCenters: async (params?: CenterSearchParams): Promise<CenterListResponse> => {
     const res = await publicApi.get<ApiResponse<CenterListResponse>>(CENTER_PATH.LIST, { params });
     return res.data.data;
   },
@@ -25,8 +25,6 @@ export const centerApi = {
   },
 
   deleteCenter: async(centerId: number, hardDelete: boolean = false): Promise<void> => {
-    await privateApi.delete<ApiResponse<void>>(CENTER_PATH.BY_CENTER_ID(centerId), {
-      params: { hardDelete }
-    });
+    await privateApi.delete<ApiResponse<void>>(CENTER_PATH.BY_CENTER_ID(centerId), { params: { hardDelete }});
   }
 }
