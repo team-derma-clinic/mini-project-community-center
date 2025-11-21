@@ -5,7 +5,7 @@ export interface CourseCreateRequest {
   title: string; 
   category: CourseCategory;
   level: CourseLevel;
-  capacity: string;
+  capacity: number;
   fee: number;
   status: CourseStatus;
   description: string;
@@ -18,7 +18,7 @@ export interface CourseUpdateRequest {
   title?: string; 
   category?: CourseCategory;
   level?: CourseLevel; 
-  capacity?: string;
+  capacity?: number;
   fee?: number;
   status?: CourseStatus;
   description?: string;
@@ -52,9 +52,9 @@ export interface CourseSearchParams {
   weekday?: number;
   timeRange?: string;
   q?: string;
-  page?: number;
-  size?: number;
-  sort?: string;
+  page: number;
+  size: number;
+  sort: string;
 }
 
 export interface CourseDetailResponse {
@@ -63,7 +63,7 @@ export interface CourseDetailResponse {
   title: string; 
   category: CourseCategory;
   level: CourseLevel; 
-  capacity: string;
+  capacity: number;
   fee: number;
   status: CourseStatus;
   description: string;
