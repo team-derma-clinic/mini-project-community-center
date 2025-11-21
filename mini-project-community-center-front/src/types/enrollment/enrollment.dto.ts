@@ -5,6 +5,10 @@ export interface EnrollmentCreateRequest {
   method: EnrollmentMethod;
 }
 
+export interface EnrollmentRefundRequest {
+  reason?: string;
+}
+
 export interface EnrollmentListItemResponse {
   id: number;
   courseId: number;
