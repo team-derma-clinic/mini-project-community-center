@@ -6,6 +6,11 @@ export interface CreateReviewRequest {
   content?: string;
 }
 
+export interface UpdateReviewRequest {
+  rating: ReviewRating;
+  content?: string;
+}
+
 export interface DeleteReviewRequest {
   reason?: string;
 }
