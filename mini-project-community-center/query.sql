@@ -83,23 +83,22 @@ CREATE TABLE `user_roles` (
     COMMENT = '사용자-역할 매핑 테이블';
 
 -- 2) refresh token
-CREATE TABLE `refresh_tokens` (
-    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CREATE TABLE refresh_tokens(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL UNIQUE COMMENT '사용자 ID',
+    token VARCHAR(350) NOT NULL COMMENT '리프레시 토큰 값',
+    expiry DATETIME(6) NOT NULL COMMENT '만료 시간',
     
-    login_id VARCHAR(100) NOT NULL, 
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     
-    token VARCHAR(512) NOT NULL,
-    expiry BIGINT NOT NULL,
+    INDEX `idx_refresh_token_user_id`(user_id),
     
-    CONSTRAINT `fk_refresh_token_login`FOREIGN KEY (login_id) REFERENCES users(login_id),
-    
-    UNIQUE KEY `uk_refresh_login` (login_id),
-    UNIQUE KEY `uk_refresh_token` (token)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci
-    COMMENT = 'JWT Refresh Token 저장 테이블';
+    CONSTRAINT `fk_refresh_token_user` FOREIGN KEY (user_id) REFERENCES users(id)
+) 	ENGINE=InnoDB
+	DEFAULT CHARSET = utf8mb4
+	COLLATE = utf8mb4_unicode_ci
+    COMMENT = '리프레시 토큰 저장 테이블';
     
 -- 3) 센터/강좌
 CREATE TABLE `centers` (
