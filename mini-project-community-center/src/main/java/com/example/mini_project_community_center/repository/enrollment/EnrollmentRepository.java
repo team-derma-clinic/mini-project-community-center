@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.repository;
+package com.example.mini_project_community_center.repository.enrollment;
 
 import com.example.mini_project_community_center.entity.Enrollment;
 import com.example.mini_project_community_center.entity.User;
