@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(
         name = "enrollments",
@@ -17,10 +19,6 @@ import lombok.NoArgsConstructor;
             @Index(name = "idx_enroll_course_status", columnList = "course_id, status"),
             @Index(name = "idx_enroll_user", columnList = "user_id, status"),
         }
-)
-@AttributeOverride(
-        name = "createdAt",
-        column = @Column(name = "enrolled_at", updatable = false)
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,5 +43,6 @@ public class Enrollment extends BaseTimeEntity {
     @Column(name = "cancel_reason", length = 200)
     private String cancelReason;
 
-
+    @Column(name = "enrolled_at", nullable = true, updatable = false)
+    private LocalDateTime enrolledAt;
 }
