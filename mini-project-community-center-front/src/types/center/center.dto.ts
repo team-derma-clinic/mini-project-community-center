@@ -1,5 +1,3 @@
-import type { CourseListResponse } from "../course/course.dto";
-
 export interface CenterCreateRequest {
   name: string;
   address?: string;
@@ -39,5 +37,4 @@ export interface CenterDetailResponse {
   longitude?: number;
   phone?: string;
   createdAt: string;
-  courses?: CourseListResponse[];
 }
