@@ -1,6 +1,9 @@
 import type { ReviewFileListDto } from "@/types/review/review.file.dto";
-import { publicApi } from "../common/axiosInstance";
+import { privateApi, publicApi } from "../common/axiosInstance";
 import { REVIEW_FILE_PATH } from "./review.file.path";
+import type { ReviewDetailResponse, UpdateReviewRequest } from "@/types/review/review.dto";
+import type { ApiResponse } from "@/types/common/ApiResponse";
+import { REVIEW_PATH } from "./review.path";
 
 export const reviewApi = {
   uploadReviewFiles: async(reviewId: number, formData: FormData) => {
@@ -10,6 +13,11 @@ export const reviewApi = {
       { headers: {"Content-Type": "multipart/form-data"}}
     );
     return res.data;
+  },
+
+  updateReview: async(reviewId: number, data: UpdateReviewRequest): Promise<ReviewDetailResponse> => {
+    const res = await privateApi.put<ApiResponse<ReviewDetailResponse>>(REVIEW_PATH.UPDATE(reviewId), data);
+    return res.data.data;
   },
 
   getFilesByReview: async(reviewId: number) => {
