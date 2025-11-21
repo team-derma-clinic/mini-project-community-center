@@ -1,4 +1,14 @@
 package com.example.mini_project_community_center.dto.course.response;
 
-public class CourseListItemResponse {
-}
+import com.example.mini_project_community_center.common.enums.CourseCategory;
+import com.example.mini_project_community_center.common.enums.CourseLevel;
+
+public record CourseListItemResponse (
+        Long id,
+        Long centerId,
+        String title,
+        CourseCategory category,
+        CourseLevel level,
+        String startDate,
+        String endDate
+) {}

@@ -4,7 +4,6 @@ import com.example.mini_project_community_center.common.enums.CourseCategory;
 import com.example.mini_project_community_center.common.enums.CourseLevel;
 import com.example.mini_project_community_center.common.enums.CourseStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
