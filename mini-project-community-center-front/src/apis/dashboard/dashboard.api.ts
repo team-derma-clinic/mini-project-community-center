@@ -13,7 +13,7 @@ export const dashboardApi = {
     params?: SearchInstructorDashboard
   ): Promise<InstructorDashboardResponse> => {
     const res = await privateApi.get<ApiResponse<InstructorDashboardResponse>>(
-      DASHBOARD_PATH.INSTRUCTOR,
+      DASHBOARD_PATH.INSTRUCTOR_ME,
       { params }
     );
     return res.data.data;
