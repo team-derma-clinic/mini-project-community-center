@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -44,8 +45,38 @@ public class Payment extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private PaymentStatus status;
+    private PaymentStatus status = PaymentStatus.PENDING;
 
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
+
+    public static Payment createPayment(
+            Enrollment enrollment,
+            BigDecimal amount,
+            String currency,
+            String method,
+            PaymentStatus status,
+            LocalDateTime paidAt
+    ) {
+        Payment payment = new Payment();
+        payment.enrollment = enrollment;
+        payment.amount = amount;
+        payment.currency = currency;
+        payment.method = method;
+        payment.status = status;
+        payment.paidAt = paidAt != null ? paidAt : LocalDateTime.now();
+        return payment;
+    }
+
+    public void failed() {
+        this.status = PaymentStatus.FAILED;
+    }
+
+    public void markPaid() {
+        this.status = PaymentStatus.PAID;
+    }
+
+    public void refund() {
+        this.status = PaymentStatus.REFUNDED;
+    }
 }
