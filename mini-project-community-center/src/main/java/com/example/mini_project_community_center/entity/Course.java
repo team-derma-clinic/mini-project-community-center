@@ -61,7 +61,7 @@ public class Course extends BaseTimeEntity {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    public static Course createCourse(
+    public static Course create(
             Center center,
             String title,
             CourseCategory category,
