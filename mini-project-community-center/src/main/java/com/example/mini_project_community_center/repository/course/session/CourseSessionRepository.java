@@ -1,4 +1,9 @@
 package com.example.mini_project_community_center.repository.course.session;
 
-public interface CourseSessionRepository {
+import com.example.mini_project_community_center.entity.CourseSession;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CourseSessionRepository extends JpaRepository<CourseSession, Long> {
 }
