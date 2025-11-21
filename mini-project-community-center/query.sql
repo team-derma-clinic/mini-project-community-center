@@ -229,7 +229,7 @@ CREATE TABLE `enrollments` (
     CONSTRAINT `fk_enrollment_course` FOREIGN KEY (course_id) REFERENCES courses(id),
     CONSTRAINT `fk_enrollment_user` FOREIGN KEY (user_id) REFERENCES users(id),
     
-    UNIQUE KEY uk_enroll_once (course_id, user_id),    -- 1강좌당 1회 등록 원칙
+    UNIQUE KEY `uk_enroll_once` (course_id, user_id),    -- 1강좌당 1회 등록 원칙
     
     CHECK (status IN ('PENDING','CONFIRMED','CANCELED','REFUNDED')),
     
@@ -257,6 +257,8 @@ CREATE TABLE `payments` (
     updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     
     CONSTRAINT `fk_payment_enrollment` FOREIGN KEY (enrollment_id) REFERENCES enrollments(id),
+    
+    UNIQUE KEY `uk_pay_enroll` (enrollment_id),
     
     CHECK (status IN ('PAID','PENDING','FAILED','REFUNDED')),
     
