@@ -41,12 +41,6 @@ export const attendanceApi = {
     return res.data.data;
   },
 
-  deleteAttendance: async (attendanceId: number): Promise<void> => {
-    await privateApi.delete<ApiResponse<void>>(
-      ATTENDANCE_PATH.DETAIL(attendanceId)
-    );
-  },
-
   getCourseAttendance: async (
     courseId: number,
     params?: SearchCourseAttendance
