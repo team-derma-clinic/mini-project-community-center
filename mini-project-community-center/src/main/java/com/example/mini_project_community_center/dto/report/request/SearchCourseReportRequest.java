@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.dto.reaport.request;
+package com.example.mini_project_community_center.dto.report.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
