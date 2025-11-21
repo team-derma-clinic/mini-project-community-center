@@ -2,7 +2,7 @@ package com.example.mini_project_community_center.entity;
 
 import com.example.mini_project_community_center.common.enums.CourseCategory;
 import com.example.mini_project_community_center.common.enums.CourseLevel;
-import com.example.mini_project_community_center.common.enums.CoursesStatus;
+import com.example.mini_project_community_center.common.enums.CourseStatus;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "courses",
@@ -29,6 +28,8 @@ public class Course extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "center_id", foreignKey = @ForeignKey(name = "fk_course_center"), nullable = false)
     private Center center;
+
+//    private List<CourseInstructor>
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -49,7 +50,7 @@ public class Course extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private CoursesStatus status = CoursesStatus.OPEN;
+    private CourseStatus status = CourseStatus.OPEN;
 
     @Lob
     @Column(name = "description", columnDefinition = "LONGTEXT", nullable = false)
@@ -61,14 +62,14 @@ public class Course extends BaseTimeEntity {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    public static Course createCourse(
+    public static Course create(
             Center center,
             String title,
             CourseCategory category,
             CourseLevel level,
             int capacity,
             BigDecimal fee,
-            CoursesStatus status,
+            CourseStatus status,
             String description,
             LocalDate startDate,
             LocalDate endDate
@@ -80,7 +81,7 @@ public class Course extends BaseTimeEntity {
         course.level = level;
         course.capacity = capacity;
         course.fee = (fee != null ? fee: BigDecimal.ZERO);
-        course.status = (status != null ? status : CoursesStatus.OPEN);
+        course.status = (status != null ? status : CourseStatus.OPEN);
         course.description = description;
         course.startDate = startDate;
         course.endDate = endDate;
@@ -94,7 +95,7 @@ public class Course extends BaseTimeEntity {
             CourseLevel level,
             int capacity,
             BigDecimal fee,
-            CoursesStatus status,
+            CourseStatus status,
             String description,
             LocalDate startDate,
             LocalDate endDate
@@ -104,7 +105,7 @@ public class Course extends BaseTimeEntity {
         this.level = level;
         this.capacity = capacity;
         this.fee = (fee != null ? fee: BigDecimal.ZERO);
-        this.status = (status != null ? status : CoursesStatus.OPEN);
+        this.status = (status != null ? status : CourseStatus.OPEN);
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;

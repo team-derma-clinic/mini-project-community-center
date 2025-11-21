@@ -83,7 +83,7 @@ CREATE TABLE `user_roles` (
     COMMENT = '사용자-역할 매핑 테이블';
 
 -- 2) refresh token
-CREATE TABLE refresh_tokens(
+CREATE TABLE `refresh_tokens`(
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL UNIQUE COMMENT '사용자 ID',
     token VARCHAR(350) NOT NULL COMMENT '리프레시 토큰 값',
