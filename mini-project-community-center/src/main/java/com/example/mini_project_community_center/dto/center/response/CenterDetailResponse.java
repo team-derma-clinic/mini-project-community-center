@@ -1,9 +1,9 @@
 package com.example.mini_project_community_center.dto.center.response;
 
-import com.example.mini_project_community_center.dto.course.response.CourseListItemResponse;
+import com.example.mini_project_community_center.common.utils.DateUtils;
+import com.example.mini_project_community_center.entity.Center;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CenterDetailResponse(
@@ -13,10 +13,17 @@ public record CenterDetailResponse(
         Double latitude,
         Double longitude,
         String phone,
-        String createdAt,
-        List<CourseListItemResponse> courses
+        String createdAt
 ) {
-//    public static CenterDetailResponse of() {
-//
-//    }
+    public static CenterDetailResponse fromEntity(Center center) {
+        return new CenterDetailResponse(
+                center.getId(),
+                center.getName(),
+                center.getAddress(),
+                center.getLatitude() != null ? center.getLatitude().doubleValue() : null,
+                center.getLongitude() != null ? center.getLongitude().doubleValue() : null,
+                center.getPhone(),
+                DateUtils.toKstString(center.getCreatedAt())
+        );
+    }
 }
