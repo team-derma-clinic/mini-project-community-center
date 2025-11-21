@@ -21,7 +21,7 @@ public class AttendanceController {
     private final AttendanceService attendanceService;
 
     // POST /api/v1/attendance
-    @PostMapping(AttendanceApi.UPSERT)
+    @PostMapping
     public ResponseEntity<ResponseDto<AttendanceDetailResponse>> upsertAttendance(
             @Valid @RequestBody AttendanceCreateRequest req
     ) {
@@ -30,7 +30,7 @@ public class AttendanceController {
     }
 
     // GET /api/v1/attendance/{attendanceId}
-    @GetMapping(AttendanceApi.DETAIL)
+    @GetMapping(AttendanceApi.ID_ONLY)
     public ResponseEntity<ResponseDto<AttendanceDetailResponse>> getAttendanceDetail(
             @PathVariable Long attendanceId
     ) {
@@ -39,7 +39,7 @@ public class AttendanceController {
     }
 
     // PUT /api/v1/attendance/{attendanceId}
-    @PutMapping(AttendanceApi.UPDATE)
+    @PutMapping(AttendanceApi.ID_ONLY)
     public ResponseEntity<ResponseDto<AttendanceDetailResponse>> updateAttendance(
             @PathVariable Long attendanceId,
             @Valid @RequestBody AttendanceUpdateRequest req
@@ -49,7 +49,7 @@ public class AttendanceController {
     }
 
     // GET /api/v1/courses/{courseId}/attendance
-    @GetMapping(AttendanceApi.BY_COURSE)
+    @GetMapping(AttendanceApi.COURSE_LIST)
     public ResponseEntity<ResponseDto<List<AttendanceListItemResponse>>> getCourseAttendance(
             @PathVariable Long courseId,
             @RequestParam(required = false) Long sessionId,
@@ -63,7 +63,7 @@ public class AttendanceController {
     }
 
     // GET /api/v1/sessions/{courseId}/attendance
-    @GetMapping(AttendanceApi.BY_SESSION)
+    @GetMapping(AttendanceApi.SESSION_LIST)
     public ResponseEntity<ResponseDto<List<AttendanceListItemResponse>>> getSessionAttendance(
             @PathVariable Long sessionId,
             @RequestParam(required = false) Integer page,
