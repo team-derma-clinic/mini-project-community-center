@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "courses",
@@ -29,17 +31,18 @@ public class Course extends BaseTimeEntity {
     @JoinColumn(name = "center_id", foreignKey = @ForeignKey(name = "fk_course_center"), nullable = false)
     private Center center;
 
-//    private List<CourseInstructor>
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseInstructor> instructors = new ArrayList<>();
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, length = 200)
     private String title;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "category", nullable = false)
+    @Column(name = "category", nullable = false, length = 50)
     private CourseCategory category;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "level", nullable = false)
+    @Column(name = "level", nullable = false, length = 20)
     private CourseLevel level;
 
     @Column(name = "capacity", nullable = false)
@@ -49,7 +52,7 @@ public class Course extends BaseTimeEntity {
     private BigDecimal fee = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, length = 20)
     private CourseStatus status = CourseStatus.OPEN;
 
     @Lob
@@ -89,7 +92,7 @@ public class Course extends BaseTimeEntity {
         return course;
     }
 
-    public void update(
+    public void updateCenter(
             String title,
             CourseCategory category,
             CourseLevel level,
@@ -109,5 +112,19 @@ public class Course extends BaseTimeEntity {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public void addInstructor(User instructor) {
+        CourseInstructor courseInstructor = CourseInstructor.create(this, instructor);
+        this.instructors.add(courseInstructor);
+    }
+
+    public void removeInstructor(User instructor) {
+        this.instructors.removeIf(i -> i.getInstructor().getId().equals(instructor.getId()));
+    }
+
+    public void updateInstructors(List<User> newInstructors) {
+        this.instructors.clear();
+        newInstructors.forEach(this::addInstructor);
     }
 }

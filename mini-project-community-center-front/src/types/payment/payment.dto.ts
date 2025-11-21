@@ -3,11 +3,8 @@ import type { PaymentMethod, PaymentStatus } from "./payment.enum.type";
 export interface PaymentCreateRequest {
   enrollmentId: number;
   amount: number;
+  currency: string;
   method: PaymentMethod;
-}
-
-export interface PaymentRefundRequest {
-  reason?: string;
 }
 
 export interface PaymentDetailResponse {

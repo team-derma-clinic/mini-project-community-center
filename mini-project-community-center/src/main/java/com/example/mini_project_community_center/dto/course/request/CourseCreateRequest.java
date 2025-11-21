@@ -52,5 +52,4 @@ public record CourseCreateRequest(
 
         @NotBlank(message = "endDate는 필수입니다.")
         String endDate
-) {
-}
+) {}
