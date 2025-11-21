@@ -45,5 +45,4 @@ public record CourseUpdateRequest(
         String startDate,
 
         String endDate
-) {
-}
+) {}

@@ -19,6 +19,11 @@ public class DateUtils {
         return zdtKst.format(KST_FORMAT);
     }
 
+    public static String toKstDateString(LocalDate date) {
+        if(date == null) return null;
+        return date.atStartOfDay().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
     public static String toUtcString(LocalDateTime utcLocalDateTime) {
         if (utcLocalDateTime == null) return null;
         OffsetDateTime odt = utcLocalDateTime.atOffset(ZoneOffset.UTC);
