@@ -40,15 +40,3 @@ export interface ReviewListItemResponse {
 }
 
 export type ReviewListResponse = ReviewListItemResponse[];
-
-export interface ReviewDetailResponse {
-  id: number;
-  courseId: number;
-  courseName?: string;
-  userId: number;
-  userName?: string;
-  rating: ReviewRating;
-  content?: string;
-  status: ReviewStatus;
-  createdAt: string;
-}

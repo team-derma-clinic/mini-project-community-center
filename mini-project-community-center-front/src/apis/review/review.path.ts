@@ -11,7 +11,6 @@ export const REVIEW_PATH = {
 
   COURSE_REVIEWS: (courseId: number) => `${COURSE_PREFIX}/${courseId}/reviews`,
 
-  DETAIL: (reviewId: number) => `${REVIEW_PREFIX}/${reviewId}`,
   UPDATE: (reviewId: number) => `${REVIEW_PREFIX}/${reviewId}`,
   DELETE: (reviewId: number) => `${REVIEW_PREFIX}/${reviewId}`,
 };

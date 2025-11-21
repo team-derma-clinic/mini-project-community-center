@@ -46,13 +46,6 @@ export const reviewApi = {
     return res.data.data;
   },
 
-  getReviewDetail: async (reviewId: number): Promise<ReviewDetailResponse> => {
-    const res = await publicApi.get<ApiResponse<ReviewDetailResponse>>(
-      REVIEW_PATH.DETAIL(reviewId)
-    );
-    return res.data.data;
-  },
-
   deleteReview: async (
     reviewId: number,
     data?: DeleteReviewRequest
