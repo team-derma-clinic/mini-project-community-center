@@ -1,6 +1,7 @@
 package com.example.mini_project_community_center.entity;
 
 import com.example.mini_project_community_center.common.enums.AttendanceStatus;
+import com.example.mini_project_community_center.entity.CourseSession;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -50,9 +51,10 @@ public class Attendance {
         Attendance attendance = new Attendance();
         attendance.session = session;
         attendance.user = user;
-        attendance.status = status;
+        attendance.status = status != null ? status : AttendanceStatus.ABSENT;
         attendance.note = note;
-        attendance.markedAt = markedAt;
+        attendance.markedAt = markedAt != null ? markedAt : LocalDateTime.now();
+        return attendance;
     }
 
     public void updateStatus(AttendanceStatus status) {
