@@ -13,7 +13,7 @@ import java.time.Instant;
 @Table(
         name = "refresh_tokens",
         indexes = {
-                @Index(name = "idx_refresh_token_login_id", columnList = "login_id")
+                @Index(name = "idx_refresh_token_user_id", columnList = "user_id")
         }
 )
 @Getter
@@ -25,9 +25,9 @@ public class RefreshToken extends BaseTimeEntity {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "login_id",
+            name = "user_id",
             unique = true,
-            foreignKey = @ForeignKey(name = "fk_refresh_token_login")
+            foreignKey = @ForeignKey(name = "fk_refresh_token_user")
     )
     private User user;
 
