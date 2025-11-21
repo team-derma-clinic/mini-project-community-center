@@ -34,17 +34,11 @@ export const attendanceApi = {
     attendanceId: number,
     data: UpdateAttendanceRequest
   ): Promise<AttendanceDetailResponse> => {
-    const res = await privateApi.post<ApiResponse<AttendanceDetailResponse>>(
+    const res = await privateApi.put<ApiResponse<AttendanceDetailResponse>>(
       ATTENDANCE_PATH.UPDATE(attendanceId),
       data
     );
     return res.data.data;
-  },
-
-  deleteAttendance: async (attendanceId: number): Promise<void> => {
-    await privateApi.delete<ApiResponse<void>>(
-      ATTENDANCE_PATH.DETAIL(attendanceId)
-    );
   },
 
   getCourseAttendance: async (
