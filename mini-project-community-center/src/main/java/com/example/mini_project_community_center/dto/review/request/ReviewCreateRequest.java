@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ReviewCreawteRequest (
+public record ReviewCreateRequest(
 @NotNull(message = "courseId는 필수입니다.")
 Long courseId,
 
