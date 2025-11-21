@@ -39,5 +39,4 @@ export interface CenterDetailResponse {
   longitude?: number;
   phone?: string;
   createdAt: string;
-  courses?: CourseListResponse[];
 }
