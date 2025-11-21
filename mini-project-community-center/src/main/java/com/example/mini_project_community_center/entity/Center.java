@@ -21,10 +21,10 @@ public class Center extends BaseTimeEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 120)
     private String name;
 
-    @Column(name = "address")
+    @Column(name = "address", length = 255)
     private String address;
 
     @Column(name = "latitude", precision = 10, scale = 7)
@@ -33,7 +33,7 @@ public class Center extends BaseTimeEntity {
     @Column(name = "longitude", precision = 10, scale = 7)
     private BigDecimal longitude;
 
-    @Column(name = "phone")
+    @Column(name = "phone", length = 30)
     private String phone;
 
     public static Center create(String name, String address, BigDecimal latitude, BigDecimal longitude, String phone) {
