@@ -5,6 +5,7 @@ import type {
   ReviewListResponse,
   SearchCourseReview,
   SearchMyReview,
+  UpdateReviewRequest,
 } from "@/types/review/review.dto";
 import { privateApi, publicApi } from "../common/axiosInstance";
 import type { ApiResponse } from "@/types/common/ApiResponse";
@@ -20,6 +21,11 @@ export const reviewApi = {
     );
     return res.data.data;
   },
+  
+    updateReview: async(reviewId: number, data: UpdateReviewRequest): Promise<ReviewDetailResponse> => {
+      const res = await privateApi.put<ApiResponse<ReviewDetailResponse>>(REVIEW_PATH.UPDATE(reviewId), data);
+      return res.data.data;
+    },
 
   getCourseReviews: async (
     courseId: number,
