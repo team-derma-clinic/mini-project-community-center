@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "centers",
         indexes = {
@@ -25,16 +27,16 @@ public class Center extends BaseTimeEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "latitude")
-    private Double latitude;
+    @Column(name = "latitude", precision = 10, scale = 7)
+    private BigDecimal latitude;
 
-    @Column(name = "longitude")
-    private Double longitude;
+    @Column(name = "longitude", precision = 10, scale = 7)
+    private BigDecimal longitude;
 
     @Column(name = "phone")
     private String phone;
 
-    public static Center createCenter(String name, String address, Double latitude, Double longitude, String phone) {
+    public static Center createCenter(String name, String address, BigDecimal latitude, BigDecimal longitude, String phone) {
         Center center = new Center();
         center.name = name;
         center.address = address;
