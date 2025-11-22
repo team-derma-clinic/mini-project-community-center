@@ -1,4 +1,4 @@
-import type { CourseFileListDto } from "@/types/course/course.file.dto";
+import type { CourseFileListResponse } from "@/types/course/course.file.dto";
 import { publicApi } from "../common/axiosInstance"
 import { COURSE_FILE_PATH } from "./course.file.path"
 
@@ -12,7 +12,7 @@ export const courseFileApi = {
   },
 
   getFilesByReview: async(courseId: number) => {
-      const res = await publicApi.get<CourseFileListDto>(
+      const res = await publicApi.get<CourseFileListResponse>(
         COURSE_FILE_PATH.LIST(courseId)
       );
       console.log("data: ", res.data);
