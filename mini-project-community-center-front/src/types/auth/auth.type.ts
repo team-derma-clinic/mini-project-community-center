@@ -11,7 +11,7 @@ export interface LoginFrom {
   password: string;
 }
 
-export interface PasswordChangeFrom {
-  password: string;
+export interface PasswordResetFrom {
   newPassword: string;
+  confirmPassword: string;
 }

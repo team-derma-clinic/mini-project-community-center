@@ -1,13 +1,4 @@
 import type { RoleType } from "../role/role.enum.type";
-
-export interface UserCreateRequest {
-  name: string;
-  loginId: string;
-  password: string;
-  email: string;
-  phone?: string;
-}
-
 export interface UserUpdateRequest {
   name?: string;
   email?: string;
