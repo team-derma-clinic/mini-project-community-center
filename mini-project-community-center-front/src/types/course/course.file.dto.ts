@@ -1,4 +1,14 @@
-export interface CourseFileListDto {
+export interface CourseFileCreateReqest {
+  courseId: number;
+  files: File[];
+}
+
+export interface CourseFileUpdateRequest {
+  keepFileIds?: number[];
+  files?: File[];
+}
+
+export interface CourseFileResponse {
   fileId: number;
   originalName: string;
   storedName: string;
@@ -7,9 +17,4 @@ export interface CourseFileListDto {
   downloadUrl: string;
 }
 
-export type BoardListResponse = CourseFileListDto[];
-
-export interface CourseFileUpdateReq {
-  keepFileIds?: number[];
-  files?: File[];
-}
+export type CourseFileListResponse = CourseFileResponse[];

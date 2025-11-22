@@ -1,4 +1,14 @@
-export interface ReviewFileListDto {
+export interface ReviewFileCreateReqest {
+  reviewId: number;
+  files: File[];
+}
+
+export interface ReviewFileUpdateRequest {
+  keepFileIds?: number[];
+  files?: File[];
+}
+
+export interface ReviewFileResponse {
   fileId: number;
   originalName: string;
   storedName: string;
@@ -7,9 +17,4 @@ export interface ReviewFileListDto {
   downloadUrl: string;
 }
 
-export type BoardListResponse = ReviewFileListDto[];
-
-export interface ReviewFileUpdateReq {
-  keepFileIds?: number[];
-  files?: File[];
-}
+export type ReviewFileListResponse = ReviewFileResponse[];
