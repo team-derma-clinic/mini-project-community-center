@@ -13,15 +13,35 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface PasswordChangeRequest {
-  password: string;
+export interface LogoutRequest {
+  refreshToken: string;
+}
+
+export interface PasswordResetRequest {
+  token: string;
   newPassword: string;
+  confirmPassword: string;
+}
+
+export interface RefreshRequest {
+  refreshToken: string;
+}
+
+export interface SignupResponse{
+  userId: string;
+  loginId: string;
+  name: string;
+  email: string;
 }
 
 export interface LoginResponse {
-  tokenType: string;
   accessToken: string;
   refreshToken: string;
-  loginId: string;
+  accessTokenExpiresInMillis: number;
   role: RoleType;
+}
+
+export interface PasswordVerifyResponse {
+  valid: boolean;
+  email: string;
 }
