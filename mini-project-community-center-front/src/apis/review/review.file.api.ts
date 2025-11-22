@@ -1,4 +1,4 @@
-import type { ReviewFileListDto } from "@/types/review/review.file.dto";
+import type { ReviewFileListResponse } from "@/types/review/review.file.dto";
 import { publicApi } from "../common/axiosInstance";
 import { REVIEW_FILE_PATH } from "./review.file.path";
 
@@ -13,7 +13,7 @@ export const reviewApi = {
   },
 
   getFilesByReview: async(reviewId: number) => {
-    const res = await publicApi.get<ReviewFileListDto>(
+    const res = await publicApi.get<ReviewFileListResponse>(
       REVIEW_FILE_PATH.LIST(reviewId)
     );
     console.log("data: ", res.data);

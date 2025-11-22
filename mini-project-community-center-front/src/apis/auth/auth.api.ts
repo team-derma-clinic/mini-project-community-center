@@ -28,9 +28,25 @@ export const authApi = {
     return res.data.data;
   },
 
-  signup: async (data: SignupRequest): Promise<void> => {
+  studentSignup: async (data: SignupRequest): Promise<void> => {
     const res = await publicApi.post<ApiResponse<void>>(
-      AUTH_PATH.SIGNUP,
+      AUTH_PATH.STUDENT_SIGNUP,
+      data
+    );
+    return res.data.data;
+  },
+
+  teacherSignup: async (data: SignupRequest): Promise<void> => {
+    const res = await publicApi.post<ApiResponse<void>>(
+      AUTH_PATH.TEACHER_SIGNUP,
+      data
+    );
+    return res.data.data;
+  },
+
+  StaffSignup: async (data: SignupRequest): Promise<void> => {
+    const res = await publicApi.post<ApiResponse<void>>(
+      AUTH_PATH.STAFF_SIGNUP,
       data
     );
     return res.data.data;
