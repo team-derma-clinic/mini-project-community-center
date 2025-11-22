@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public record ReviewFileUpdateRequest(
+public record ReviewFileUpdateRequestDto(
         List<Long> keepFileIds,
         List<MultipartFile> files
 ) {}
