@@ -22,7 +22,7 @@ public class CourseFile {
     private FileInfo fileInfo;
 
     @Column(name = "display_order")
-    private int displayOrder;
+    private Integer displayOrder;
 
     @Builder
     public CourseFile(Course course, FileInfo fileInfo, int displayOrder) {
