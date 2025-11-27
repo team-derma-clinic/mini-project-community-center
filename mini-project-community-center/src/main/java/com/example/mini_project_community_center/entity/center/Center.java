@@ -46,6 +46,7 @@ public class Center extends BaseTimeEntity {
         center.latitude = latitude;
         center.longitude = longitude;
         center.phone = phone;
+        center.isActive = true;
         return center;
     }
 
