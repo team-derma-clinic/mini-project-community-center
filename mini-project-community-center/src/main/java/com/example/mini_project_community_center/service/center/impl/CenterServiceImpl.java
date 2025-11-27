@@ -44,15 +44,8 @@ public class CenterServiceImpl implements CenterService {
 
         Center saved = centerRepository.save(center);
 
-        CenterDetailResponse data = new CenterDetailResponse(
-                saved.getId(),
-                saved.getName(),
-                saved.getAddress(),
-                ValueMapper.toDoubleOrNull(saved.getLatitude()),
-                ValueMapper.toDoubleOrNull(saved.getLongitude()),
-                saved.getPhone(),
-                DateUtils.toKstString(saved.getCreatedAt())
-        );
+        CenterDetailResponse data = CenterDetailResponse.fromEntity(saved);
+
         return ResponseDto.success(data);
     }
 
@@ -61,15 +54,7 @@ public class CenterServiceImpl implements CenterService {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 센터가 존재하지 않습니다. centerId: " + centerId));
 
-        CenterDetailResponse data = new CenterDetailResponse(
-                centerId,
-                center.getName(),
-                center.getAddress(),
-                ValueMapper.toDoubleOrNull(center.getLatitude()),
-                ValueMapper.toDoubleOrNull(center.getLongitude()),
-                center.getPhone(),
-                DateUtils.toKstString(center.getCreatedAt())
-        );
+        CenterDetailResponse data = CenterDetailResponse.fromEntity(center);
         return ResponseDto.success(data);
     }
 
@@ -114,15 +99,8 @@ public class CenterServiceImpl implements CenterService {
 
         Center updated = centerRepository.save(center);
 
-        CenterDetailResponse data = new CenterDetailResponse(
-                updated.getId(),
-                updated.getName(),
-                updated.getAddress(),
-                ValueMapper.toDoubleOrNull(updated.getLatitude()),
-                ValueMapper.toDoubleOrNull(updated.getLongitude()),
-                updated.getPhone(),
-                DateUtils.toKstString(center.getCreatedAt())
-        );
+        CenterDetailResponse data = CenterDetailResponse.fromEntity(updated);
+
         return ResponseDto.success(data);
     }
 
