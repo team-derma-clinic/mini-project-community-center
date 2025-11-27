@@ -10,4 +10,6 @@ public interface CourseFileRepository extends JpaRepository<CourseFile, Long> {
 List<CourseFile> findByCourseIdOrderByDisplayOrderAsc(Long courseId);
 
 Optional<CourseFile> findByFileInfoId(Long fileId);
+
+    boolean existsByCourseId(Long courseId);
 }

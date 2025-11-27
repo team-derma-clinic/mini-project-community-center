@@ -27,18 +27,29 @@ public class CourseServiceImpl {
     @Transactional
     public ResponseDto<Void> uploadCourseFile(Long courseId, MultipartFile file) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 강좌를 찾지못하였습니다: " + courseId));
+                .orElseThrow(() -> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
 
-        if (file.isEmpty()) {
-            throw new IllegalArgumentException("한 개의 사진만 업로드 할 수 있습니다.");
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("업로드할 파일이 없습니다.");
+        }
+
+        if (courseFileRepository.existsByCourseId(courseId)) {
+            throw new IllegalStateException("해당 강좌에는 이미 파일이 존재합니다.");
         }
 
         FileInfo info = fileService.saveCourseFile(courseId, file);
-        if (info == null) continue;
+        if (info == null) {
+            throw new IllegalStateException("파일 저장 중 오류가 발생했습니다.");
+        }
 
-        CourseFile courseFile = CourseFile.
+        CourseFile courseFile = CourseFile.builder()
+                .course(course)
+                .fileInfo(info)
+                .build();
 
+        courseFileRepository.save(courseFile);
 
+        return ResponseDto.success("성공적으로 업로드 되었습니다.");
     }
 
 
