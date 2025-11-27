@@ -52,7 +52,7 @@ public class CourseController {
             @RequestParam(defaultValue = "createdAt,desc") String sort
             ) {
         ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(
-                centerId, category, level, status, size, from, to, weekday, timeRange, q, page, size, sort);
+                centerId, category, level, status, from, to, weekday, timeRange, q, page, size, sort);
 
         return ResponseEntity.ok(data);
     }
