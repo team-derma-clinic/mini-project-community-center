@@ -1,0 +1,94 @@
+package com.example.mini_project_community_center.controller.course;
+
+import com.example.mini_project_community_center.common.apis.CourseApi;
+import com.example.mini_project_community_center.common.enums.course.CourseCategory;
+import com.example.mini_project_community_center.common.enums.course.CourseLevel;
+import com.example.mini_project_community_center.common.enums.course.CourseStatus;
+import com.example.mini_project_community_center.dto.ResponseDto;
+import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
+import com.example.mini_project_community_center.dto.course.request.CourseStatusUpdateRequest;
+import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
+import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
+import com.example.mini_project_community_center.dto.course.response.CourseListItemResponse;
+import com.example.mini_project_community_center.service.course.CourseService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(CourseApi.ROOT)
+@RequiredArgsConstructor
+public class CourseController {
+    private final CourseService courseService;
+
+    // 강좌 생성(STAFF/ADMIN)
+    @PostMapping
+    public ResponseEntity<ResponseDto<CourseDetailResponse>> createCourse(
+            @Valid @RequestBody CourseCreateRequest req
+            ) {
+        ResponseDto<CourseDetailResponse> data = courseService.createCourse(req);
+        return ResponseEntity.ok(data);
+    }
+
+    // 강좌 목록/검색 (Public)
+    @GetMapping
+    public ResponseEntity<ResponseDto<Page<CourseListItemResponse>>> getCourses(
+            @RequestParam(required = false) Long centerId,
+            @RequestParam(required = false) CourseCategory category,
+            @RequestParam(required = false) CourseLevel level,
+            @RequestParam(required = false) CourseStatus status,
+            @RequestParam(required = false) String from,
+            @RequestParam(required = false) String to,
+            @RequestParam(required = false) Integer weekday,
+            @RequestParam(required = false) String timeRange,
+            @RequestParam(required = false) String q,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt,desc") String sort
+            ) {
+        ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(
+                centerId, category, level, status, size, from, to, weekday, timeRange, q, page, size, sort);
+
+        return ResponseEntity.ok(data);
+    }
+
+    // 강좌 상세 조회(Public)
+    @GetMapping(CourseApi.BY_COURSE_ID)
+    public ResponseEntity<ResponseDto<CourseDetailResponse>> getCourseDetail(
+            @PathVariable Long courseId
+    ) {
+        ResponseDto<CourseDetailResponse> data = courseService.getCourseDetail(courseId);
+        return ResponseEntity.ok(data);
+    }
+
+    // 강좌 수정(STAFF/ADMIN)
+    @PutMapping(CourseApi.BY_COURSE_ID)
+    public ResponseEntity<ResponseDto<CourseDetailResponse>> updateCourse(
+            @PathVariable Long courseId,
+            @Valid @RequestBody CourseUpdateRequest req
+            ) {
+        ResponseDto<CourseDetailResponse> data= courseService.updateCourse(courseId, req);
+        return ResponseEntity.ok(data);
+    }
+
+
+    // 강좌 상태 변경(STAFF/ADMIN)
+    @PutMapping(CourseApi.STATUS)
+    public ResponseEntity<ResponseDto<CourseDetailResponse>> updateCourseStatus(
+            @PathVariable Long courseId,
+            @Valid @RequestBody CourseStatusUpdateRequest req
+    ) {
+        ResponseDto<CourseDetailResponse> data = courseService.updateCourseStatus(courseId, req);
+        return ResponseEntity.ok(data);
+    }
+
+    // 강좌 삭제(STAFF/ADMIN)
+    @DeleteMapping(CourseApi.BY_COURSE_ID)
+    public ResponseEntity<ResponseDto<Void>> deleteCourse(@PathVariable Long courseId) {
+        ResponseDto<Void> data = courseService.deleteCourse(courseId);
+        return ResponseEntity.ok(data);
+    }
+
+}
