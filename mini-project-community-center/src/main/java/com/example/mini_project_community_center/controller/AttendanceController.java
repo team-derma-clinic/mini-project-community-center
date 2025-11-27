@@ -6,7 +6,7 @@ import com.example.mini_project_community_center.dto.attendance.request.Attendan
 import com.example.mini_project_community_center.dto.attendance.request.AttendanceUpdateRequest;
 import com.example.mini_project_community_center.dto.attendance.response.AttendanceDetailResponse;
 import com.example.mini_project_community_center.dto.attendance.response.AttendanceListItemResponse;
-import com.example.mini_project_community_center.service.AttendanceService;
+import com.example.mini_project_community_center.service.attendance.AttendanceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

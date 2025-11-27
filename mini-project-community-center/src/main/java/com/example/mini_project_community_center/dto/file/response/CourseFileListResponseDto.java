@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.dto.file.response;
 
-import com.example.mini_project_community_center.entity.FileInfo;
+import com.example.mini_project_community_center.entity.file.FileInfo;
 import lombok.Builder;
 
 @Builder

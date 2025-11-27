@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.dto.user.response;
 
-import com.example.mini_project_community_center.common.enums.RoleType;
+import com.example.mini_project_community_center.common.enums.user.RoleType;
 
 import java.time.LocalDateTime;
 

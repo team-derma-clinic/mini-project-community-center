@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.dto.center.response;
 
 import com.example.mini_project_community_center.common.utils.DateUtils;
-import com.example.mini_project_community_center.entity.Center;
+import com.example.mini_project_community_center.entity.center.Center;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 

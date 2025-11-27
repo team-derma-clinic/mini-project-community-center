@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.dto.report.response;
 
-import com.example.mini_project_community_center.common.enums.CourseCategory;
+import com.example.mini_project_community_center.common.enums.course.CourseCategory;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;

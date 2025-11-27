@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.dto.enrollment.response;
 
-import com.example.mini_project_community_center.common.enums.EnrollmentsStatus;
-import com.example.mini_project_community_center.entity.Enrollment;
+import com.example.mini_project_community_center.common.enums.enrollment.EnrollmentsStatus;
+import com.example.mini_project_community_center.entity.enrollment.Enrollment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;

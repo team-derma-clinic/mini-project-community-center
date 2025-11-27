@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.dto.auth.request;
 
-import com.example.mini_project_community_center.entity.User;
+import com.example.mini_project_community_center.entity.user.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

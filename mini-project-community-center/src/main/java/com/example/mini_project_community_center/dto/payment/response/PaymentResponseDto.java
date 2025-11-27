@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.dto.payment.response;
 
-import com.example.mini_project_community_center.common.enums.PaymentStatus;
-import com.example.mini_project_community_center.entity.Payment;
+import com.example.mini_project_community_center.common.enums.payment.PaymentStatus;
+import com.example.mini_project_community_center.entity.payment.Payment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
@@ -15,8 +15,8 @@ public record PaymentResponseDto(
         String currency,
         String method,
         PaymentStatus status,
-        LocalDateTime paidAt,
-        LocalDateTime createdAt,
+        LocalDateTime approvedAt,
+        LocalDateTime requestedAt,
         LocalDateTime updatedAt
 ) {
     public static PaymentResponseDto from(Payment payment) {
@@ -27,8 +27,8 @@ public record PaymentResponseDto(
                 payment.getCurrency(),
                 payment.getMethod(),
                 payment.getStatus(),
-                payment.getPaidAt(),
-                payment.getCreatedAt(),
+                payment.getApprovedAt(),
+                payment.getRequestedAt(),
                 payment.getUpdatedAt()
         );
     }

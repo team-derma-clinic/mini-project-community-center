@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.repository.review;
 
-import com.example.mini_project_community_center.entity.Review;
-import com.example.mini_project_community_center.entity.User;
+import com.example.mini_project_community_center.entity.review.Review;
+import com.example.mini_project_community_center.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

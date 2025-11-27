@@ -1,8 +1,8 @@
 package com.example.mini_project_community_center.dto.course.request;
 
-import com.example.mini_project_community_center.common.enums.CourseCategory;
-import com.example.mini_project_community_center.common.enums.CourseLevel;
-import com.example.mini_project_community_center.common.enums.CourseStatus;
+import com.example.mini_project_community_center.common.enums.course.CourseCategory;
+import com.example.mini_project_community_center.common.enums.course.CourseLevel;
+import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
