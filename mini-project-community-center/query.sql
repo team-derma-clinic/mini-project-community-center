@@ -248,12 +248,21 @@ CREATE TABLE `payments` (
     
     enrollment_id BIGINT NOT NULL,
     
+	order_id VARCHAR(100) NOT NULL,
+    payment_key VARCHAR(100) NOT NULL,
+    
     amount DECIMAL(10,2) NOT NULL,
     currency CHAR(3) NOT NULL DEFAULT 'KRW',
-    method VARCHAR(20) NOT NULL,    -- CARD/TRANSFER 등
-    status VARCHAR(20) NOT NULL DEFAULT 'PENDING', -- PAID/PENDING/FAILED/REFUNDED
+    method VARCHAR(20) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     
-    paid_at DATETIME(6) NULL,
+	failure_code VARCHAR(50) NULL,
+    failure_message VARCHAR(255) NULL,
+    
+    requested_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    approvded_at DATETIME(6) NULL,
+    cancelled_at DATETIME(6) NULL,
+    
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     
@@ -261,15 +270,39 @@ CREATE TABLE `payments` (
     
     UNIQUE KEY `uk_pay_enroll` (enrollment_id),
     
-    CHECK (status IN ('PAID','PENDING','FAILED','REFUNDED')),
-    
     INDEX `idx_pay_enroll` (enrollment_id, status),
-    INDEX `idx_pay_paid_at` (paid_at)
+    INDEX `idx_pay_requested_at` (requested_at)
 )
     ENGINE=InnoDB
     DEFAULT CHARSET=utf8mb4
     COLLATE=utf8mb4_unicode_ci
     COMMENT='결제 내역';
+
+CREATE TABLE payment_refunds (
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	payment_id BIGINT NOT NULL,
+    
+    amount BIGINT NOT NULL,
+
+    status VARCHAR(30) NOT NULL,
+    
+    failure_code VARCHAR(50) NULL,
+    failure_message VARCHAR(255) NULL,
+    
+    requested_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    completed_at DATETIME(6) NULL,
+    
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    
+    INDEX `idx_payment_refunds_payment_id` (payment_id),
+    
+    CONSTRAINT `fk_payment_refunds_payment` FOREIGN KEY (payment_id) REFERENCES payments(id)
+)
+	ENGINE=InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci
+    COMMENT = '결제 내역 테이블';
 
 -- 7) 출석
 CREATE TABLE `attendance` (
