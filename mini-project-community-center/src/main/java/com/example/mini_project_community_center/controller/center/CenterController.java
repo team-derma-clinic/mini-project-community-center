@@ -28,7 +28,7 @@ public class CenterController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CenterCreateRequest req
             ) {
-        ResponseDto<CenterDetailResponse> data = centerService.createCenter(req);
+        ResponseDto<CenterDetailResponse> data = centerService.createCenter(userPrincipal, req);
         return ResponseEntity.ok(data);
     }
 
@@ -60,7 +60,7 @@ public class CenterController {
             @PathVariable Long centerId,
             @Valid @RequestBody CenterUpdateRequest req
             ) {
-        ResponseDto<CenterDetailResponse> data = centerService.updateCenter(centerId, req);
+        ResponseDto<CenterDetailResponse> data = centerService.updateCenter(userPrincipal, centerId, req);
         return ResponseEntity.ok(data);
     }
 
@@ -70,7 +70,7 @@ public class CenterController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long centerId,
             @RequestParam(defaultValue = "false") boolean hardDelete) {
-        ResponseDto<Void> data = centerService.deleteCenter(centerId, hardDelete);
+        ResponseDto<Void> data = centerService.deleteCenter(userPrincipal, centerId, hardDelete);
         return ResponseEntity.ok(data);
     }
 }

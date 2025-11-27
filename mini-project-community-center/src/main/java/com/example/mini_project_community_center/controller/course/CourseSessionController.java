@@ -27,11 +27,11 @@ public class CourseSessionController {
     // 세션 생성(STAFF/ADMIN)
     @PostMapping(CourseSessionApi.ROOT + SessionApi.ONLY_BY_ID)
     public ResponseEntity<ResponseDto<SessionDetailResponse>> createSession(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId,
             @Valid @RequestBody SessionCreateRequest req
             ) {
-        ResponseDto<SessionDetailResponse> data = sessionService.createSession(courseId, req);
+        ResponseDto<SessionDetailResponse> data = sessionService.createSession(userPrincipal, courseId, req);
         return ResponseEntity.ok(data);
     }
 
@@ -70,7 +70,7 @@ public class CourseSessionController {
             @PathVariable Long sessionId,
             @Valid @RequestBody SessionUpdateRequest req
             ) {
-        ResponseDto<SessionDetailResponse> data = sessionService.updateSession(sessionId, req);
+        ResponseDto<SessionDetailResponse> data = sessionService.updateSession(userPrincipal, sessionId, req);
         return ResponseEntity.ok(data);
     }
 
@@ -80,7 +80,7 @@ public class CourseSessionController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody SessionStatusUpdateRequest req
             ) {
-        ResponseDto<SessionDetailResponse> data= sessionService.updateSessionStatus(req);
+        ResponseDto<SessionDetailResponse> data= sessionService.updateSessionStatus(userPrincipal, req);
         return ResponseEntity.ok(data);
     }
 
@@ -91,7 +91,7 @@ public class CourseSessionController {
             @PathVariable Long sessionId,
             @RequestParam(defaultValue = "false") boolean hardDelete
     ) {
-        ResponseDto<Void> data = sessionService.deleteSession(sessionId, hardDelete);
+        ResponseDto<Void> data = sessionService.deleteSession(userPrincipal, sessionId, hardDelete);
         return ResponseEntity.ok(data);
     }
 

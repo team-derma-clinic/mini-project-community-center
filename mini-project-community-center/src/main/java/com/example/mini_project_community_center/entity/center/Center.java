@@ -37,7 +37,7 @@ public class Center extends BaseTimeEntity {
     private String phone;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private boolean isActive = true;
 
     public static Center create(String name, String address, BigDecimal latitude, BigDecimal longitude, String phone) {
         Center center = new Center();
@@ -46,6 +46,7 @@ public class Center extends BaseTimeEntity {
         center.latitude = latitude;
         center.longitude = longitude;
         center.phone = phone;
+        center.isActive = true;
         return center;
     }
 
@@ -57,6 +58,10 @@ public class Center extends BaseTimeEntity {
         this.phone = phone;
 
         validateCoordinates();
+    }
+
+    public void deactivate() {
+        this.isActive = false;
     }
 
     public void changeAddress(String newAddress) {
