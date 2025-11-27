@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.dto.auth.response;
 
 
-import com.example.mini_project_community_center.entity.User;
+import com.example.mini_project_community_center.entity.user.User;
 
 public record SignupResponseDto (
         Long userId,

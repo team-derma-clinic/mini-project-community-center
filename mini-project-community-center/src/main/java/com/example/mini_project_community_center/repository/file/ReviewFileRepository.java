@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.repository.file;
 
-import com.example.mini_project_community_center.entity.ReviewFile;
+import com.example.mini_project_community_center.entity.review.ReviewFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

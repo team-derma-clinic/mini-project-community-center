@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.repository.enrollment;
 
-import com.example.mini_project_community_center.entity.Enrollment;
-import com.example.mini_project_community_center.entity.User;
+import com.example.mini_project_community_center.entity.enrollment.Enrollment;
+import com.example.mini_project_community_center.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

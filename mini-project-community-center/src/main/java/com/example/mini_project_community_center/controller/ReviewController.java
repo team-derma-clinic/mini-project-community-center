@@ -6,7 +6,7 @@ import com.example.mini_project_community_center.dto.review.request.ReviewCreate
 import com.example.mini_project_community_center.dto.review.request.ReviewUpdateRequest;
 import com.example.mini_project_community_center.dto.review.response.ReviewDetailResponse;
 import com.example.mini_project_community_center.dto.review.response.ReviewListItemResponse;
-import com.example.mini_project_community_center.service.ReviewService;
+import com.example.mini_project_community_center.service.review.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

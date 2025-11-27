@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.repository.course;
 
-import com.example.mini_project_community_center.entity.Course;
+import com.example.mini_project_community_center.entity.course.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

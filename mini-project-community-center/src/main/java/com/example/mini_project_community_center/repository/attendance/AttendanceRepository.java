@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.repository.attendance;
 
-import com.example.mini_project_community_center.entity.Attendance;
+import com.example.mini_project_community_center.entity.attendance.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

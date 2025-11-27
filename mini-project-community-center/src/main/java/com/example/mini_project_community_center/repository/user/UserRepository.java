@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.repository.user;
 
-import com.example.mini_project_community_center.common.enums.RoleType;
-import com.example.mini_project_community_center.entity.User;
+import com.example.mini_project_community_center.common.enums.user.RoleType;
+import com.example.mini_project_community_center.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

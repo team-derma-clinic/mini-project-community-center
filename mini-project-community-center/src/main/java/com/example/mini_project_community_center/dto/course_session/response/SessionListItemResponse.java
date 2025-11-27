@@ -1,8 +1,8 @@
 package com.example.mini_project_community_center.dto.course_session.response;
 
-import com.example.mini_project_community_center.common.enums.CourseSessionsStatus;
+import com.example.mini_project_community_center.common.enums.course.CourseSessionsStatus;
 import com.example.mini_project_community_center.common.utils.DateUtils;
-import com.example.mini_project_community_center.entity.CourseSession;
+import com.example.mini_project_community_center.entity.course.CourseSession;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;

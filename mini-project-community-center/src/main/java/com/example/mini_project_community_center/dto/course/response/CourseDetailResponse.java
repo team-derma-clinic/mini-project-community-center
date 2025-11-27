@@ -1,9 +1,9 @@
 package com.example.mini_project_community_center.dto.course.response;
 
-import com.example.mini_project_community_center.common.enums.CourseCategory;
-import com.example.mini_project_community_center.common.enums.CourseLevel;
+import com.example.mini_project_community_center.common.enums.course.CourseCategory;
+import com.example.mini_project_community_center.common.enums.course.CourseLevel;
 import com.example.mini_project_community_center.common.utils.DateUtils;
-import com.example.mini_project_community_center.entity.Course;
+import com.example.mini_project_community_center.entity.course.Course;
 
 
 public record CourseDetailResponse(

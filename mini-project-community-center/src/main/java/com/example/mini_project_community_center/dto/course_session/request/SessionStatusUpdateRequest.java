@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.dto.course_session.request;
 
-import com.example.mini_project_community_center.common.enums.CourseSessionsStatus;
+import com.example.mini_project_community_center.common.enums.course.CourseSessionsStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
