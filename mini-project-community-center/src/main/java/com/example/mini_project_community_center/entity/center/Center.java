@@ -36,6 +36,9 @@ public class Center extends BaseTimeEntity {
     @Column(name = "phone", length = 30)
     private String phone;
 
+    @Column(name = "is_active")
+    private boolean isActive;
+
     public static Center create(String name, String address, BigDecimal latitude, BigDecimal longitude, String phone) {
         Center center = new Center();
         center.name = name;

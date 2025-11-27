@@ -109,6 +109,7 @@ CREATE TABLE `centers` (
     latitude DECIMAL(10,7) NULL,
     longitude DECIMAL(10,7) NULL,
     phone VARCHAR(30) NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE ,
     
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     
