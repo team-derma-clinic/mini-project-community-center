@@ -31,7 +31,7 @@ public class CourseController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CourseCreateRequest req
             ) {
-        ResponseDto<CourseDetailResponse> data = courseService.createCourse(req);
+        ResponseDto<CourseDetailResponse> data = courseService.createCourse(userPrincipal, req);
         return ResponseEntity.ok(data);
     }
 
@@ -73,7 +73,7 @@ public class CourseController {
             @PathVariable Long courseId,
             @Valid @RequestBody CourseUpdateRequest req
             ) {
-        ResponseDto<CourseDetailResponse> data= courseService.updateCourse(courseId, req);
+        ResponseDto<CourseDetailResponse> data= courseService.updateCourse(userPrincipal, courseId, req);
         return ResponseEntity.ok(data);
     }
 
@@ -85,7 +85,7 @@ public class CourseController {
             @PathVariable Long courseId,
             @Valid @RequestBody CourseStatusUpdateRequest req
     ) {
-        ResponseDto<CourseDetailResponse> data = courseService.updateCourseStatus(courseId, req);
+        ResponseDto<CourseDetailResponse> data = courseService.updateCourseStatus(userPrincipal, courseId, req);
         return ResponseEntity.ok(data);
     }
 
@@ -94,7 +94,7 @@ public class CourseController {
     public ResponseEntity<ResponseDto<Void>> deleteCourse(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId) {
-        ResponseDto<Void> data = courseService.deleteCourse(courseId);
+        ResponseDto<Void> data = courseService.deleteCourse(userPrincipal, courseId);
         return ResponseEntity.ok(data);
     }
 
