@@ -9,11 +9,13 @@ import com.example.mini_project_community_center.dto.course_session.request.Sess
 import com.example.mini_project_community_center.dto.course_session.request.SessionUpdateRequest;
 import com.example.mini_project_community_center.dto.course_session.response.SessionDetailResponse;
 import com.example.mini_project_community_center.dto.course_session.response.SessionListItemResponse;
+import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.course.CourseSessionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +27,7 @@ public class CourseSessionController {
     // 세션 생성(STAFF/ADMIN)
     @PostMapping(CourseSessionApi.ROOT + SessionApi.ONLY_BY_ID)
     public ResponseEntity<ResponseDto<SessionDetailResponse>> createSession(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,,
             @PathVariable Long courseId,
             @Valid @RequestBody SessionCreateRequest req
             ) {
@@ -63,6 +66,7 @@ public class CourseSessionController {
     // 세션 수정(STAFF/ADMIN)
     @PutMapping(SessionApi.BY_SESSION_ID)
     public ResponseEntity<ResponseDto<SessionDetailResponse>> updateSession(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long sessionId,
             @Valid @RequestBody SessionUpdateRequest req
             ) {
@@ -73,6 +77,7 @@ public class CourseSessionController {
     // 세션 상태 변경(STAFF/ADMIN)
     @PutMapping(SessionApi.STATUS)
     public ResponseEntity<ResponseDto<SessionDetailResponse>> updateSessionStatus(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody SessionStatusUpdateRequest req
             ) {
         ResponseDto<SessionDetailResponse> data= sessionService.updateSessionStatus(req);
@@ -82,6 +87,7 @@ public class CourseSessionController {
     // 세션 삭제(STAFF/ADMIN)
     @DeleteMapping(SessionApi.BY_SESSION_ID)
     public ResponseEntity<ResponseDto<Void>> deleteSession(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long sessionId,
             @RequestParam(defaultValue = "false") boolean hardDelete
     ) {

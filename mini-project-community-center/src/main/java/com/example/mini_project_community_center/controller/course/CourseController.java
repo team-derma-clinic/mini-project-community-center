@@ -10,11 +10,13 @@ import com.example.mini_project_community_center.dto.course.request.CourseStatus
 import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
 import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
 import com.example.mini_project_community_center.dto.course.response.CourseListItemResponse;
+import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.course.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +28,7 @@ public class CourseController {
     // 강좌 생성(STAFF/ADMIN)
     @PostMapping
     public ResponseEntity<ResponseDto<CourseDetailResponse>> createCourse(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CourseCreateRequest req
             ) {
         ResponseDto<CourseDetailResponse> data = courseService.createCourse(req);
@@ -66,6 +69,7 @@ public class CourseController {
     // 강좌 수정(STAFF/ADMIN)
     @PutMapping(CourseApi.BY_COURSE_ID)
     public ResponseEntity<ResponseDto<CourseDetailResponse>> updateCourse(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId,
             @Valid @RequestBody CourseUpdateRequest req
             ) {
@@ -77,6 +81,7 @@ public class CourseController {
     // 강좌 상태 변경(STAFF/ADMIN)
     @PutMapping(CourseApi.STATUS)
     public ResponseEntity<ResponseDto<CourseDetailResponse>> updateCourseStatus(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId,
             @Valid @RequestBody CourseStatusUpdateRequest req
     ) {
@@ -86,7 +91,9 @@ public class CourseController {
 
     // 강좌 삭제(STAFF/ADMIN)
     @DeleteMapping(CourseApi.BY_COURSE_ID)
-    public ResponseEntity<ResponseDto<Void>> deleteCourse(@PathVariable Long courseId) {
+    public ResponseEntity<ResponseDto<Void>> deleteCourse(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long courseId) {
         ResponseDto<Void> data = courseService.deleteCourse(courseId);
         return ResponseEntity.ok(data);
     }

@@ -6,11 +6,13 @@ import com.example.mini_project_community_center.dto.center.request.CenterCreate
 import com.example.mini_project_community_center.dto.center.request.CenterUpdateRequest;
 import com.example.mini_project_community_center.dto.center.response.CenterDetailResponse;
 import com.example.mini_project_community_center.dto.center.response.CenterListItemResponse;
+import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.center.CenterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,6 +25,7 @@ public class CenterController {
     // 센터 생성 (Staff/Admin)
     @PostMapping
     public ResponseEntity<ResponseDto<CenterDetailResponse>> createCenter(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CenterCreateRequest req
             ) {
         ResponseDto<CenterDetailResponse> data = centerService.createCenter(req);
@@ -53,6 +56,7 @@ public class CenterController {
     // 센터 수정(STAFF, ADMIN)
     @PutMapping(CenterApi.BY_CENTER_ID)
     public ResponseEntity<ResponseDto<CenterDetailResponse>> updateCenter(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long centerId,
             @Valid @RequestBody CenterUpdateRequest req
             ) {
@@ -63,6 +67,7 @@ public class CenterController {
     // 센터 삭제(권장: 비활성 필드로 대체) (ADMIN)
     @DeleteMapping(CenterApi.BY_CENTER_ID)
     public ResponseEntity<ResponseDto<Void>> deleteCenter(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long centerId,
             @RequestParam(defaultValue = "false") boolean hardDelete) {
         ResponseDto<Void> data = centerService.deleteCenter(centerId, hardDelete);
