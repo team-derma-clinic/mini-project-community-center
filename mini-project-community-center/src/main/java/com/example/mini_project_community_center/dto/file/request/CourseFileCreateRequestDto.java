@@ -8,5 +8,5 @@ import java.util.List;
 public record CourseFileCreateRequestDto(
         @NotNull
         Long courseId,
-        List<MultipartFile> files
+        MultipartFile file
 ) {}

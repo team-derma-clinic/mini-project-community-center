@@ -5,6 +5,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public record CourseFileUpdateRequestDto(
-        List<Long> keepFileIds,
-        List<MultipartFile> files
+        MultipartFile file
 ) {}

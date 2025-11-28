@@ -3,6 +3,7 @@ package com.example.mini_project_community_center.entity.course;
 import com.example.mini_project_community_center.common.enums.course.CourseCategory;
 import com.example.mini_project_community_center.common.enums.course.CourseLevel;
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
+import com.example.mini_project_community_center.entity.file.FileInfo;
 import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
 import com.example.mini_project_community_center.entity.center.Center;
@@ -67,6 +68,12 @@ public class Course extends BaseTimeEntity {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @Column(name = "thumbnail_id")
+    private Long thumbnailId;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<FileInfo> files = new ArrayList<>();
+
     public static Course create(
             Center center,
             String title,
@@ -128,5 +135,9 @@ public class Course extends BaseTimeEntity {
     public void updateInstructors(List<User> newInstructors) {
         this.instructors.clear();
         newInstructors.forEach(this::addInstructor);
+    }
+
+    public void updateThumbnail(Long thumbnailId) {
+        this.thumbnailId = thumbnailId;
     }
 }
