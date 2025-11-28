@@ -134,6 +134,7 @@ CREATE TABLE `courses` (
     description TEXT NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
+    thumbnail_id BIGINT NULL,
     
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
