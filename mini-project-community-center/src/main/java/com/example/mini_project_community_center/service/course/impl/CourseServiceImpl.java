@@ -10,11 +10,14 @@ import com.example.mini_project_community_center.dto.course.request.CourseStatus
 import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
 import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
 import com.example.mini_project_community_center.dto.course.response.CourseListItemResponse;
+import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
 import com.example.mini_project_community_center.entity.center.Center;
 import com.example.mini_project_community_center.entity.course.Course;
 import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.repository.center.CenterRepository;
 import com.example.mini_project_community_center.repository.course.CourseRepository;
+import com.example.mini_project_community_center.repository.course.session.CourseSessionRepository;
+import com.example.mini_project_community_center.repository.enrollment.EnrollmentRepository;
 import com.example.mini_project_community_center.repository.user.UserRepository;
 import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.course.CourseService;
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +44,8 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final CenterRepository centerRepository;
     private final UserRepository userRepository;
+    private final CourseSessionRepository sessionRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     @Transactional
     @Override
@@ -47,6 +53,8 @@ public class CourseServiceImpl implements CourseService {
     public ResponseDto<CourseDetailResponse> createCourse(UserPrincipal userPrincipal, CourseCreateRequest req) {
         Center center = centerRepository.findById(req.centerId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 센터가 존재하지 않습니다. centerId: " + req.centerId()));
+
+        validateDateRange(req.startDate(), req.endDate());
 
         Course course = Course.create(
                 center,
@@ -61,17 +69,25 @@ public class CourseServiceImpl implements CourseService {
                 LocalDate.parse(req.endDate())
         );
 
+        List<User> instructors = new ArrayList<>();
+
         if(req.instructorIds() != null && !req.instructorIds().isEmpty()) {
-            List<User> instructors = userRepository.findAllById(req.instructorIds());
+            instructors = userRepository.findAllById(req.instructorIds());
+            if(instructors.isEmpty()) throw new EntityNotFoundException("해당 강사가 존재하지 않습니다.");
 
             if(instructors.size() != req.instructorIds().size()) {
-                throw new EntityNotFoundException("요청한 Instructor Id 중 일부가 존재하지 않는 id 입니다.");
+                throw new EntityNotFoundException("요청한 강사 Id 중 일부가 존재하지 않는 Id 입니다.");
             }
             instructors.forEach(course::addInstructor);
         }
+
         Course saved = courseRepository.save(course);
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved);
+        List<UserListItemResponse> instructorsList = instructors.stream()
+                .map(UserListItemResponse::from)
+                .toList();
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorsList);
 
         return ResponseDto.success(data);
     }
@@ -125,27 +141,109 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public ResponseDto<CourseDetailResponse> getCourseDetail(Long courseId) {
-        return null;
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 강좌가 존재하지 않습니다. courseId: " + courseId));
+
+        List<UserListItemResponse> instructors = course.getInstructors().stream()
+                .map(UserListItemResponse::fromCourseInstructor)
+                .toList();
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors);
+
+        return ResponseDto.success(data);
     }
 
     @Transactional
     @Override
     @PreAuthorize("")
     public ResponseDto<CourseDetailResponse> updateCourse(UserPrincipal userPrincipal, Long courseId, CourseUpdateRequest req) {
-        return null;
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 강좌가 존재하지 않습니다. courseId: " + courseId));
+
+        validateDateRange(req.startDate(), req.endDate());
+
+        course.updateCenter(
+                req.title(),
+                req.category(),
+                req.level(),
+                req.capacity(),
+                req.fee(),
+                req.status(),
+                req.description(),
+                LocalDate.parse(req.startDate()),
+                LocalDate.parse(req.endDate())
+        );
+
+        List<User> instructors = new ArrayList<>();
+
+        if(req.instructorIds() != null) {
+            if(!req.instructorIds().isEmpty()) {
+                instructors = userRepository.findAllById(req.instructorIds());
+
+                if(instructors.size() != req.instructorIds().size()) {
+                    throw new EntityNotFoundException("입력한 강사 Id 중 일부가 존재하지 않는 Id 입니다.");
+                }
+            }
+            course.updateInstructors(instructors);
+        }
+        Course saved = courseRepository.save(course);
+
+        List<UserListItemResponse> instructorList = instructors.stream()
+                .map(UserListItemResponse::from)
+                .toList();
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorList);
+
+        return ResponseDto.success(data);
     }
 
     @Transactional
     @Override
     @PreAuthorize("")
     public ResponseDto<CourseDetailResponse> updateCourseStatus(UserPrincipal userPrincipal, Long courseId, CourseStatusUpdateRequest req) {
-        return null;
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 강좌가 존재하지 않습니다. courseId: " + courseId));
+
+        CourseStatus newStatus = req.status();
+        course.updateStatus(newStatus);
+
+        Course saved = courseRepository.save(course);
+
+        List<UserListItemResponse> instructors = saved.getInstructors().stream()
+                .map(i -> UserListItemResponse.from(i.getInstructor()))
+                .toList();
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructors);
+
+        return ResponseDto.success(data);
     }
 
     @Transactional
     @Override
     @PreAuthorize("")
     public ResponseDto<Void> deleteCourse(UserPrincipal userPrincipal, Long courseId) {
-        return null;
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 강좌가 존재하지 않습니다. courseId: " + courseId));
+
+        if(sessionRepository.existsByCourseId(courseId)) {
+            throw new IllegalArgumentException("해당 강좌에는 등록된 세션이 있어 삭제할 수 없습니다.");
+        }
+
+        if(enrollmentRepository.existsByCourseId(courseId)) {
+            throw new IllegalArgumentException("해당 강좌에 수강 등록한 사용자가 있어 삭제할 수 없습니다.");
+        }
+        courseRepository.delete(course);
+
+        return ResponseDto.success(null);
+    }
+
+    // 날짜 검증 유틸 메서드
+    private void validateDateRange(String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+
+        if(startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 빠를 수 없습니다.");
+        }
     }
 }
