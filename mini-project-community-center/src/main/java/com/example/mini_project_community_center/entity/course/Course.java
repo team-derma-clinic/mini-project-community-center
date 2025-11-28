@@ -137,6 +137,10 @@ public class Course extends BaseTimeEntity {
         newInstructors.forEach(this::addInstructor);
     }
 
+    public void updateStatus(CourseStatus status) {
+        this.status = (status != null) ? status : CourseStatus.OPEN;
+    }
+
     public void updateThumbnail(Long thumbnailId) {
         this.thumbnailId = thumbnailId;
     }

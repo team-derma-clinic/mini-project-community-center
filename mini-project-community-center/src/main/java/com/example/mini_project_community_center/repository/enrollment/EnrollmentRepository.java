@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     List<Enrollment> findByUserOrderByEnrolledAtDesc(User user);
+
+    boolean existsByCourseId(Long courseId);
 }
