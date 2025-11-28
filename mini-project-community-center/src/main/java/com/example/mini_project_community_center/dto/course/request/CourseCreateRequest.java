@@ -20,11 +20,9 @@ public record CourseCreateRequest(
         String title,
 
         @NotNull(message = "category는 필수입니다.")
-        @Size(max = 50)
         CourseCategory category,
 
         @NotNull(message = "level은 필수입니다.")
-        @Size(max = 20)
         CourseLevel level,
 
         @NotNull(message = "capacity는 필수입니다.")
@@ -37,7 +35,6 @@ public record CourseCreateRequest(
         BigDecimal fee,
 
         @NotNull(message = "status는 필수입니다.")
-        @Size(max = 20, message = "status는 20자 이내여야합니다.")
         CourseStatus status,
 
         @NotBlank(message = "description은 필수입니다.")
