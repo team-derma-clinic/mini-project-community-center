@@ -11,5 +11,7 @@ List<CourseFile> findByCourseIdOrderByDisplayOrderAsc(Long courseId);
 
 Optional<CourseFile> findByFileInfoId(Long fileId);
 
-    boolean existsByCourseId(Long courseId);
+boolean existsByCourseId(Long courseId);
+
+Optional<CourseFile> findByCourseIdAndFileInfoId(Long courseId, Long fileId);
 }

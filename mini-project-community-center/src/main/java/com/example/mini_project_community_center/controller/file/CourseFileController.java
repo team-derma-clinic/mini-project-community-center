@@ -26,6 +26,15 @@ public class CourseFileController {
         return ResponseEntity.ok(data);
     }
 
+    @PostMapping(CourseFileApi.UPDATE)
+    public ResponseEntity<ResponseDto<Void>> selectThumbnail(
+            @PathVariable Long courseId,
+            @PathVariable Long fileId
+    ) {
+        ResponseDto<Void> data = courseFileService.selectThumbnail(courseId, fileId);
+        return ResponseEntity.ok(data);
+    }
+
     @GetMapping(CourseFileApi.LIST) // 강좌의 모든 업로드 파일 조회
     public ResponseEntity<ResponseDto<List<CourseFileListResponseDto>>> getFilesByCourse(
             @PathVariable Long courseId

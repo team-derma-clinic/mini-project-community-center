@@ -51,6 +51,20 @@ public class CourseFileServiceImpl implements CourseFileService {
 
         return ResponseDto.success("성공적으로 업로드 되었습니다.");
     }
+    @Transactional
+    @Override
+    public ResponseDto<Void> selectThumbnail(Long courseId, Long fileId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(()-> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
+
+        CourseFile courseFile = courseFileRepository
+                .findByCourseIdAndFileInfoId(courseId, fileId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 강좌에 존재하는 파일이 아닙니다: " + fileId));
+
+         course.updateThumbnail(fileId);
+
+        return ResponseDto.success("대표 썸네일이 변경되었습니다.");
+    }
 
     @Override
     public ResponseDto<List<CourseFileListResponseDto>> getFilesByCourse(Long courseId) {

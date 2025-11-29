@@ -12,7 +12,7 @@ public class CourseFileApi {
 
     public static final String UPLOAD = THUMBNAIL;
     public static final String LIST = FILES_BY_COURSE;
-    public static final String UPDATE = THUMBNAIL;
+    public static final String UPDATE = THUMBNAIL + "/select/{fileId}";
 
     public static final String DELETE = FILE_BY_ID;
 }
