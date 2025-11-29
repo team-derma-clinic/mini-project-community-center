@@ -24,7 +24,7 @@ import static com.example.mini_project_community_center.entity.course.QCourse.co
 
 @Repository
 @RequiredArgsConstructor
-public class CourseRepositoryImpl implements CourseRepositoryCustom {
+public class CourseRepositoryCustomImpl implements CourseRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     QCourseSession session = QCourseSession.courseSession;
 
