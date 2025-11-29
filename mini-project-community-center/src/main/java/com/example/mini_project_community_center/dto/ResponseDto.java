@@ -92,7 +92,7 @@ public class ResponseDto<T> {
 
     public static <T> ResponseDto<T> success(String message, Integer httpStatus, String code) {
         return ResponseDto.<T>builder()
-                .success(false)
+                .success(true)
                 .message(message)
                 .status(httpStatus)
                 .code(code)
