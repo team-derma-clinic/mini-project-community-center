@@ -1,7 +1,6 @@
 package com.example.mini_project_community_center.service.center.impl;
 
 import com.example.mini_project_community_center.common.errors.ErrorCode;
-import com.example.mini_project_community_center.common.utils.DateUtils;
 import com.example.mini_project_community_center.common.utils.ValueMapper;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.center.request.CenterCreateRequest;
@@ -13,7 +12,6 @@ import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.center.CenterRepository;
 import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.center.CenterService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,7 +52,7 @@ public class CenterServiceImpl implements CenterService {
     @Override
     public ResponseDto<CenterDetailResponse> getCenterDetail(Long centerId) {
         Center center = centerRepository.findById(centerId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 센터가 존재하지 않습니다. centerId: " + centerId));
 
         CenterDetailResponse data = CenterDetailResponse.fromEntity(center);
         return ResponseDto.success(data);
@@ -89,7 +87,7 @@ public class CenterServiceImpl implements CenterService {
     @PreAuthorize("")
     public ResponseDto<CenterDetailResponse> updateCenter(UserPrincipal userPrincipal, Long centerId, CenterUpdateRequest req) {
         Center center = centerRepository.findById(centerId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 센터가 존재하지 않습니다. centerId: " + centerId));
 
         center.update(
                 req.name(),
@@ -111,7 +109,7 @@ public class CenterServiceImpl implements CenterService {
     @PreAuthorize("")
     public ResponseDto<Void> deleteCenter(UserPrincipal userPrincipal, Long centerId, boolean hardDelete) {
         Center center = centerRepository.findById(centerId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 센터가 존재하지 않습니다. centerId: " + centerId));
 
         if(hardDelete) {
             centerRepository.delete(center);
