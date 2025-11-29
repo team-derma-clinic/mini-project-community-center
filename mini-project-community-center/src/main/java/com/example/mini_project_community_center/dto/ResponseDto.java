@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.dto;
 
-import com.example.mini_project_community_center.common.enums.ErrorCode;
+import com.example.mini_project_community_center.common.errors.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
