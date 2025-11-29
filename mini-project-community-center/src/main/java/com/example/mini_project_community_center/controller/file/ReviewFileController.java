@@ -4,6 +4,7 @@ import com.example.mini_project_community_center.common.apis.ReviewFileApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.file.request.ReviewFileUpdateRequestDto;
 import com.example.mini_project_community_center.dto.file.response.ReviewFileListResponseDto;
+import com.example.mini_project_community_center.service.file.ReviewFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequestMapping(ReviewFileApi.ROOT)
 @RequiredArgsConstructor
 public class ReviewFileController {
-    private final ReviewFileServiceImpl reviewFileService;
+    private final ReviewFileService reviewFileService;
 
     @PostMapping(ReviewFileApi.UPLOAD)
     public ResponseEntity<ResponseDto<Void>> uploadReviewFiles(

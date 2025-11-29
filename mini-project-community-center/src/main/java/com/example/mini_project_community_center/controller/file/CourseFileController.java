@@ -3,6 +3,7 @@ package com.example.mini_project_community_center.controller.file;
 import com.example.mini_project_community_center.common.apis.CourseFileApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.file.response.CourseFileListResponseDto;
+import com.example.mini_project_community_center.service.file.CourseFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping(CourseFileApi.ROOT)
 @RequiredArgsConstructor
 public class CourseFileController {
-    private final CourseFileServiceImpl courseFileService;
+    private final CourseFileService courseFileService;
 
     @PostMapping(CourseFileApi.UPLOAD) // 썸네일 업로드
     public ResponseEntity<ResponseDto<Void>> uploadThumbnail(

@@ -1,21 +1,26 @@
 package com.example.mini_project_community_center.service.file.impl;
 
 import com.example.mini_project_community_center.dto.ResponseDto;
+import com.example.mini_project_community_center.dto.file.response.CourseFileListResponseDto;
 import com.example.mini_project_community_center.entity.course.Course;
 import com.example.mini_project_community_center.entity.course.CourseFile;
 import com.example.mini_project_community_center.entity.file.FileInfo;
 import com.example.mini_project_community_center.repository.course.CourseRepository;
 import com.example.mini_project_community_center.repository.file.CourseFileRepository;
 import com.example.mini_project_community_center.repository.file.FileInfoRepository;
+import com.example.mini_project_community_center.service.course.impl.CourseServiceImpl;
+import com.example.mini_project_community_center.service.file.CourseFileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class CourseServiceImpl {
+public class CourseFileServiceImpl implements CourseFileService {
 
     private final FileServiceImpl fileService;
     private final FileInfoRepository fileInfoRepository;
@@ -53,4 +58,18 @@ public class CourseServiceImpl {
     }
 
 
+    @Override
+    public ResponseDto<Void> uploadThumbnail(Long courseId, MultipartFile file) {
+        return null;
+    }
+
+    @Override
+    public List<CourseFileListResponseDto> getCourseFiles(Long courseId) {
+        return List.of();
+    }
+
+    @Override
+    public ResponseDto<Void> deleteCourseFile(Long fileId) {
+        return null;
+    }
 }
