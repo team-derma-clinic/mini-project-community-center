@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.handler;
 
-import com.example.mini_project_community_center.common.enums.ErrorCode;
+import com.example.mini_project_community_center.common.errors.ErrorCode;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.exception.BusinessException;
 import jakarta.validation.ConstraintViolationException;
@@ -10,15 +10,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.security.sasl.AuthenticationException;
 import java.nio.file.AccessDeniedException;
 
-@RestController
+@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
@@ -29,7 +31,9 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(code.getStatus())
-                .body(ResponseDto.failure(code.getMessage(), code.getStatus().value(), code.name()));
+                .body(ResponseDto.failure(code.getMessage(),
+                        code.getStatus().value(),
+                        code.name()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -45,7 +49,31 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ResponseDto.failure(errorMessage, HttpStatus.BAD_REQUEST.value(), ErrorCode.INVALID_INPUT.name()));
+                .body(ResponseDto.failure(errorMessage,
+                        HttpStatus.BAD_REQUEST.value(),
+                        ErrorCode.INVALID_INPUT.name()));
+    }
+
+    @ExceptionHandler({IllegalAccessException.class, IllegalStateException.class})
+    protected ResponseEntity<ResponseDto<?>> handleIllegalState(Exception e) {
+        log.error("[Server Error] {}", e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ResponseDto.failure("서버 내부 오류가 발생했습니다.",
+                        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                        ErrorCode.INTERNAL_ERROR.name()
+                ));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ResponseDto<?>> handleIllegalArgument(IllegalArgumentException e) {
+        log.warn("[IllegalArgument] {}", e.getMessage());
+        return ResponseEntity
+                .badRequest()
+                .body(ResponseDto.failure(e.getMessage(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        ErrorCode.INVALID_INPUT.name()
+                ));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -101,8 +129,19 @@ public class GlobalExceptionHandler {
                         ErrorCode.INVALID_AUTH.name()));
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    protected ResponseEntity<ResponseDto<?>> handleAccessDenied(AccessDeniedException e) {
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<ResponseDto<?>> handleAuthentication(AuthenticationException e) {
+        log.warn("[AuthenticationFailed] {}", e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseDto.failure(e.getMessage(),
+                        HttpStatus.UNAUTHORIZED.value(),
+                        ErrorCode.AUTHENTICATION_FAILED.name()));
+    }
+
+    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
+    protected ResponseEntity<ResponseDto<?>> handleAccessDenied(ErrorCode e) {
         log.warn("[AccessDenied] {}", e.getMessage());
 
         return ResponseEntity
