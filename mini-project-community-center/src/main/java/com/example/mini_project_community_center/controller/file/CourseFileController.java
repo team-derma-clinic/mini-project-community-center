@@ -27,12 +27,12 @@ public class CourseFileController {
     }
 
     @GetMapping(CourseFileApi.LIST) // 강좌의 모든 업로드 파일 조회
-    public ResponseEntity<ResponseDto<List<CourseFileListResponseDto>>> getCourseFiles(
+    public ResponseEntity<ResponseDto<List<CourseFileListResponseDto>>> getFilesByCourse(
             @PathVariable Long courseId
     ) {
-        List<CourseFileListResponseDto> files = courseFileService.getCourseFiles(courseId);
+        ResponseDto<List<CourseFileListResponseDto>> files = courseFileService.getFilesByCourse(courseId);
 
-        return ResponseEntity.ok(ResponseDto.success(files));
+        return ResponseEntity.ok(files);
     }
 
     @DeleteMapping(CourseFileApi.DELETE) // 썸네일 삭제
