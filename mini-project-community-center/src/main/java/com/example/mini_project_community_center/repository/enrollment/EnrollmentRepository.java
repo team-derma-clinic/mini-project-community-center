@@ -21,5 +21,5 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
             WHERE e.course.id = :courseId
                 ANDE e.status = 'CONFIRMED'
             """)
-    Long countConfirmedByCourseId(@Param("courseId") Long courseId);
+    Integer countConfirmedByCourseId(@Param("courseId") Long courseId);
 }
