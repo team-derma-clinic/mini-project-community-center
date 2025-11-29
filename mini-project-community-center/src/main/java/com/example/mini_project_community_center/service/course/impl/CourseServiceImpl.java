@@ -6,6 +6,7 @@ import com.example.mini_project_community_center.common.enums.course.CourseStatu
 import com.example.mini_project_community_center.common.utils.DateUtils;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
+import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseStatusUpdateRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
 import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
@@ -22,6 +23,7 @@ import com.example.mini_project_community_center.repository.user.UserRepository;
 import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.course.CourseService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +32,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -93,50 +96,21 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseDto<Page<CourseListItemResponse>> getCourses(
-            Long centerId,
-            CourseCategory category,
-            CourseLevel level,
-            CourseStatus status,
-            String from,
-            String to,
-            Integer weekday,
-            String timeRange,
-            String q,
-            int page,
-            int size,
-            String sort) {
+    public ResponseDto<Page<CourseListItemResponse>> getCourses(CourseSearchRequest req) {
+
+        int page = (req.page() != null) ? req.page() : 0;
+        int size = (req.size() != null) ? req.size() : 10;
+        String sort = (req.sort() != null && !req.sort().isBlank())
+                        ? req.sort()
+                        : "createdAt,desc";
+
         String[] sortParams = sort.split(",");
         String sortField = sortParams[0];
         Sort.Direction direction = Sort.Direction.fromString(sortParams[1]);
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
 
-        LocalDate fromDate = (from != null && !from.isBlank()) ? LocalDate.parse(from) : null;
-        LocalDate toDate = (to != null && !to.isBlank()) ? LocalDate.parse(to) : null;
-
-        LocalTime startTime = null;
-        LocalTime endTime = null;
-
-        if(timeRange != null && timeRange.contains("~")) {
-            String[] parts = timeRange.split("~");
-            startTime = LocalTime.parse(parts[0]);
-            endTime = LocalTime.parse(parts[1]);
-        }
-
-        Page<Course> pageResult = courseRepository.searchCourses(
-                centerId,
-                category,
-                level,
-                status,
-                DateUtils.toKstDateString(fromDate),
-                DateUtils.toKstDateString(toDate),
-                weekday,
-                startTime,
-                endTime,
-                q,
-                pageable
-        );
+        Page<Course> pageResult = courseRepository.searchCourses(req, pageable);
 
         Page<CourseListItemResponse> data = pageResult.map(course -> new CourseListItemResponse(
                 course.getId(),
