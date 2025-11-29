@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.handler;
 
-import com.example.mini_project_community_center.common.errors.ErrorCode;
+import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.exception.BusinessException;
 import jakarta.validation.ConstraintViolationException;

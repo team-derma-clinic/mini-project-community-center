@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.service.file.impl;
 
-import com.example.mini_project_community_center.common.enums.ErrorCode;
+import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.file.response.CourseFileListResponseDto;
 import com.example.mini_project_community_center.entity.course.Course;

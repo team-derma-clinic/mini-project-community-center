@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.exception;
 
-import com.example.mini_project_community_center.common.errors.ErrorCode;
+import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
