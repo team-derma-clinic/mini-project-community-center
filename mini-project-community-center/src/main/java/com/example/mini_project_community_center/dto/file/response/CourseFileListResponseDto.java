@@ -9,10 +9,9 @@ public record CourseFileListResponseDto(
         String originalName,
         String storedName,
         String contentType,
-        Long fileSize,
-        String downloadUrl
+        Long fileSize
 ) {
-    public static CourseFileListResponseDto fromEntity(FileInfo fileInfo, String baseDownloadUrl) {
+    public static CourseFileListResponseDto fromEntity(FileInfo fileInfo) {
         if (fileInfo == null) return null;
 
         return CourseFileListResponseDto.builder()
@@ -21,7 +20,6 @@ public record CourseFileListResponseDto(
                 .storedName(fileInfo.getStoredName())
                 .contentType(fileInfo.getContentType())
                 .fileSize(fileInfo.getFileSize())
-                .downloadUrl(baseDownloadUrl + fileInfo.getId())
                 .build();
     }
 }
