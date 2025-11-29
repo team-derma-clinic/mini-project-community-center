@@ -87,7 +87,7 @@ public class CourseServiceImpl implements CourseService {
                 .map(UserListItemResponse::from)
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorsList);
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorsList, null);
 
         return ResponseDto.success(data);
     }
@@ -126,15 +126,23 @@ public class CourseServiceImpl implements CourseService {
                 pageable
         );
 
-        Page<CourseListItemResponse> data = pageResult.map(course -> new CourseListItemResponse(
-                course.getId(),
-                course.getCenter().getId(),
-                course.getTitle(),
-                course.getCategory(),
-                course.getLevel(),
-                DateUtils.toKstDateString(course.getStartDate()),
-                DateUtils.toKstDateString(course.getEndDate())
-        ));
+        Page<CourseListItemResponse> data = pageResult.map(course -> {
+            Integer currentEnrollment = enrollmentRepository.countConfirmedByCourseId(course.getId());
+
+                    return new CourseListItemResponse(
+                            course.getId(),
+                            course.getCenter().getId(),
+                            course.getTitle(),
+                            course.getCategory(),
+                            course.getLevel(),
+                            DateUtils.toKstDateString(course.getStartDate()),
+                            DateUtils.toKstDateString(course.getEndDate()),
+                            course.getCapacity(),
+                            currentEnrollment,
+                            course.getStatus()
+                    );
+                }
+        );
 
         return ResponseDto.success(data);
     }
@@ -148,7 +156,9 @@ public class CourseServiceImpl implements CourseService {
                 .map(UserListItemResponse::fromCourseInstructor)
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors);
+        Integer currentEnrollment = enrollmentRepository.countConfirmedByCourseId(course.getId());
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors, currentEnrollment);
 
         return ResponseDto.success(data);
     }
@@ -192,7 +202,9 @@ public class CourseServiceImpl implements CourseService {
                 .map(UserListItemResponse::from)
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorList);
+        Integer currentEnrollment = enrollmentRepository.countConfirmedByCourseId(course.getId());
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorList, currentEnrollment);
 
         return ResponseDto.success(data);
     }
@@ -213,7 +225,9 @@ public class CourseServiceImpl implements CourseService {
                 .map(i -> UserListItemResponse.from(i.getInstructor()))
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructors);
+        Integer currentEnrollment = enrollmentRepository.countConfirmedByCourseId(course.getId());
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructors, currentEnrollment);
 
         return ResponseDto.success(data);
     }
