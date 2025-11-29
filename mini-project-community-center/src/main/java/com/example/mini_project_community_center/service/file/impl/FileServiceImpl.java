@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.service.file.impl;
 
-import com.example.mini_project_community_center.common.errors.ErrorCode;
+import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.entity.file.FileInfo;
 import com.example.mini_project_community_center.exception.FileStorageException;
 import com.example.mini_project_community_center.repository.file.FileInfoRepository;

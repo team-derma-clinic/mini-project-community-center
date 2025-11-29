@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.service.center.impl;
 
-import com.example.mini_project_community_center.common.errors.ErrorCode;
+import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.common.utils.ValueMapper;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.center.request.CenterCreateRequest;
