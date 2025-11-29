@@ -35,6 +35,9 @@ public class Course extends BaseTimeEntity {
     private Center center;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseSession> sessions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseInstructor> instructors = new ArrayList<>();
 
     @Column(name = "title", nullable = false, length = 200)
