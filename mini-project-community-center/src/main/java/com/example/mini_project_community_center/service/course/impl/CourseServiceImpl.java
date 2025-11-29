@@ -93,7 +93,19 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseDto<Page<CourseListItemResponse>> getCourses(Long centerId, CourseCategory category, CourseLevel level, CourseStatus status, String from, String to, Integer weekday, String timeRange, String q, int page, int size, String sort) {
+    public ResponseDto<Page<CourseListItemResponse>> getCourses(
+            Long centerId,
+            CourseCategory category,
+            CourseLevel level,
+            CourseStatus status,
+            String from,
+            String to,
+            Integer weekday,
+            String timeRange,
+            String q,
+            int page,
+            int size,
+            String sort) {
         String[] sortParams = sort.split(",");
         String sortField = sortParams[0];
         Sort.Direction direction = Sort.Direction.fromString(sortParams[1]);
