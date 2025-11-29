@@ -8,10 +8,10 @@ export interface SessionCreateRequest {
 }
 
 export interface SessionUpdateRequest {
-  startTime?: string;
-  endTime?: string;
+  startTime: string;
+  endTime: string;
   room?: string;
-  status?: SessionStatus;
+  status: SessionStatus;
 }
 
 export interface SessionStatusUpdateRequest {

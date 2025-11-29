@@ -15,16 +15,16 @@ export interface CourseCreateRequest {
 }
 
 export interface CourseUpdateRequest {
-  title?: string; 
-  category?: CourseCategory;
-  level?: CourseLevel; 
-  capacity?: number;
-  fee?: number;
-  status?: CourseStatus;
-  description?: string;
-  instructorIds?: number[];
-  startDate?: string;
-  endDate?: string;
+  title: string; 
+  category: CourseCategory;
+  level: CourseLevel; 
+  capacity: number;
+  fee: number;
+  status: CourseStatus;
+  description: string;
+  instructorIds: number[];
+  startDate: string;
+  endDate: string;
 }
 
 export interface CourseStatusUpdateRequest {
@@ -38,6 +38,9 @@ export interface CourseListItemResponse {
   level: CourseLevel;
   startDate: string;
   endDate: string;
+  capacity: number;
+  currentEnrollment: number;
+  status: CourseStatus;
 }
 
 export type CourseListResponse = CourseListItemResponse[];
@@ -64,6 +67,7 @@ export interface CourseDetailResponse {
   category: CourseCategory;
   level: CourseLevel; 
   capacity: number;
+  currentEnrollment: number;
   fee: number;
   status: CourseStatus;
   description: string;
