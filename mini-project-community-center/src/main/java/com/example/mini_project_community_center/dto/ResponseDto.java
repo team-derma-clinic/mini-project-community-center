@@ -1,6 +1,6 @@
 package com.example.mini_project_community_center.dto;
 
-import com.example.mini_project_community_center.common.enums.ErrorCode;
+import com.example.mini_project_community_center.common.errors.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
@@ -92,7 +92,7 @@ public class ResponseDto<T> {
 
     public static <T> ResponseDto<T> success(String message, Integer httpStatus, String code) {
         return ResponseDto.<T>builder()
-                .success(false)
+                .success(true)
                 .message(message)
                 .status(httpStatus)
                 .code(code)
