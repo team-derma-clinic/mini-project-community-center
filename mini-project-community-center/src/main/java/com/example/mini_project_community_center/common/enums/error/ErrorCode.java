@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.common.errors;
+package com.example.mini_project_community_center.common.enums.error;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
