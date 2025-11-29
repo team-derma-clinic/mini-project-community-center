@@ -80,6 +80,16 @@ public class ResponseDto<T> {
                 .build();
     }
 
+    public static <T> ResponseDto<T> failure(String message, Integer httpStatus, String code) {
+        return ResponseDto.<T>builder()
+                .success(false)
+                .message(message)
+                .status(httpStatus)
+                .code(code)
+                .timestamp(Instant.now())
+                .build();
+    }
+
     public static <T> ResponseDto<T> success(String message, Integer httpStatus, String code) {
         return ResponseDto.<T>builder()
                 .success(false)
