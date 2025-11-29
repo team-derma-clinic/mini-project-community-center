@@ -9,7 +9,8 @@ import java.util.List;
 public interface CourseFileService {
     ResponseDto<Void> uploadThumbnail(Long courseId, MultipartFile file);
 
-    List<CourseFileListResponseDto> getCourseFiles(Long courseId);
+    ResponseDto<List<CourseFileListResponseDto>> getFilesByCourse(Long courseId);
 
     ResponseDto<Void> deleteCourseFile(Long fileId);
+
 }

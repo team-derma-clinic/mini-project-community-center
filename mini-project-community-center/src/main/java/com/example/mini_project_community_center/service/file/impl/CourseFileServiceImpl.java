@@ -1,14 +1,14 @@
 package com.example.mini_project_community_center.service.file.impl;
 
+import com.example.mini_project_community_center.common.enums.ErrorCode;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.file.response.CourseFileListResponseDto;
 import com.example.mini_project_community_center.entity.course.Course;
 import com.example.mini_project_community_center.entity.course.CourseFile;
 import com.example.mini_project_community_center.entity.file.FileInfo;
+import com.example.mini_project_community_center.exception.FileStorageException;
 import com.example.mini_project_community_center.repository.course.CourseRepository;
 import com.example.mini_project_community_center.repository.file.CourseFileRepository;
-import com.example.mini_project_community_center.repository.file.FileInfoRepository;
-import com.example.mini_project_community_center.service.course.impl.CourseServiceImpl;
 import com.example.mini_project_community_center.service.file.CourseFileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CourseFileServiceImpl implements CourseFileService {
 
     private final FileServiceImpl fileService;
-    private final FileInfoRepository fileInfoRepository;
     private final CourseFileRepository courseFileRepository;
     private final CourseRepository courseRepository;
 
-    private final int MAX_ATTACH = 1;
-
     @Transactional
-    public ResponseDto<Void> uploadCourseFile(Long courseId, MultipartFile file) {
+    @Override
+    public ResponseDto<Void> uploadThumbnail(Long courseId, MultipartFile file) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
 
@@ -38,14 +38,7 @@ public class CourseFileServiceImpl implements CourseFileService {
             throw new IllegalArgumentException("업로드할 파일이 없습니다.");
         }
 
-        if (courseFileRepository.existsByCourseId(courseId)) {
-            throw new IllegalStateException("해당 강좌에는 이미 파일이 존재합니다.");
-        }
-
         FileInfo info = fileService.saveCourseFile(courseId, file);
-        if (info == null) {
-            throw new IllegalStateException("파일 저장 중 오류가 발생했습니다.");
-        }
 
         CourseFile courseFile = CourseFile.builder()
                 .course(course)
@@ -54,22 +47,39 @@ public class CourseFileServiceImpl implements CourseFileService {
 
         courseFileRepository.save(courseFile);
 
+        course.updateThumbnail(info.getId());
+
         return ResponseDto.success("성공적으로 업로드 되었습니다.");
     }
 
-
     @Override
-    public ResponseDto<Void> uploadThumbnail(Long courseId, MultipartFile file) {
-        return null;
+    public ResponseDto<List<CourseFileListResponseDto>> getFilesByCourse(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
+
+        List<CourseFile> files = courseFileRepository.findByCourseIdOrderByDisplayOrderAsc(courseId);
+
+        List<CourseFileListResponseDto> data = files.stream()
+                .map(CourseFile::getFileInfo)
+                .filter(Objects::nonNull)
+                .map(fileInfo -> CourseFileListResponseDto.fromEntity(fileInfo))
+                .toList();
+
+        return ResponseDto.success(data);
     }
 
-    @Override
-    public List<CourseFileListResponseDto> getCourseFiles(Long courseId) {
-        return List.of();
-    }
-
+    @Transactional
     @Override
     public ResponseDto<Void> deleteCourseFile(Long fileId) {
-        return null;
+        CourseFile courseFile = courseFileRepository.findByFileInfoId(fileId)
+                .orElseThrow(() -> new FileStorageException(ErrorCode.INTERNAL_ERROR));
+
+        FileInfo fileInfo = courseFile.getFileInfo();
+
+        courseFileRepository.delete(courseFile);
+        fileService.deleteFile(fileInfo);
+
+        return ResponseDto.success("삭제가 완료되었습니다.");
     }
+
 }

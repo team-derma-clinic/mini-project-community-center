@@ -95,7 +95,7 @@ public class Course extends BaseTimeEntity {
         course.category = category;
         course.level = level;
         course.capacity = capacity;
-        course.fee = (fee != null ? fee: BigDecimal.ZERO);
+        course.fee = (fee != null ? fee : BigDecimal.ZERO);
         course.status = (status != null ? status : CourseStatus.OPEN);
         course.description = description;
         course.startDate = startDate;
@@ -119,7 +119,7 @@ public class Course extends BaseTimeEntity {
         this.category = category;
         this.level = level;
         this.capacity = capacity;
-        this.fee = (fee != null ? fee: BigDecimal.ZERO);
+        this.fee = (fee != null ? fee : BigDecimal.ZERO);
         this.status = (status != null ? status : CourseStatus.OPEN);
         this.description = description;
         this.startDate = startDate;
@@ -144,7 +144,7 @@ public class Course extends BaseTimeEntity {
         this.status = (status != null) ? status : CourseStatus.OPEN;
     }
 
-    public void updateThumbnail(Long thumbnailId) {
-        this.thumbnailId = thumbnailId;
+    public void updateThumbnail(Long fileInfoId) {
+        this.thumbnailId = fileInfoId;
     }
 }
