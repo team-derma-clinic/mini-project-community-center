@@ -5,6 +5,7 @@ import com.example.mini_project_community_center.common.enums.course.CourseLevel
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
+import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseStatusUpdateRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
 import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
@@ -16,7 +17,7 @@ import org.springframework.data.domain.Page;
 public interface CourseService {
     ResponseDto<CourseDetailResponse> createCourse(UserPrincipal userPrincipal, @Valid CourseCreateRequest req);
 
-    ResponseDto<Page<CourseListItemResponse>> getCourses(Long centerId, CourseCategory category, CourseLevel level, CourseStatus status, String from, String to, Integer weekday, String timeRange, String q, int page, int size, String sort);
+    ResponseDto<Page<CourseListItemResponse>> getCourses(CourseSearchRequest req);
 
     ResponseDto<CourseDetailResponse> getCourseDetail(Long courseId);
 

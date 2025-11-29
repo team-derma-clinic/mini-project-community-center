@@ -6,6 +6,7 @@ import com.example.mini_project_community_center.common.enums.course.CourseLevel
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
+import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseStatusUpdateRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
 import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
@@ -38,21 +39,10 @@ public class CourseController {
     // 강좌 목록/검색 (Public)
     @GetMapping
     public ResponseEntity<ResponseDto<Page<CourseListItemResponse>>> getCourses(
-            @RequestParam(required = false) Long centerId,
-            @RequestParam(required = false) CourseCategory category,
-            @RequestParam(required = false) CourseLevel level,
-            @RequestParam(required = false) CourseStatus status,
-            @RequestParam(required = false) String from,
-            @RequestParam(required = false) String to,
-            @RequestParam(required = false) Integer weekday,
-            @RequestParam(required = false) String timeRange,
-            @RequestParam(required = false) String q,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdAt,desc") String sort
+            @Valid CourseSearchRequest req
             ) {
         ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(
-                centerId, category, level, status, from, to, weekday, timeRange, q, page, size, sort);
+                req);
 
         return ResponseEntity.ok(data);
     }
