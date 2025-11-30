@@ -3,6 +3,7 @@ package com.example.mini_project_community_center.entity.course;
 import com.example.mini_project_community_center.common.enums.course.CourseCategory;
 import com.example.mini_project_community_center.common.enums.course.CourseLevel;
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
+import com.example.mini_project_community_center.entity.course.session.CourseSession;
 import com.example.mini_project_community_center.entity.file.FileInfo;
 import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
@@ -101,6 +102,8 @@ public class Course extends BaseTimeEntity {
         course.startDate = startDate;
         course.endDate = endDate;
 
+        course.validateDate();
+
         return course;
     }
 
@@ -124,6 +127,8 @@ public class Course extends BaseTimeEntity {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+
+        this.validateDate();
     }
 
     public void addInstructor(User instructor) {
@@ -138,6 +143,12 @@ public class Course extends BaseTimeEntity {
     public void updateInstructors(List<User> newInstructors) {
         this.instructors.clear();
         newInstructors.forEach(this::addInstructor);
+    }
+
+    private void validateDate() {
+        if(this.startDate.isAfter(this.endDate)) {
+            throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 이전이어야 합니다.");
+        }
     }
 
     public void updateStatus(CourseStatus status) {

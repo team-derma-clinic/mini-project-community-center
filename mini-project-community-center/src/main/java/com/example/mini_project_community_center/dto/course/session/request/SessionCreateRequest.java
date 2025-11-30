@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.dto.course_session.request;
+package com.example.mini_project_community_center.dto.course.session.request;
 
 import com.example.mini_project_community_center.common.enums.course.CourseSessionsStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record SessionUpdateRequest(
+public record SessionCreateRequest(
         @NotBlank(message = "startTime은 비워질 수 없습니다.")
         @Size(max = 30, message = "startTime은 30자 이내여야 합니다.")
         String startTime,

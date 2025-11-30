@@ -1,7 +1,7 @@
 package com.example.mini_project_community_center.entity.attendance;
 
 import com.example.mini_project_community_center.common.enums.attendance.AttendanceStatus;
-import com.example.mini_project_community_center.entity.course.CourseSession;
+import com.example.mini_project_community_center.entity.course.session.CourseSession;
 import com.example.mini_project_community_center.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

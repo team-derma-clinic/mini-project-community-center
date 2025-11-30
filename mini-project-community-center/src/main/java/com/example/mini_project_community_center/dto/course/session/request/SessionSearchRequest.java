@@ -1,8 +1,5 @@
-package com.example.mini_project_community_center.dto.course.request;
+package com.example.mini_project_community_center.dto.course.session.request;
 
-import com.example.mini_project_community_center.common.enums.course.CourseCategory;
-import com.example.mini_project_community_center.common.enums.course.CourseLevel;
-import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -10,16 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CourseSearchRequest(
-        @Positive(message = "centerId는 양수여야합니다.")
-        @NotNull(message = "centerId는 필수입니다.")
-        Long centerId,
-
-        CourseCategory category,
-
-        CourseLevel level,
-
-        CourseStatus status,
+public record SessionSearchRequest(
+        @Positive(message = "courseId는 양수여야합니다.")
+        @NotNull(message = "courseId는 필수입니다.")
+        Long courseId,
 
         String from,
 
@@ -44,4 +35,5 @@ public record CourseSearchRequest(
 
         @NotNull(message = "sort 입력은 필수입니다.")
         String sort
-) {}
+) {
+}

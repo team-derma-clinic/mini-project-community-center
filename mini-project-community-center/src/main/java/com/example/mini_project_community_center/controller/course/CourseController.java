@@ -41,8 +41,7 @@ public class CourseController {
     public ResponseEntity<ResponseDto<Page<CourseListItemResponse>>> getCourses(
             @Valid CourseSearchRequest req
             ) {
-        ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(
-                req);
+        ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(req);
 
         return ResponseEntity.ok(data);
     }

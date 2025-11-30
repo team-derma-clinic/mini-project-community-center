@@ -1,7 +1,8 @@
-package com.example.mini_project_community_center.entity.course;
+package com.example.mini_project_community_center.entity.course.session;
 
 import com.example.mini_project_community_center.common.enums.course.CourseSessionsStatus;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
+import com.example.mini_project_community_center.entity.course.Course;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -70,6 +71,7 @@ public class CourseSession extends BaseTimeEntity {
         this.endTime = endTime;
         this.room = (room != null ? room : this.room);
         this.status = (status != null ? status : this.status);
+
         this.validateTime();
     }
 
