@@ -1,0 +1,167 @@
+package com.example.mini_project_community_center.service.course.session.impl;
+
+import com.example.mini_project_community_center.common.enums.course.CourseSessionsStatus;
+import com.example.mini_project_community_center.common.enums.error.ErrorCode;
+import com.example.mini_project_community_center.common.utils.DateUtils;
+import com.example.mini_project_community_center.dto.ResponseDto;
+import com.example.mini_project_community_center.dto.course.session.request.SessionCreateRequest;
+import com.example.mini_project_community_center.dto.course.session.request.SessionSearchRequest;
+import com.example.mini_project_community_center.dto.course.session.request.SessionStatusUpdateRequest;
+import com.example.mini_project_community_center.dto.course.session.request.SessionUpdateRequest;
+import com.example.mini_project_community_center.dto.course.session.response.SessionDetailResponse;
+import com.example.mini_project_community_center.dto.course.session.response.SessionListItemResponse;
+import com.example.mini_project_community_center.entity.course.Course;
+import com.example.mini_project_community_center.entity.course.session.CourseSession;
+import com.example.mini_project_community_center.exception.BusinessException;
+import com.example.mini_project_community_center.repository.course.course.CourseRepository;
+import com.example.mini_project_community_center.repository.course.session.CourseSessionRepository;
+import com.example.mini_project_community_center.repository.user.UserRepository;
+import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.service.course.session.CourseSessionService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class CourseSessionServiceImpl implements CourseSessionService {
+    /**
+     * Authorization Checker 추가
+     */
+    private final CourseSessionRepository sessionRepository;
+    private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
+
+    @Transactional
+    @Override
+    public ResponseDto<SessionDetailResponse> createSession(UserPrincipal userPrincipal, Long courseId, SessionCreateRequest req) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
+                        "해당 강좌가 존재하지 않습니다. courseId: " + courseId));
+
+        validateDateRange(req.startTime(), req.endTime());
+
+        CourseSession session = CourseSession.create(
+                course,
+                DateUtils.parseLocalDateTime(req.startTime()),
+                DateUtils.parseLocalDateTime(req.endTime()),
+                req.room(),
+                req.status()
+        );
+
+        CourseSession saved = sessionRepository.save(session);
+        SessionDetailResponse data = SessionDetailResponse.fromEntity(saved);
+
+        return ResponseDto.success(data);
+    }
+
+    @Override
+    public ResponseDto<Page<SessionListItemResponse>> getSessions(SessionSearchRequest req) {
+        int page = (req.page() != null) ? req.page() : 0;
+        int size = (req.size() != null) ? req.size() : 10;
+        String sort = (req.sort() != null && !req.sort().isBlank())
+                ? req.sort()
+                : "createdAt,desc";
+
+        String[] sortParams = sort.split(",");
+        String sortField = sortParams[0];
+        Sort.Direction direction = Sort.Direction.fromString(sortParams[1]);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+
+        Page<CourseSession> pageResult = sessionRepository.searchSessions(req, pageable);
+
+        Page<SessionListItemResponse> data = pageResult.map(session -> new SessionListItemResponse(
+                session.getId(),
+                session.getCourse().getId(),
+                DateUtils.toKstString(session.getStartTime()),
+                DateUtils.toKstString(session.getEndTime()),
+                session.getRoom(),
+                session.getStatus()
+        ));
+
+        return ResponseDto.success(data);
+    }
+
+    @Override
+    public ResponseDto<SessionDetailResponse> getSessionDetail(Long sessionId) {
+        CourseSession session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
+                        "해당 세션이 존재하지 않습니다. sessionId: " + sessionId));
+
+        SessionDetailResponse data = SessionDetailResponse.fromEntity(session);
+
+        return ResponseDto.success(data);
+    }
+
+    @Transactional
+    @Override
+    public ResponseDto<SessionDetailResponse> updateSession(UserPrincipal userPrincipal, Long sessionId, SessionUpdateRequest req) {
+        CourseSession session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
+                        "해당 세션이 존재하지 않습니다. sessionId: " + sessionId));
+
+        if(req.startTime() != null && req.endTime() != null) {
+            validateDateRange(req.startTime(), req.endTime());
+        }
+
+        session.update(
+                DateUtils.parseLocalDateTime(req.startTime()),
+                DateUtils.parseLocalDateTime(req.endTime()),
+                req.room(),
+                req.status()
+        );
+
+        SessionDetailResponse data = SessionDetailResponse.fromEntity(session);
+
+        return ResponseDto.success(data);
+    }
+
+    @Transactional
+    @Override
+    public ResponseDto<SessionDetailResponse> updateSessionStatus(UserPrincipal userPrincipal, Long sessionId, SessionStatusUpdateRequest req) {
+        CourseSession session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
+                        "해당 세션이 존재하지 않습니다. sessionId: " + sessionId));
+
+        session.changeStatus(req.status());
+
+        SessionDetailResponse data = SessionDetailResponse.fromEntity(session);
+
+        return ResponseDto.success(data);
+    }
+
+    @Transactional
+    @Override
+    public ResponseDto<Void> deleteSession(UserPrincipal userPrincipal, Long sessionId, boolean hardDelete) {
+        CourseSession session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
+                        "해당 세션이 존재하지 않습니다. sessionId: " + sessionId));
+
+        if(hardDelete) {
+            sessionRepository.delete(session);
+        } else {
+            session.changeStatus(CourseSessionsStatus.CANCELED);
+            sessionRepository.save(session);
+        }
+
+        return  ResponseDto.success(null);
+    }
+
+    // 날짜 검증 유틸 메서드
+    private void validateDateRange(String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+
+        if(startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 빠를 수 없습니다.");
+        }
+    }
+}

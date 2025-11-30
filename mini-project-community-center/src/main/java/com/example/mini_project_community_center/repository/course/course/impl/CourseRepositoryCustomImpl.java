@@ -1,12 +1,13 @@
-package com.example.mini_project_community_center.repository.course.impl;
+package com.example.mini_project_community_center.repository.course.course.impl;
 
 import com.example.mini_project_community_center.common.enums.course.CourseCategory;
 import com.example.mini_project_community_center.common.enums.course.CourseLevel;
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
 import com.example.mini_project_community_center.entity.course.Course;
-import com.example.mini_project_community_center.entity.course.QCourseSession;
-import com.example.mini_project_community_center.repository.course.CourseRepositoryCustom;
+import com.example.mini_project_community_center.entity.course.session.CourseSession;
+import com.example.mini_project_community_center.entity.course.session.QCourseSession;
+import com.example.mini_project_community_center.repository.course.course.CourseRepositoryCustom;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -84,7 +85,7 @@ public class CourseRepositoryCustomImpl implements CourseRepositoryCustom {
     }
 
     private BooleanExpression betweenDate(String from, String to) {
-        if(from != null && to != null) {
+        if (from != null && to != null) {
             return course.startDate.goe(LocalDate.parse(from))
                     .and(course.endDate.loe(LocalDate.parse(to)));
         }
@@ -92,19 +93,19 @@ public class CourseRepositoryCustomImpl implements CourseRepositoryCustom {
     }
 
     private BooleanExpression eqWeekday(Integer weekday) {
-        return weekday != null ? course.startDate.dayOfWeek().eq(weekday) : null;
+        return weekday != null ? session.startTime.dayOfWeek().eq(weekday) : null;
     }
 
     private BooleanExpression betweenTime(String timeRange) {
-        if(timeRange == null || timeRange.isBlank()) return null;
+        if (timeRange == null || timeRange.isBlank()) return null;
 
         String[] parts = timeRange.split("-");
-        if(parts.length != 2) return null;
+        if (parts.length != 2) return null;
 
         LocalTime startCondition;
         LocalTime endCondition;
 
-        try{
+        try {
             startCondition = LocalTime.parse(parts[0]);
             endCondition = LocalTime.parse(parts[1]);
         } catch (Exception e) {
@@ -112,14 +113,14 @@ public class CourseRepositoryCustomImpl implements CourseRepositoryCustom {
         }
 
         return Expressions.stringTemplate(
-                "DATE_FORMAT({0}, '%H:%i')",
+                        "DATE_FORMAT({0}, '%H:%i')",
                         session.startTime
-                    ).goe(startCondition.toString())
+                ).goe(startCondition.toString())
                 .and(
-                    Expressions.stringTemplate(
-                "DATE_FORMAT({0}, '%H:%i')",
-                        session.endTime
-                    ).loe(endCondition.toString())
+                        Expressions.stringTemplate(
+                                "DATE_FORMAT({0}, '%H:%i')",
+                                session.endTime
+                        ).loe(endCondition.toString())
                 );
 
     }

@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.repository.course;
+package com.example.mini_project_community_center.repository.course.instructor;
 
 import com.example.mini_project_community_center.entity.course.CourseInstructor;
 import com.example.mini_project_community_center.entity.user.User;
