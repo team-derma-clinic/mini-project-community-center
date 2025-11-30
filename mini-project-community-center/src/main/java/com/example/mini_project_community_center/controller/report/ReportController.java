@@ -4,9 +4,11 @@ import com.example.mini_project_community_center.common.apis.ReportApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.report.request.SearchCourseReportRequest;
 import com.example.mini_project_community_center.dto.report.response.CourseReportResponse;
+import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,7 @@ public class ReportController {
     // GET /api/v1/reports/courses
     @GetMapping(ReportApi.COURSES)
     public ResponseEntity<ResponseDto<CourseReportResponse>> getCourseReport(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(required = false) Long centerId,
             @RequestParam(required = false) String from,
             @RequestParam(required = false) String to,
