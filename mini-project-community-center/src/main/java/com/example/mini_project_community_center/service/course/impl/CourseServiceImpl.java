@@ -16,7 +16,7 @@ import com.example.mini_project_community_center.entity.course.Course;
 import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.center.CenterRepository;
-import com.example.mini_project_community_center.repository.course.CourseRepository;
+import com.example.mini_project_community_center.repository.course.course.CourseRepository;
 import com.example.mini_project_community_center.repository.course.session.CourseSessionRepository;
 import com.example.mini_project_community_center.repository.enrollment.EnrollmentRepository;
 import com.example.mini_project_community_center.repository.user.UserRepository;
@@ -167,13 +167,12 @@ public class CourseServiceImpl implements CourseService {
             }
             course.updateInstructors(instructors);
         }
-        Course saved = courseRepository.save(course);
 
         List<UserListItemResponse> instructorList = instructors.stream()
                 .map(UserListItemResponse::from)
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorList);
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructorList);
 
         return ResponseDto.success(data);
     }
@@ -188,13 +187,11 @@ public class CourseServiceImpl implements CourseService {
         CourseStatus newStatus = req.status();
         course.updateStatus(newStatus);
 
-        Course saved = courseRepository.save(course);
-
-        List<UserListItemResponse> instructors = saved.getInstructors().stream()
+        List<UserListItemResponse> instructors = course.getInstructors().stream()
                 .map(i -> UserListItemResponse.from(i.getInstructor()))
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructors);
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors);
 
         return ResponseDto.success(data);
     }
