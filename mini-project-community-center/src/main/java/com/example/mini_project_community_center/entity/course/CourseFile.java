@@ -24,10 +24,13 @@ public class CourseFile {
     @Column(name = "display_order")
     private Integer displayOrder;
 
-    @Builder
-    public CourseFile(Course course, FileInfo fileInfo, int displayOrder) {
+    private CourseFile(Course course, FileInfo fileInfo, Integer displayOrder) {
         this.course = course;
         this.fileInfo = fileInfo;
-        this.displayOrder = displayOrder;
+    }
+
+    public static CourseFile of(Course course, FileInfo fileInfo, Integer displayOrder) {
+        if (displayOrder == null) { displayOrder = 0;}
+        return new CourseFile(course, fileInfo, displayOrder);
     }
 }

@@ -2,8 +2,14 @@ package com.example.mini_project_community_center.entity.review;
 
 import com.example.mini_project_community_center.entity.file.FileInfo;
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "review_files")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewFile {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
@@ -18,12 +24,16 @@ public class ReviewFile {
     private FileInfo fileInfo;
 
     @Column(name = "display_order")
-    private int displayOrder;
+    private Integer displayOrder;
 
-    @Builder
-    public ReviewFile(Review review, FileInfo fileInfo, int displayOrder) {
+    private ReviewFile (Review review, FileInfo fileInfo, Integer displayOrder) {
         this.review = review;
         this.fileInfo = fileInfo;
         this.displayOrder = displayOrder;
+    }
+
+    public static ReviewFile of(Review review, FileInfo fileInfo, Integer displayOrder ) {
+        if (displayOrder == null) { displayOrder = 0;}
+        return new ReviewFile(review, fileInfo, displayOrder);
     }
 }
