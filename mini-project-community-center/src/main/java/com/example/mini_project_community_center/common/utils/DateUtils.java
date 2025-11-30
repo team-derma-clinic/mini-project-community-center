@@ -2,6 +2,7 @@ package com.example.mini_project_community_center.common.utils;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class DateUtils {
     private static final ZoneId ZONE_KST = ZoneId.of("Asia/Seoul");
@@ -20,7 +21,7 @@ public class DateUtils {
     }
 
     public static String toKstDateString(LocalDate date) {
-        if(date == null) return null;
+        if (date == null) return null;
         return date.atStartOfDay().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
@@ -48,5 +49,14 @@ public class DateUtils {
                 .toLocalDateTime();
 
         return utcDateTime.toLocalDate();
+    }
+
+    public static LocalDateTime parseLocalDateTime(String dateTimeStr) {
+        try {
+            return LocalDateTime.parse(dateTimeStr, KST_FORMAT);
+        } catch (DateTimeParseException e) {
+            System.out.println("날짜/시간 파싱 오류: " + e.getMessage());
+            throw e;
+        }
     }
 }
