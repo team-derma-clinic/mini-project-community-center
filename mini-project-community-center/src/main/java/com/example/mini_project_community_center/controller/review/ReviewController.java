@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.controller;
+package com.example.mini_project_community_center.controller.review;
 
 import com.example.mini_project_community_center.common.apis.ReviewApi;
 import com.example.mini_project_community_center.dto.ResponseDto;

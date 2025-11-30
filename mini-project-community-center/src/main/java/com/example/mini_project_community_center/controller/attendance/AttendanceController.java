@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.controller;
+package com.example.mini_project_community_center.controller.attendance;
 
 import com.example.mini_project_community_center.common.apis.AttendanceApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
