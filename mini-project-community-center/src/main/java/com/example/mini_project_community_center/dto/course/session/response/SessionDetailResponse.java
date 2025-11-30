@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.dto.course_session.response;
+package com.example.mini_project_community_center.dto.course.session.response;
 
 import com.example.mini_project_community_center.common.enums.course.CourseSessionsStatus;
 import com.example.mini_project_community_center.common.utils.DateUtils;
