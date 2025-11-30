@@ -2,7 +2,7 @@ package com.example.mini_project_community_center.controller;
 
 import com.example.mini_project_community_center.common.apis.ReportApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
-import com.example.mini_project_community_center.dto.report.request.SearchCourseReportRequest;
+import com.example.mini_project_community_center.dto.report.request.CourseReportRequest;
 import com.example.mini_project_community_center.dto.report.response.CourseReportResponse;
 import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.ReportService;
@@ -31,7 +31,7 @@ public class ReportController {
             @RequestParam(required = false) String sort,
             @RequestParam(required = false) Integer limit
     ) {
-        SearchCourseReportRequest req = new SearchCourseReportRequest(centerId, from, to, sort, limit);
+        CourseReportRequest req = new CourseReportRequest(centerId, from, to, sort, limit);
         ResponseDto<CourseReportResponse> data = reportService.getCourseReport(req);
         return ResponseEntity.ok(data);
     }
