@@ -12,7 +12,7 @@ public record ReviewFileListResponseDto (
         Long fileSize,
         String downloadUrl
 ) {
-    public static ReviewFileListResponseDto fromEntity(FileInfo fileInfo, String baseDownloadUrl) {
+    public static ReviewFileListResponseDto fromEntity(FileInfo fileInfo) {
         if (fileInfo == null) return null;
 
         return ReviewFileListResponseDto.builder()
@@ -21,7 +21,6 @@ public record ReviewFileListResponseDto (
                 .storedName(fileInfo.getStoredName())
                 .contentType(fileInfo.getContentType())
                 .fileSize(fileInfo.getFileSize())
-                .downloadUrl(baseDownloadUrl + fileInfo.getId())
                 .build();
     }
 }
