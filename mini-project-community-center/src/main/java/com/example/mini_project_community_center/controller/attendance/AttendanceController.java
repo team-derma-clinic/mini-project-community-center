@@ -54,7 +54,7 @@ public class AttendanceController {
 
     // GET /api/v1/courses/{courseId}/attendance
     @GetMapping(AttendanceApi.COURSE_LIST)
-    public ResponseEntity<ResponseDto<List<AttendanceListItemResponse>>> getCourseAttendance(
+    public ResponseEntity<ResponseDto<List<AttendanceDetailResponse>>> getCourseAttendance(
             @PathVariable Long courseId,
             @RequestParam(required = false) Long sessionId,
             @RequestParam(required = false) Long userId,
@@ -62,19 +62,19 @@ public class AttendanceController {
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sort
     ) {
-        ResponseDto<List<AttendanceListItemResponse>> data = attendanceService.getCourseAttendance(courseId, sessionId, userId, page, size, sort);
+        ResponseDto<List<AttendanceDetailResponse>> data = attendanceService.getCourseAttendance(courseId, sessionId, userId, page, size, sort);
         return ResponseEntity.ok(data);
     }
 
     // GET /api/v1/sessions/{courseId}/attendance
     @GetMapping(AttendanceApi.SESSION_LIST)
-    public ResponseEntity<ResponseDto<List<AttendanceListItemResponse>>> getSessionAttendance(
+    public ResponseEntity<ResponseDto<List<AttendanceDetailResponse>>> getSessionAttendance(
             @PathVariable Long sessionId,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sort
     ) {
-        ResponseDto<List<AttendanceListItemResponse>> data = attendanceService.getSessionAttendance(sessionId, page, size, sort);
+        ResponseDto<List<AttendanceDetailResponse>> data = attendanceService.getSessionAttendance(sessionId, page, size, sort);
         return ResponseEntity.ok(data);
     }
 }
