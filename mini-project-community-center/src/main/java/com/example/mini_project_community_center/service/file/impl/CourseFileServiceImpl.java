@@ -34,17 +34,13 @@ public class CourseFileServiceImpl implements CourseFileService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
 
+        int order = 0;
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("업로드할 파일이 없습니다.");
         }
-
         FileInfo info = fileService.saveCourseFile(courseId, file);
 
-        CourseFile courseFile = CourseFile.builder()
-                .course(course)
-                .fileInfo(info)
-                .build();
-
+        CourseFile courseFile = CourseFile.of(course, info, order++);
         courseFileRepository.save(courseFile);
 
         course.updateThumbnail(info.getId());
