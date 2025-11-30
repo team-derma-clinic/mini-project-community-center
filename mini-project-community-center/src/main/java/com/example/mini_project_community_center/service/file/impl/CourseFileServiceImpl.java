@@ -7,7 +7,7 @@ import com.example.mini_project_community_center.entity.course.Course;
 import com.example.mini_project_community_center.entity.course.CourseFile;
 import com.example.mini_project_community_center.entity.file.FileInfo;
 import com.example.mini_project_community_center.exception.FileStorageException;
-import com.example.mini_project_community_center.repository.course.CourseRepository;
+import com.example.mini_project_community_center.repository.course.course.CourseRepository;
 import com.example.mini_project_community_center.repository.file.CourseFileRepository;
 import com.example.mini_project_community_center.service.file.CourseFileService;
 import jakarta.persistence.EntityNotFoundException;
