@@ -13,12 +13,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import static com.example.mini_project_community_center.entity.course.QCourse.course;
-import static com.example.mini_project_community_center.entity.course.QCourseSession.courseSession;
+import static com.example.mini_project_community_center.entity.course.session.QCourseSession.courseSession;
 
 @Repository
 @RequiredArgsConstructor
