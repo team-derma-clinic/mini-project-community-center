@@ -6,10 +6,12 @@ import com.example.mini_project_community_center.dto.attendance.request.Attendan
 import com.example.mini_project_community_center.dto.attendance.request.AttendanceUpdateRequest;
 import com.example.mini_project_community_center.dto.attendance.response.AttendanceDetailResponse;
 import com.example.mini_project_community_center.dto.attendance.response.AttendanceListItemResponse;
+import com.example.mini_project_community_center.security.UserPrincipal;
 import com.example.mini_project_community_center.service.attendance.AttendanceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +25,10 @@ public class AttendanceController {
     // POST /api/v1/attendance
     @PostMapping
     public ResponseEntity<ResponseDto<AttendanceDetailResponse>> upsertAttendance(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody AttendanceCreateRequest req
     ) {
-        ResponseDto<AttendanceDetailResponse> data = attendanceService.upsertAttendance(req);
+        ResponseDto<AttendanceDetailResponse> data = attendanceService.upsertAttendance(userPrincipal, req);
         return ResponseEntity.ok(data);
     }
 
@@ -41,10 +44,11 @@ public class AttendanceController {
     // PUT /api/v1/attendance/{attendanceId}
     @PutMapping(AttendanceApi.ID_ONLY)
     public ResponseEntity<ResponseDto<AttendanceDetailResponse>> updateAttendance(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long attendanceId,
             @Valid @RequestBody AttendanceUpdateRequest req
     ) {
-        ResponseDto<AttendanceDetailResponse> data = attendanceService.updateAttendance(attendanceId, req);
+        ResponseDto<AttendanceDetailResponse> data = attendanceService.updateAttendance(userPrincipal, attendanceId, req);
         return ResponseEntity.ok(data);
     }
 
