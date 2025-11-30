@@ -5,7 +5,8 @@ import com.example.mini_project_community_center.common.enums.course.CourseLevel
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
 import com.example.mini_project_community_center.entity.course.Course;
-import com.example.mini_project_community_center.entity.course.QCourseSession;
+import com.example.mini_project_community_center.entity.course.session.CourseSession;
+import com.example.mini_project_community_center.entity.course.session.QCourseSession;
 import com.example.mini_project_community_center.repository.course.course.CourseRepositoryCustom;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
