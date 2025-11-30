@@ -43,25 +43,25 @@ public class ReviewController {
 
     // GET /api/v1/courses/{courseId}/reviews
     @GetMapping(ReviewApi.COURSE_REVIEWS)
-    public ResponseEntity<ResponseDto<List<ReviewListItemResponse>>> getCourseReviews(
+    public ResponseEntity<ResponseDto<List<ReviewDetailResponse>>> getCourseReviews(
             @PathVariable Long courseId,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sort
     ) {
-        ResponseDto<List<ReviewListItemResponse>> data = reviewService.getCourseReviews(courseId, page, size, sort);
+        ResponseDto<List<ReviewDetailResponse>> data = reviewService.getCourseReviews(courseId, page, size, sort);
         return ResponseEntity.ok(data);
     }
 
     // GET /api/v1/reviews/me
     @GetMapping(ReviewApi.MY_REVIEWS)
-    public ResponseEntity<ResponseDto<List<ReviewListItemResponse>>> getMyReviews(
+    public ResponseEntity<ResponseDto<List<ReviewDetailResponse>>> getMyReviews(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sort
     ) {
-        ResponseDto<List<ReviewListItemResponse>> data = reviewService.getMyReviews(userPrincipal, page, size, sort);
+        ResponseDto<List<ReviewDetailResponse>> data = reviewService.getMyReviews(userPrincipal, page, size, sort);
         return ResponseEntity.ok(data);
     }
 
