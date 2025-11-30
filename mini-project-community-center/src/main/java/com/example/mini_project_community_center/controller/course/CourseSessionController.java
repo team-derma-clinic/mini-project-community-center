@@ -10,7 +10,7 @@ import com.example.mini_project_community_center.dto.course_session.request.Sess
 import com.example.mini_project_community_center.dto.course_session.response.SessionDetailResponse;
 import com.example.mini_project_community_center.dto.course_session.response.SessionListItemResponse;
 import com.example.mini_project_community_center.security.UserPrincipal;
-import com.example.mini_project_community_center.service.course.CourseSessionService;
+import com.example.mini_project_community_center.service.course.session.CourseSessionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
