@@ -11,12 +11,12 @@ import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.file.ReviewFileRepository;
 import com.example.mini_project_community_center.repository.review.ReviewRepository;
 import com.example.mini_project_community_center.service.file.ReviewFileService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +38,6 @@ public class ReviewFileServiceImpl implements ReviewFileService {
         }
 
         int order = 0;
-
         for (MultipartFile file : files) {
             if (file == null || file.isEmpty()) {
                 continue;
@@ -46,24 +45,42 @@ public class ReviewFileServiceImpl implements ReviewFileService {
             FileInfo info = fileService.saveReviewFile(reviewId, file);
             if (info == null) continue;
 
-            ReviewFile reviewFile = new ReviewFile(review, info, order++);
+            ReviewFile reviewFile = ReviewFile.of(review, info, order++);
             reviewFileRepository.save(reviewFile);
         }
-        return null;
+        return ResponseDto.success("정상적으로 업로드 되었습니다.");
     }
 
     @Override
     public ResponseDto<List<ReviewFileListResponseDto>> getFilesByReview(Long reviewId) {
-        return null;
+        List<ReviewFile> reviewFiles = reviewFileRepository.findByReviewIdOrderByDisplayOrderAsc(reviewId);
+
+        List<ReviewFileListResponseDto> file = reviewFiles.stream()
+                .map(ReviewFile::getFileInfo)
+                .filter(Objects::nonNull)
+                .map(fileInfo -> ReviewFileListResponseDto.fromEntity(fileInfo))
+                .toList();
+
+        return ResponseDto.success(file);
     }
 
     @Override
     public ResponseDto<Void> deleteReviewFile(Long fileId) {
-        return null;
+        ReviewFile reviewFile = reviewFileRepository.findByFileInfoId(fileId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 파일이 존재하지 않습니다: " + fileId));
+
+        FileInfo fileInfo = reviewFile.getFileInfo();
+
+        reviewFileRepository.delete(reviewFile);
+        fileService.deleteFile(fileInfo);
+
+        return ResponseDto.success("성공적으로 삭제되었습니다.");
     }
 
     @Override
     public ResponseDto<Void> updateReviewFiles(Long reviewId, ReviewFileUpdateRequestDto dto) {
+        List<Long> keepIds = dto.getKeepFileIds() == null ?
+
         return null;
     }
 }
