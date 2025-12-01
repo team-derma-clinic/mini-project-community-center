@@ -3,6 +3,7 @@ package com.example.mini_project_community_center.service.report.impl;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.report.request.CourseReportRequest;
 import com.example.mini_project_community_center.dto.report.response.CourseReportResponse;
+import com.example.mini_project_community_center.repository.report.ReportRepository;
 import com.example.mini_project_community_center.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
 
     @Override
-    public ResponseDto<CourseReportResponse> getCourseReport(CourseReportRequest req) {
+    public ResponseDto<List<CourseReportResponse>> getCourseReport(CourseReportRequest req) {
         List<CourseReportResponse> data = reportRepository.getCourseReport(req);
         return ResponseDto.success(data);
     }
