@@ -1,5 +1,6 @@
 package com.example.mini_project_community_center.entity.user;
 
+import com.example.mini_project_community_center.common.enums.user.AuthProvider;
 import com.example.mini_project_community_center.common.enums.user.RoleStatus;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
@@ -47,8 +48,29 @@ public class User extends BaseTimeEntity {
     @Column(name = "role_status", nullable = false, length = 30)
     private RoleStatus roleStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "provider", length = 20, nullable = false)
+    private AuthProvider provider;
+
+    @Column(name = "provider_id", length = 100)
+    private String providerId;
+
+    @Column(name = "email_verified", nullable = false)
+    private boolean emailVerified;
+
     @Builder
-    private User(String name, String loginId, String password, String email, String phone, RoleType role, RoleStatus roleStatus) {
+    private User(
+            String name,
+            String loginId,
+            String password,
+            String email,
+            String phone,
+            RoleType role,
+            RoleStatus roleStatus,
+            AuthProvider provider,
+            String providerId,
+            boolean emailVerified
+    ) {
         this.name = name;
         this.loginId = loginId;
         this.password = password;
@@ -56,6 +78,9 @@ public class User extends BaseTimeEntity {
         this.phone = phone;
         this.role = role;
         this.roleStatus = roleStatus;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.emailVerified = emailVerified;
     }
 
     public void changePassword(String password) {
@@ -71,4 +96,31 @@ public class User extends BaseTimeEntity {
     public void changeRole(RoleType role) { this.role = role; }
 
     public void changeRoleStatus(RoleStatus newStatus) {this.roleStatus = newStatus;}
+
+    public static User createOauthUser(
+            AuthProvider provider,
+            String providerId,
+            String email,
+            String name,
+            RoleType role,
+            RoleStatus roleStatue
+    ) {
+        return User.builder()
+                .loginId(provider.name() + "_" + providerId)
+                .password(null)
+                .email(email)
+                .name(name)
+                .role(role)
+                .roleStatus(roleStatue)
+                .provider(provider)
+                .providerId(providerId)
+                .emailVerified(true)
+                .build();
+    }
+
+    public void updateOauthProfile(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
 }

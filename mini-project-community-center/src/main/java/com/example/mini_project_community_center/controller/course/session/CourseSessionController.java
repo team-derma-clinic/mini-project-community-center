@@ -10,7 +10,7 @@ import com.example.mini_project_community_center.dto.course.session.request.Sess
 import com.example.mini_project_community_center.dto.course.session.request.SessionUpdateRequest;
 import com.example.mini_project_community_center.dto.course.session.response.SessionDetailResponse;
 import com.example.mini_project_community_center.dto.course.session.response.SessionListItemResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.course.session.CourseSessionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
