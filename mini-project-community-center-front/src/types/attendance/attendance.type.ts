@@ -1,12 +1,12 @@
 import type { AttendanceStatus } from "./attendance.enum.type";
 
-export interface CreateAttendanceForm {
+export interface AttendanceCreateForm {
   sessionId: number;
   userId: number;
   status: AttendanceStatus;
 }
 
-export interface UpdateAttendanceForm {
+export interface AttendanceUpdateForm {
   status?: AttendanceStatus;
   note?: string;
 }
