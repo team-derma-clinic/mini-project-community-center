@@ -1,10 +1,10 @@
 package com.example.mini_project_community_center.controller.system;
 
-import com.example.mini_project_community_center.common.apis.CenterApi;
 import com.example.mini_project_community_center.common.apis.SystemApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.system.response.SystemHealthResponse;
 import com.example.mini_project_community_center.dto.system.response.SystemInfoResponse;
+import com.example.mini_project_community_center.service.system.SystemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
