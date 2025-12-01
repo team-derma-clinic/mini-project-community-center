@@ -36,7 +36,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         CourseSession session = sessionRepository.findById(req.sessionId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Long currentUserId = userPrincipal.getUser().getId();
+        Long currentUserId = userPrincipal.getId();
 
         if (req.userId().equals(currentUserId)) {
             throw new BusinessException(ErrorCode.ACCESS_DENIED, "본인의 출석은 등록/수정할 수 없습니다.");
@@ -87,7 +87,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "출석을 찾을 수 없습니다. attendanceId: " + attendanceId));
 
-        Long currentUserId = userPrincipal.getUser().getId();
+        Long currentUserId = userPrincipal.getId();
         Long attendanceUserId = attendance.getUser().getId();
 
         if (attendanceUserId.equals(currentUserId)) {

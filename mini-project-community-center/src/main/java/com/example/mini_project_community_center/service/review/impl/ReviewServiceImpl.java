@@ -13,6 +13,7 @@ import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.course.course.CourseRepository;
 import com.example.mini_project_community_center.repository.review.ReviewRepository;
+import com.example.mini_project_community_center.repository.user.UserRepository;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.review.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     @Override
@@ -35,7 +37,8 @@ public class ReviewServiceImpl implements ReviewService {
         Course course = courseRepository.findById(req.courseId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
 
-        User user = userPrincipal.getUser();
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "사용자를 찾을 수 없습니다."));
 
         if (reviewRepository.existsByCourseIdAndUserId(req.courseId(), user.getId())) {
             throw new BusinessException(ErrorCode.DB_CONSTRAINT, "이미 리뷰가 존재합니다.");
@@ -61,8 +64,8 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "리뷰를 찾을 수 없습니다. reviewId: " + reviewId));
 
-        if (!review.getUser().getId().equals(userPrincipal.getUser().getId())) {
-            throw new BusinessException(ErrorCode.ACCESS_DENIED, "본인의 리뷰만 수정할 수 있습니다.")
+        if (!review.getUser().getId().equals(userPrincipal.getId())) {
+            throw new BusinessException(ErrorCode.ACCESS_DENIED, "본인의 리뷰만 수정할 수 있습니다.");
         }
 
         review.updateRating(req.rating());
@@ -86,7 +89,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ResponseDto<List<ReviewDetailResponse>> getMyReviews(UserPrincipal userPrincipal, Integer page, Integer size, String sort) {
-        User user = userPrincipal.getUser();
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "사용자를 찾을 수 없습니다."));
 
         List<Review> reviews = reviewRepository.findByUserOrderByCreatedAtDesc(user);
 
@@ -103,7 +107,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "리뷰를 찾을 수 없습니다. reviewId: " + reviewId));
 
-        if (!review.getUser().getId().equals(userPrincipal.getUser().getId())) {
+        if (!review.getUser().getId().equals(userPrincipal.getId())) {
             throw new BusinessException(ErrorCode.ACCESS_DENIED, "본인의 리뷰만 삭제할 수 있습니다.");
         }
 
