@@ -1,7 +1,7 @@
 import type {
   InstructorDashboardResponse,
-  SearchInstructorDashboard,
-  SearchStaffDashboard,
+  SearchInstructorDashboardRequest,
+  SearchStaffDashboardRequest,
   StaffDashboardResponse,
 } from "@/types/dashboard/dashboard.dto";
 import { privateApi } from "../common/axiosInstance";
@@ -10,7 +10,7 @@ import { DASHBOARD_PATH } from "./dashboard.path";
 
 export const dashboardApi = {
   getInstructorDashboard: async (
-    params?: SearchInstructorDashboard
+    params?: SearchInstructorDashboardRequest
   ): Promise<InstructorDashboardResponse> => {
     const res = await privateApi.get<ApiResponse<InstructorDashboardResponse>>(
       DASHBOARD_PATH.INSTRUCTOR_ME,
@@ -20,7 +20,7 @@ export const dashboardApi = {
   },
 
   getStaffDashboard: async (
-    params?: SearchStaffDashboard
+    params?: SearchStaffDashboardRequest
   ): Promise<StaffDashboardResponse> => {
     const res = await privateApi.get<ApiResponse<StaffDashboardResponse>>(
       DASHBOARD_PATH.STAFF,
