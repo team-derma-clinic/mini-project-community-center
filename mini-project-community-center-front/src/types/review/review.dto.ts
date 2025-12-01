@@ -1,54 +1,46 @@
 import type { ReviewRating, ReviewStatus } from "./review.enum.type";
 
-export interface CreateReviewRequest {
+export interface ReviewCreateRequest {
+  courseId?: number;
+  rating?: ReviewRating;
+  content?: string;
+}
+
+export interface ReviewUpdateRequest {
+  rating: ReviewRating;
+  content?: string;
+}
+
+export interface ReviewSearchParams {
+  page?: number;
+  size?: number;
   courseId: number;
-  rating: ReviewRating;
-  content?: string;
-}
-
-export interface UpdateReviewRequest {
-  rating: ReviewRating;
-  content?: string;
-}
-
-export interface DeleteReviewRequest {
-  reason?: string;
-}
-
-export interface SearchCourseReview {
-  page?: number;
-  size?: number;
+  status?: ReviewStatus;
   sort?: string;
 }
 
-export interface SearchMyReview {
-  page?: number;
-  size?: number;
-  sort?: string;
+export interface ReviewDetailResponse {
+  id: number;
+  courseId: number;
+  courseName: string;
+  userId: number;
+  userName: string;
+  rating: ReviewRating;
+  content: string;
+  status: ReviewStatus;
+  createAt: string;
 }
 
 export interface ReviewListItemResponse {
   id: number;
   courseId: number;
-  courseName?: string;
+  courseName: string;
   userId: number;
-  userName?: string;
+  userName: string;
   rating: ReviewRating;
-  content?: string;
+  content: string;
   status: ReviewStatus;
-  createdAt: string;
+  createAt: string;
 }
 
 export type ReviewListResponse = ReviewListItemResponse[];
-
-export interface ReviewDetailResponse {
-  id: number;
-  courseId: number;
-  courseName?: string;
-  userId: number;
-  userName?: string;
-  rating: ReviewRating;
-  content?: string;
-  status: ReviewStatus;
-  createdAt: string;
-}
