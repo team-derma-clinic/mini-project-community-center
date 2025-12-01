@@ -5,7 +5,6 @@ import com.example.mini_project_community_center.common.enums.course.CourseLevel
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
 import com.example.mini_project_community_center.entity.course.Course;
-import com.example.mini_project_community_center.entity.course.session.CourseSession;
 import com.example.mini_project_community_center.entity.course.session.QCourseSession;
 import com.example.mini_project_community_center.repository.course.course.CourseRepositoryCustom;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,6 +21,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.example.mini_project_community_center.entity.course.QCourse.course;
+import static com.example.mini_project_community_center.entity.course.QCourseInstructor.courseInstructor;
 
 @Repository
 @RequiredArgsConstructor
@@ -129,5 +129,15 @@ public class CourseRepositoryCustomImpl implements CourseRepositoryCustom {
         return q != null && !q.isBlank()
                 ? course.title.containsIgnoreCase(q)
                 : null;
+    }
+
+    @Override
+    public List<Course> findByInstructorId(Long instructorId) {
+        return queryFactory
+                .selectFrom(course)
+                .join(course.instructors, courseInstructor)
+                .where(courseInstructor.instructor.id.eq(instructorId))
+                .distinct()
+                .fetch();
     }
 }
