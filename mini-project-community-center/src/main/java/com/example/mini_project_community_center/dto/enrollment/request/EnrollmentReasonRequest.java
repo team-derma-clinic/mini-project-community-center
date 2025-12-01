@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record EnrollmentCancelRequest(
+public record EnrollmentReasonRequest(
    @NotNull(message = "cancelReason은 비워질 수 없습니다.")
    @Size(max = 200, message = "cancelReason 입력은 최대 200자까지 가능합니다.")
    String cancelReason
