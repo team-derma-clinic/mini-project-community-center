@@ -1,14 +1,13 @@
 package com.example.mini_project_community_center.entity.user;
 
+import com.example.mini_project_community_center.common.enums.user.RoleStatus;
+import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(
@@ -40,20 +39,36 @@ public class User extends BaseTimeEntity {
     @Column(name = "phone", length = 30)
     private String phone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserRole> userRoles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 30)
+    private RoleType role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_status", nullable = false, length = 30)
+    private RoleStatus roleStatus;
 
     @Builder
-    private User(String name, String loginId, String password, String email, String phone) {
+    private User(String name, String loginId, String password, String email, String phone, RoleType role, RoleStatus roleStatus) {
         this.name = name;
         this.loginId = loginId;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.role = role;
+        this.roleStatus = roleStatus;
     }
 
     public void changePassword(String password) {
         this.password = password;
     }
 
+    public void updateUserInfo(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    public void changeRole(RoleType role) { this.role = role; }
+
+    public void changeRoleStatus(RoleStatus newStatus) {this.roleStatus = newStatus;}
 }
