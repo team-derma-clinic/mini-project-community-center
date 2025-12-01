@@ -5,7 +5,7 @@ import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.report.request.CourseReportRequest;
 import com.example.mini_project_community_center.dto.report.response.CourseReportResponse;
 import com.example.mini_project_community_center.security.UserPrincipal;
-import com.example.mini_project_community_center.service.ReportService;
+import com.example.mini_project_community_center.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
