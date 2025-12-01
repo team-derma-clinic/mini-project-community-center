@@ -1,14 +1,12 @@
 package com.example.mini_project_community_center.entity.user;
 
+import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(
@@ -40,8 +38,8 @@ public class User extends BaseTimeEntity {
     @Column(name = "phone", length = 30)
     private String phone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserRole> userRoles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
 
     @Builder
     private User(String name, String loginId, String password, String email, String phone) {
