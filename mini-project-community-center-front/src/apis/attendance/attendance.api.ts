@@ -1,18 +1,11 @@
-import type {
-  AttendanceDetailResponse,
-  AttendanceListResponse,
-  CreateAttendanceRequest,
-  SearchCourseAttendance,
-  SearchSessionAttendance,
-  UpdateAttendanceRequest,
-} from "@/types/attendance/attendance.dto";
+import type { AttendanceCreateRequest, AttendanceDetailResponse, AttendanceListResponse, AttendanceSearchParams, AttendanceUpdateRequest } from "@/types/attendance/attendance.dto";
 import { privateApi } from "../common/axiosInstance";
 import type { ApiResponse } from "@/types/common/ApiResponse";
 import { ATTENDANCE_PATH } from "./attendance.path";
 
 export const attendanceApi = {
   upsertAttendance: async (
-    data: CreateAttendanceRequest
+    data: AttendanceCreateRequest
   ): Promise<AttendanceDetailResponse> => {
     const res = await privateApi.post<ApiResponse<AttendanceDetailResponse>>(
       ATTENDANCE_PATH.UPSERT,
@@ -32,7 +25,7 @@ export const attendanceApi = {
 
   updateAttendance: async (
     attendanceId: number,
-    data: UpdateAttendanceRequest
+    data: AttendanceUpdateRequest
   ): Promise<AttendanceDetailResponse> => {
     const res = await privateApi.put<ApiResponse<AttendanceDetailResponse>>(
       ATTENDANCE_PATH.UPDATE(attendanceId),
@@ -43,7 +36,7 @@ export const attendanceApi = {
 
   getCourseAttendance: async (
     courseId: number,
-    params?: SearchCourseAttendance
+    params?: AttendanceSearchParams
   ): Promise<AttendanceListResponse> => {
     const res = await privateApi.get<ApiResponse<AttendanceListResponse>>(
       ATTENDANCE_PATH.COURSE_LIST(courseId),
@@ -54,7 +47,7 @@ export const attendanceApi = {
 
   getSessionAttendance: async (
     sessionId: number,
-    params?: SearchSessionAttendance
+    params?: AttendanceSearchParams
   ): Promise<AttendanceListResponse> => {
     const res = await privateApi.get<ApiResponse<AttendanceListResponse>>(
       ATTENDANCE_PATH.SESSION_LIST(sessionId),
