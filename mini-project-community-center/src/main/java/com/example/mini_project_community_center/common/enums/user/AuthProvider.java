@@ -1,4 +1,8 @@
 package com.example.mini_project_community_center.common.enums.user;
 
 public enum AuthProvider {
+    LOCAL,
+    GOOGLE,
+    KAKAO,
+    NAVER
 }
