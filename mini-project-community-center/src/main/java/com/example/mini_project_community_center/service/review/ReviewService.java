@@ -4,7 +4,7 @@ import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.review.request.ReviewCreateRequest;
 import com.example.mini_project_community_center.dto.review.request.ReviewUpdateRequest;
 import com.example.mini_project_community_center.dto.review.response.ReviewDetailResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 
 import java.util.List;

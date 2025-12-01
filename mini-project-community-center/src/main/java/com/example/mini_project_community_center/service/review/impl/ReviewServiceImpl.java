@@ -13,7 +13,7 @@ import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.course.course.CourseRepository;
 import com.example.mini_project_community_center.repository.review.ReviewRepository;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.review.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
