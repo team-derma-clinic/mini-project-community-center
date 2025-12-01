@@ -3,9 +3,11 @@ package com.example.mini_project_community_center.controller.dashboard;
 import com.example.mini_project_community_center.common.apis.DashboardApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.dashboard.request.SearchInstructorDashboardRequest;
+import com.example.mini_project_community_center.dto.dashboard.request.SearchStaffDashboardRequest;
 import com.example.mini_project_community_center.dto.dashboard.response.InstructorDashboardResponse;
 import com.example.mini_project_community_center.dto.dashboard.response.StaffDashboardResponse;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
+import com.example.mini_project_community_center.service.dashboard.DashboardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class DashboardController {
     @GetMapping(DashboardApi.STAFF)
     public ResponseEntity<ResponseDto<StaffDashboardResponse>> getStaffDashboard(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @Valid SearchInstructorDashboardRequest req
+            @Valid SearchStaffDashboardRequest req
     ) {
         ResponseDto<StaffDashboardResponse> data = dashboardService.getStaffDashboard(userPrincipal, req);
         return ResponseEntity.ok(data);
