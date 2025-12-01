@@ -1,18 +1,20 @@
 export interface SystemHealthResponse {
-  status: "UP" | "DOWN";
-  timestamp?: string;
-  version?: string;
-  database?: {
-    status: "UP" | "DOWN";
-    responseTime?: number;
-  };
+  status: string;
+  timestamp: string;
+  version: string;
+  database: DatabaseHealthResponse;
+}
+
+export interface DatabaseHealthResponse {
+  status: string;
+  responseTime: number;
 }
 
 export interface SystemInfoResponse {
   version: string;
   name: string;
-  description?: string;
-  environment: "development" | "staging" | "production";
-  buildTime?: string;
-  uptime?: number;
+  description: string;
+  environment: string;
+  buildTime: string;
+  uptime: number;
 }
