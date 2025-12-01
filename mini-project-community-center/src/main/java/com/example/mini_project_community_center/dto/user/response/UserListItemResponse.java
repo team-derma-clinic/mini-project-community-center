@@ -14,10 +14,6 @@ public record UserListItemResponse(
    RoleType role
 ) {
     public static UserListItemResponse from(User user) {
-        RoleType role = user.getUserRoles().stream()
-                .map(r -> r.getRole().getName())
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("권한이 존재하지 않습니다."));
 
         return new UserListItemResponse(
                 user.getId(),
@@ -25,15 +21,11 @@ public record UserListItemResponse(
                 user.getLoginId(),
                 user.getEmail(),
                 user.getPhone(),
-                role
+                user.getRole()
         );
     }
 
     public static UserListItemResponse fromCourseInstructor(CourseInstructor instructor) {
-        RoleType role = instructor.getInstructor().getUserRoles().stream()
-                .map(r -> r.getRole().getName())
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("권한이 존재하지 않습니다."));
 
         return new UserListItemResponse(
                 instructor.getInstructor().getId(),
@@ -41,7 +33,7 @@ public record UserListItemResponse(
                 instructor.getInstructor().getLoginId(),
                 instructor.getInstructor().getEmail(),
                 instructor.getInstructor().getPhone(),
-                role
+                instructor.getInstructor().getRole()
         );
     }
 }
