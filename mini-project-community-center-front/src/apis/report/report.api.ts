@@ -1,6 +1,6 @@
 import type {
+  CourseReportRequest,
   CourseReportResponse,
-  SearchCourseReport,
 } from "@/types/report/report.dto";
 import { privateApi } from "../common/axiosInstance";
 import type { ApiResponse } from "@/types/common/ApiResponse";
@@ -9,7 +9,7 @@ import { REPORT_PATH } from "./report.path";
 export const reportApi = {
   // 1. 강좌별 통계(등록/정원/환불)
   getCourseReport: async (
-    params?: SearchCourseReport
+    params?: CourseReportRequest
   ): Promise<CourseReportResponse> => {
     const res = await privateApi.get<ApiResponse<CourseReportResponse>>(
       REPORT_PATH.COURSES,
