@@ -5,7 +5,7 @@ import com.example.mini_project_community_center.dto.center.request.CenterCreate
 import com.example.mini_project_community_center.dto.center.request.CenterUpdateRequest;
 import com.example.mini_project_community_center.dto.center.response.CenterDetailResponse;
 import com.example.mini_project_community_center.dto.center.response.CenterListItemResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 

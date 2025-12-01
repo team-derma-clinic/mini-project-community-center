@@ -1,8 +1,5 @@
 package com.example.mini_project_community_center.service.course;
 
-import com.example.mini_project_community_center.common.enums.course.CourseCategory;
-import com.example.mini_project_community_center.common.enums.course.CourseLevel;
-import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
@@ -10,7 +7,7 @@ import com.example.mini_project_community_center.dto.course.request.CourseStatus
 import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
 import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
 import com.example.mini_project_community_center.dto.course.response.CourseListItemResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 

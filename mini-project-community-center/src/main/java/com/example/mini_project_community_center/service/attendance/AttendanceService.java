@@ -4,7 +4,7 @@ import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.attendance.request.AttendanceCreateRequest;
 import com.example.mini_project_community_center.dto.attendance.request.AttendanceUpdateRequest;
 import com.example.mini_project_community_center.dto.attendance.response.AttendanceDetailResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 
 import java.util.List;

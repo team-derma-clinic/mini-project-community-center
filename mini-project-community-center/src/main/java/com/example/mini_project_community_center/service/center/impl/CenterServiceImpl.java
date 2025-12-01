@@ -10,7 +10,7 @@ import com.example.mini_project_community_center.dto.center.response.CenterListI
 import com.example.mini_project_community_center.entity.center.Center;
 import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.center.CenterRepository;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.center.CenterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

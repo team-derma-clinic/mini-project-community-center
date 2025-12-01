@@ -16,7 +16,7 @@ import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.course.course.CourseRepository;
 import com.example.mini_project_community_center.repository.course.session.CourseSessionRepository;
 import com.example.mini_project_community_center.repository.user.UserRepository;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.course.session.CourseSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

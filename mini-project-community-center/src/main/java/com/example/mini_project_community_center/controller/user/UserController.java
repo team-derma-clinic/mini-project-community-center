@@ -6,7 +6,7 @@ import com.example.mini_project_community_center.dto.role.RoleRequestDto;
 import com.example.mini_project_community_center.dto.user.request.UserUpdateRequestDto;
 import com.example.mini_project_community_center.dto.user.response.UserDetailResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
