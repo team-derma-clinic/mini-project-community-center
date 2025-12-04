@@ -1,6 +1,7 @@
 package com.example.mini_project_community_center.controller.center;
 
 import com.example.mini_project_community_center.common.apis.CenterApi;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.center.request.CenterCreateRequest;
 import com.example.mini_project_community_center.dto.center.request.CenterUpdateRequest;
@@ -45,11 +46,9 @@ public class CenterController {
     @GetMapping
     public ResponseEntity<ResponseDto<Page<CenterListItemResponse>>> getCenters(
             @RequestParam(required = false) String q,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "name,asc") String sort
-    ) {
-        ResponseDto<Page<CenterListItemResponse>> data = centerService.getCenters(q, page, size, sort);
+            @Valid PageRequestDto req
+            ) {
+        ResponseDto<Page<CenterListItemResponse>> data = centerService.getCenters(q, req);
         return ResponseEntity.ok(data);
     }
 

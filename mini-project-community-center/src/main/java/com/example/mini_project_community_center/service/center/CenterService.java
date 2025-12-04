@@ -1,5 +1,6 @@
 package com.example.mini_project_community_center.service.center;
 
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.center.request.CenterCreateRequest;
 import com.example.mini_project_community_center.dto.center.request.CenterUpdateRequest;
@@ -14,7 +15,7 @@ public interface CenterService {
 
     ResponseDto<CenterDetailResponse> getCenterDetail(Long centerId);
 
-    ResponseDto<Page<CenterListItemResponse>> getCenters(String q, int page, int size, String sort);
+    ResponseDto<Page<CenterListItemResponse>> getCenters(String q, @Valid PageRequestDto req);
 
     ResponseDto<CenterDetailResponse> updateCenter(UserPrincipal userPrincipal, Long centerId, @Valid CenterUpdateRequest req);
 

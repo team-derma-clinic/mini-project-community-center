@@ -2,6 +2,7 @@ package com.example.mini_project_community_center.service.center.impl;
 
 import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.common.utils.ValueMapper;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.center.request.CenterCreateRequest;
 import com.example.mini_project_community_center.dto.center.request.CenterUpdateRequest;
@@ -14,9 +15,7 @@ import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.center.CenterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,12 +58,8 @@ public class CenterServiceImpl implements CenterService {
     }
 
     @Override
-    public ResponseDto<Page<CenterListItemResponse>> getCenters(String q, int page, int size, String sort) {
-        String[] sortParams = sort.split(",");
-        String sortField = sortParams[0];
-        Sort.Direction direction = Sort.Direction.fromString(sortParams[1]);
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+    public ResponseDto<Page<CenterListItemResponse>> getCenters(String q, PageRequestDto req) {
+        Pageable pageable = req.toPageable();
 
         Page<Center> pageResult;
 
