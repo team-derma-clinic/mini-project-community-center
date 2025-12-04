@@ -27,7 +27,7 @@ public class CourseSessionController {
     private final CourseSessionService sessionService;
 
     // 세션 생성(STAFF/ADMIN)
-    @PostMapping(CourseSessionApi.ROOT + SessionApi.ONLY_BY_ID)
+    @PostMapping(CourseSessionApi.ROOT)
     public ResponseEntity<ResponseDto<SessionDetailResponse>> createSession(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId,
