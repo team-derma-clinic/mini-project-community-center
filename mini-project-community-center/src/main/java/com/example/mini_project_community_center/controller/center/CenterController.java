@@ -46,7 +46,7 @@ public class CenterController {
     @GetMapping
     public ResponseEntity<ResponseDto<Page<CenterListItemResponse>>> getCenters(
             @RequestParam(required = false) String q,
-            @Valid PageRequestDto req
+            @Valid @ModelAttribute PageRequestDto req
             ) {
         ResponseDto<Page<CenterListItemResponse>> data = centerService.getCenters(q, req);
         return ResponseEntity.ok(data);

@@ -37,8 +37,8 @@ public class CourseController {
     // 강좌 목록/검색 (Public)
     @GetMapping
     public ResponseEntity<ResponseDto<Page<CourseListItemResponse>>> getCourses(
-            @Valid CourseSearchRequest searchReq,
-            @Valid PageRequestDto pageReq
+            @Valid @ModelAttribute CourseSearchRequest searchReq,
+            @Valid @ModelAttribute PageRequestDto pageReq
             ) {
         ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(searchReq, pageReq);
 
