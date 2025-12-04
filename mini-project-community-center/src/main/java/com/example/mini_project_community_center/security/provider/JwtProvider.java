@@ -26,7 +26,7 @@ public class JwtProvider {
     private final JwtParser parser;
 
     public JwtProvider(
-        @Value("{jwt.secret}") String base64Secret,
+        @Value("${jwt.secret}") String base64Secret,
         @Value("${jwt.expiration}") long accessExpMs,
         @Value("${jwt.refresh-expiration}") long refreshExpMs,
         @Value("${jwt.email-expiration}") long emailExpMs,
