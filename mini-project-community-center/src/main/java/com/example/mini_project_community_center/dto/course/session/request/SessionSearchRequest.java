@@ -23,17 +23,5 @@ public record SessionSearchRequest(
         String timeRange,
 
         @Max(value = 50, message = "검색어는 50자이하여야 합니다.")
-        String q,
-
-        @NotNull(message = "page 값은 필수입니다.")
-        @Min(value = 0, message = "page는 0이상이어야 합니다. ")
-        Integer page,
-
-        @NotNull
-        @Min(value = 1, message = "size는 1이상이어야 합니다.")
-        Integer size,
-
-        @NotNull(message = "sort 입력은 필수입니다.")
-        String sort
-) {
-}
+        String q
+) {}
