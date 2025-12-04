@@ -1,21 +1,24 @@
 package com.example.mini_project_community_center.service.enrollment;
 
+import com.example.mini_project_community_center.common.enums.enrollment.EnrollmentsStatus;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.enrollment.request.EnrollmentReasonRequest;
 import com.example.mini_project_community_center.dto.enrollment.request.EnrollmentCreateRequest;
 import com.example.mini_project_community_center.dto.enrollment.response.EnrollmentDetailResponse;
 import com.example.mini_project_community_center.dto.enrollment.response.EnrollmentListItemResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 
 import java.util.List;
 
 public interface EnrollmentService {
-    ResponseDto<List<EnrollmentListItemResponse>> getMyEnrollments(UserPrincipal user);
 
     ResponseDto<EnrollmentDetailResponse> createEnrollment(UserPrincipal userPrincipal, @Valid EnrollmentCreateRequest req);
 
-    ResponseDto<List<EnrollmentListItemResponse>> getAllEnrollments();
+    ResponseDto<List<EnrollmentListItemResponse>> getMyEnrollments(UserPrincipal userPrincipal, PageRequestDto page);
+
+    ResponseDto<List<EnrollmentListItemResponse>> getAllEnrollments(PageRequestDto page, EnrollmentsStatus status);
 
     ResponseDto<EnrollmentDetailResponse> getEnrollmentById(UserPrincipal userPrincipal, Long enrollmentId);
 
