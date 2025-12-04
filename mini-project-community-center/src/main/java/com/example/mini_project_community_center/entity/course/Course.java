@@ -77,6 +77,7 @@ public class Course extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<CourseFile> files = new ArrayList<>();
+    
 
     public static Course create(
             Center center,
