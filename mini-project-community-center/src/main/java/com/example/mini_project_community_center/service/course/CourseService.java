@@ -1,5 +1,6 @@
 package com.example.mini_project_community_center.service.course;
 
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
@@ -14,7 +15,7 @@ import org.springframework.data.domain.Page;
 public interface CourseService {
     ResponseDto<CourseDetailResponse> createCourse(UserPrincipal userPrincipal, @Valid CourseCreateRequest req);
 
-    ResponseDto<Page<CourseListItemResponse>> getCourses(CourseSearchRequest req);
+    ResponseDto<Page<CourseListItemResponse>> getCourses(@Valid CourseSearchRequest searchReq, @Valid PageRequestDto pageReq);
 
     ResponseDto<CourseDetailResponse> getCourseDetail(Long courseId);
 

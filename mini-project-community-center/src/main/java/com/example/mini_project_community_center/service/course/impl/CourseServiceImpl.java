@@ -3,6 +3,7 @@ package com.example.mini_project_community_center.service.course.impl;
 import com.example.mini_project_community_center.common.enums.course.CourseStatus;
 import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.common.utils.DateUtils;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
@@ -91,21 +92,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ResponseDto<Page<CourseListItemResponse>> getCourses(CourseSearchRequest req) {
+    public ResponseDto<Page<CourseListItemResponse>> getCourses(CourseSearchRequest searchReq, PageRequestDto pageReq) {
+        Pageable pageable = pageReq.toPageable();
 
-        int page = (req.page() != null) ? req.page() : 0;
-        int size = (req.size() != null) ? req.size() : 10;
-        String sort = (req.sort() != null && !req.sort().isBlank())
-                        ? req.sort()
-                        : "createdAt,desc";
-
-        String[] sortParams = sort.split(",");
-        String sortField = sortParams[0];
-        Sort.Direction direction = Sort.Direction.fromString(sortParams[1]);
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
-
-        Page<Course> pageResult = courseRepository.searchCourses(req, pageable);
+        Page<Course> pageResult = courseRepository.searchCourses(searchReq, pageable);
 
         Page<CourseListItemResponse> data = pageResult.map(course -> new CourseListItemResponse(
                 course.getId(),

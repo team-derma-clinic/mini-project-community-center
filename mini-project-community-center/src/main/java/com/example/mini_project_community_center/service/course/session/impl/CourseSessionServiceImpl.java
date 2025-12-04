@@ -3,6 +3,7 @@ package com.example.mini_project_community_center.service.course.session.impl;
 import com.example.mini_project_community_center.common.enums.course.CourseSessionsStatus;
 import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.common.utils.DateUtils;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.session.request.SessionCreateRequest;
 import com.example.mini_project_community_center.dto.course.session.request.SessionSearchRequest;
@@ -63,20 +64,10 @@ public class CourseSessionServiceImpl implements CourseSessionService {
     }
 
     @Override
-    public ResponseDto<Page<SessionListItemResponse>> getSessions(SessionSearchRequest req) {
-        int page = (req.page() != null) ? req.page() : 0;
-        int size = (req.size() != null) ? req.size() : 10;
-        String sort = (req.sort() != null && !req.sort().isBlank())
-                ? req.sort()
-                : "createdAt,desc";
+    public ResponseDto<Page<SessionListItemResponse>> getSessions(SessionSearchRequest searchReq, PageRequestDto pageReq) {
+        Pageable pageable = pageReq.toPageable();
 
-        String[] sortParams = sort.split(",");
-        String sortField = sortParams[0];
-        Sort.Direction direction = Sort.Direction.fromString(sortParams[1]);
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
-
-        Page<CourseSession> pageResult = sessionRepository.searchSessions(req, pageable);
+        Page<CourseSession> pageResult = sessionRepository.searchSessions(searchReq, pageable);
 
         Page<SessionListItemResponse> data = pageResult.map(session -> new SessionListItemResponse(
                 session.getId(),
