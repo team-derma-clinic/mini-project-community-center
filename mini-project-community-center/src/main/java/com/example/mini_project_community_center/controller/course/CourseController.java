@@ -1,6 +1,7 @@
 package com.example.mini_project_community_center.controller.course;
 
 import com.example.mini_project_community_center.common.apis.CourseApi;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.request.CourseCreateRequest;
 import com.example.mini_project_community_center.dto.course.request.CourseSearchRequest;
@@ -36,9 +37,10 @@ public class CourseController {
     // 강좌 목록/검색 (Public)
     @GetMapping
     public ResponseEntity<ResponseDto<Page<CourseListItemResponse>>> getCourses(
-            @Valid CourseSearchRequest req
+            @Valid CourseSearchRequest searchReq,
+            @Valid PageRequestDto pageReq
             ) {
-        ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(req);
+        ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(searchReq, pageReq);
 
         return ResponseEntity.ok(data);
     }

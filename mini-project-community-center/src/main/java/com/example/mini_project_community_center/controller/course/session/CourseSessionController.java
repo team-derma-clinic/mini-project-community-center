@@ -3,6 +3,7 @@ package com.example.mini_project_community_center.controller.course.session;
 import com.example.mini_project_community_center.common.apis.ApiBase;
 import com.example.mini_project_community_center.common.apis.CourseSessionApi;
 import com.example.mini_project_community_center.common.apis.SessionApi;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.session.request.SessionCreateRequest;
 import com.example.mini_project_community_center.dto.course.session.request.SessionSearchRequest;
@@ -39,9 +40,10 @@ public class CourseSessionController {
     // 세션 목록/검색(Public)
     @GetMapping(CourseSessionApi.ROOT)
     public ResponseEntity<ResponseDto<Page<SessionListItemResponse>>> getSessions(
-            @Valid SessionSearchRequest req
-    ) {
-        ResponseDto<Page<SessionListItemResponse>> data = sessionService.getSessions(req);
+            @Valid SessionSearchRequest searchReq,
+            @Valid PageRequestDto pageReq
+            ) {
+        ResponseDto<Page<SessionListItemResponse>> data = sessionService.getSessions(searchReq, pageReq);
         return ResponseEntity.ok(data);
     }
 

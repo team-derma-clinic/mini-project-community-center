@@ -1,5 +1,6 @@
 package com.example.mini_project_community_center.service.course.session;
 
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.course.session.request.SessionCreateRequest;
 import com.example.mini_project_community_center.dto.course.session.request.SessionSearchRequest;
@@ -14,7 +15,7 @@ import org.springframework.data.domain.Page;
 public interface CourseSessionService {
     ResponseDto<SessionDetailResponse> createSession(UserPrincipal userPrincipal, Long courseId, @Valid SessionCreateRequest req);
 
-    ResponseDto<Page<SessionListItemResponse>> getSessions(@Valid SessionSearchRequest req);
+    ResponseDto<Page<SessionListItemResponse>> getSessions(@Valid SessionSearchRequest searchReq, @Valid PageRequestDto pageReq);
 
     ResponseDto<SessionDetailResponse> getSessionDetail(Long sessionId);
 
