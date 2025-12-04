@@ -1,12 +1,14 @@
 package com.example.mini_project_community_center.controller.enrollment;
 
 import com.example.mini_project_community_center.common.apis.EnrollmentApi;
+import com.example.mini_project_community_center.common.enums.enrollment.EnrollmentsStatus;
+import com.example.mini_project_community_center.dto.PageRequestDto;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.enrollment.request.EnrollmentReasonRequest;
 import com.example.mini_project_community_center.dto.enrollment.request.EnrollmentCreateRequest;
 import com.example.mini_project_community_center.dto.enrollment.response.EnrollmentDetailResponse;
 import com.example.mini_project_community_center.dto.enrollment.response.EnrollmentListItemResponse;
-import com.example.mini_project_community_center.security.UserPrincipal;
+import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.enrollment.EnrollmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,17 +38,21 @@ public class EnrollmentController {
     // 내 등록 목록 조회 (Student)
     @GetMapping(EnrollmentApi.ME)
     public ResponseEntity<ResponseDto<List<EnrollmentListItemResponse>>> getMyEnrollments(
-            @AuthenticationPrincipal UserPrincipal userPrincipal
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @Valid @ModelAttribute PageRequestDto page
     ) {
-        ResponseDto<List<EnrollmentListItemResponse>> data = enrollmentService.getMyEnrollments(userPrincipal);
+        ResponseDto<List<EnrollmentListItemResponse>> data = enrollmentService.getMyEnrollments(userPrincipal, page);
 
         return ResponseEntity.ok(data);
     }
 
     // 전체 등록 목록 (STAFF/ADMIN)
     @GetMapping
-    public ResponseEntity<ResponseDto<List<EnrollmentListItemResponse>>> getAllEnrollments() {
-        ResponseDto<List<EnrollmentListItemResponse>> data = enrollmentService.getAllEnrollments();
+    public ResponseEntity<ResponseDto<List<EnrollmentListItemResponse>>> getAllEnrollments(
+            @Valid @ModelAttribute PageRequestDto page,
+            @RequestParam(required = false) EnrollmentsStatus status
+    ) {
+        ResponseDto<List<EnrollmentListItemResponse>> data = enrollmentService.getAllEnrollments(page, status);
 
         return ResponseEntity.ok(data);
     }
