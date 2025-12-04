@@ -18,7 +18,7 @@ public class UserPrincipalMapper {
     public UserPrincipal toPrincipal(@NonNull String loginId) {
 
         User user = userRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다: " + loginId));
+                .orElseThrow(() -> new RuntimeException("해당 사용자가 없습니다: " + loginId));
 
         return map(user);
     }

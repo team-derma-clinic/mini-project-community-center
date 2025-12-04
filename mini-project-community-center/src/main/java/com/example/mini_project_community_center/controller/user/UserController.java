@@ -1,5 +1,6 @@
 package com.example.mini_project_community_center.controller.user;
 
+import com.example.mini_project_community_center.common.apis.RoleApi;
 import com.example.mini_project_community_center.common.apis.UserApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.role.RoleRequestDto;
@@ -44,7 +45,7 @@ public class UserController {
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
-    @PutMapping(UserApi.ROLES)
+    @PutMapping(RoleApi.ROOT)
     public ResponseEntity<ResponseDto<UserListItemResponse>> updateRoles(
             @PathVariable Long userId,
             @RequestBody RoleRequestDto dto
