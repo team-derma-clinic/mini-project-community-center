@@ -9,13 +9,14 @@ import com.example.mini_project_community_center.dto.center.response.CenterListI
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 public interface CenterService {
     ResponseDto<CenterDetailResponse> createCenter(UserPrincipal userPrincipal, @Valid CenterCreateRequest req);
 
     ResponseDto<CenterDetailResponse> getCenterDetail(Long centerId);
 
-    ResponseDto<Page<CenterListItemResponse>> getCenters(String q, @Valid PageRequestDto req);
+    ResponseDto<Page<CenterListItemResponse>> getCenters(String q, @Valid @ModelAttribute PageRequestDto req);
 
     ResponseDto<CenterDetailResponse> updateCenter(UserPrincipal userPrincipal, Long centerId, @Valid CenterUpdateRequest req);
 

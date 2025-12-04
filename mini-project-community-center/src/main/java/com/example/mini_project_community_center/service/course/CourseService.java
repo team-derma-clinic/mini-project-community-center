@@ -11,11 +11,12 @@ import com.example.mini_project_community_center.dto.course.response.CourseListI
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 public interface CourseService {
     ResponseDto<CourseDetailResponse> createCourse(UserPrincipal userPrincipal, @Valid CourseCreateRequest req);
 
-    ResponseDto<Page<CourseListItemResponse>> getCourses(@Valid CourseSearchRequest searchReq, @Valid PageRequestDto pageReq);
+    ResponseDto<Page<CourseListItemResponse>> getCourses(@Valid @ModelAttribute CourseSearchRequest searchReq, @Valid @ModelAttribute PageRequestDto pageReq);
 
     ResponseDto<CourseDetailResponse> getCourseDetail(Long courseId);
 
