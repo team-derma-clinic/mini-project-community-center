@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.handler;
+package com.example.mini_project_community_center.security.handler;
 
 import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.dto.ResponseDto;
