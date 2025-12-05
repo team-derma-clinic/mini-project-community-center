@@ -2,17 +2,23 @@ package com.example.mini_project_community_center.service.user;
 
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.role.RoleRequestDto;
+import com.example.mini_project_community_center.dto.user.request.PasswordChangeRequestDto;
 import com.example.mini_project_community_center.dto.user.request.UserUpdateRequestDto;
+import com.example.mini_project_community_center.dto.user.response.MeResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserDetailResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
+import jakarta.validation.Valid;
 
 public interface UserService {
-    ResponseDto<UserDetailResponseDto> getMe(Long id);
+
+    ResponseDto<MeResponseDto> getMe(Long userId);
 
     ResponseDto<UserDetailResponseDto> getUserById(Long userId);
 
-    ResponseDto<UserListItemResponse> updateUserInfo(UserPrincipal userPrincipal, UserUpdateRequestDto dto);
+    ResponseDto<Void> updatePassword(UserPrincipal userPrincipal, @Valid PasswordChangeRequestDto dto);
+
+    ResponseDto<MeResponseDto> updateUserInfo(UserPrincipal userPrincipal, UserUpdateRequestDto dto);
 
     ResponseDto<UserListItemResponse> updateRole(Long userId, RoleRequestDto dto);
 }

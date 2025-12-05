@@ -4,11 +4,14 @@ import com.example.mini_project_community_center.common.apis.RoleApi;
 import com.example.mini_project_community_center.common.apis.UserApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.role.RoleRequestDto;
+import com.example.mini_project_community_center.dto.user.request.PasswordChangeRequestDto;
 import com.example.mini_project_community_center.dto.user.request.UserUpdateRequestDto;
+import com.example.mini_project_community_center.dto.user.response.MeResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserDetailResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.user.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,10 +24,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(UserApi.ME)
-    public ResponseEntity<ResponseDto<UserDetailResponseDto>> me(
+    public ResponseEntity<ResponseDto<MeResponseDto>> me(
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        ResponseDto<UserDetailResponseDto> data = userService.getMe(userPrincipal.getId());
+        ResponseDto<MeResponseDto> data = userService.getMe(userPrincipal.getId());
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
@@ -36,16 +39,25 @@ public class UserController {
         return ResponseEntity.status(data.getStatus()) .body(data);
     }
 
-    @PutMapping(UserApi.ME)
-    public ResponseEntity<ResponseDto<UserListItemResponse>> updateUserInfo(
-        @AuthenticationPrincipal UserPrincipal userPrincipal,
-        @RequestBody UserUpdateRequestDto dto
+    @PutMapping(UserApi.PASSWORD)
+    public ResponseEntity<ResponseDto<Void>> updatePassword(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @Valid @RequestBody PasswordChangeRequestDto dto
     ){
-        ResponseDto<UserListItemResponse> data = userService.updateUserInfo(userPrincipal, dto);
+        ResponseDto<Void> data = userService.updatePassword(userPrincipal, dto);
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
-    @PutMapping(RoleApi.ROOT)
+    @PutMapping(UserApi.ME)
+    public ResponseEntity<ResponseDto<MeResponseDto>> updateUserInfo(
+        @AuthenticationPrincipal UserPrincipal userPrincipal,
+        @RequestBody UserUpdateRequestDto dto
+    ){
+        ResponseDto<MeResponseDto> data = userService.updateUserInfo(userPrincipal, dto);
+        return ResponseEntity.status(data.getStatus()).body(data);
+    }
+
+    @PutMapping(RoleApi.ROLE)
     public ResponseEntity<ResponseDto<UserListItemResponse>> updateRoles(
             @PathVariable Long userId,
             @RequestBody RoleRequestDto dto
