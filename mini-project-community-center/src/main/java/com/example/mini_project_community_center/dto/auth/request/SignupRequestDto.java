@@ -1,6 +1,8 @@
 package com.example.mini_project_community_center.dto.auth.request;
 
 import com.example.mini_project_community_center.common.enums.user.AuthProvider;
+import com.example.mini_project_community_center.common.enums.user.RoleStatus;
+import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.user.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -44,13 +46,15 @@ public record SignupRequestDto (
      */
     // to) DTO -> Entity 변환할 떄
     //     : DTO를 Entity로 만든다
-    public User toEntity(String encodedPassword) {
+    public User toEntity(String encodedPassword, RoleType role, RoleStatus status) {
         return User.builder()
                 .loginId(loginId)
                 .password(encodedPassword)
                 .name(name)
                 .email(email)
                 .phone(phone)
+                .role(role)
+                .roleStatus(status)
                 .build();
     }
 }

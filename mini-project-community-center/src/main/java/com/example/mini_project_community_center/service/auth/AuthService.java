@@ -1,5 +1,7 @@
 package com.example.mini_project_community_center.service.auth;
 
+import com.example.mini_project_community_center.common.enums.user.RoleStatus;
+import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.auth.request.LoginRequestDto;
 import com.example.mini_project_community_center.dto.auth.request.PasswordResetRequestDto;
@@ -12,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 public interface AuthService {
-    ResponseDto<SignupResponseDto> register(@Valid SignupRequestDto request);
+    ResponseDto<SignupResponseDto> register(@Valid SignupRequestDto request, RoleType roleType, RoleStatus roleStatus);
 
     ResponseDto<LoginResponseDto> login(@Valid LoginRequestDto request, HttpServletResponse response);
 
@@ -25,4 +27,5 @@ public interface AuthService {
     ResponseDto<Void> resetPassword(@Valid PasswordResetRequestDto request);
 
     ResponseDto<Void> sendPasswordResetEmail(String email);
+
 }
