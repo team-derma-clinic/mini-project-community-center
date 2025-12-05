@@ -1,6 +1,8 @@
 package com.example.mini_project_community_center.security.user;
 
+import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.entity.user.User;
+import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.user.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ public class UserPrincipalMapper {
     public UserPrincipal toPrincipal(@NonNull String loginId) {
 
         User user = userRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new RuntimeException("해당 사용자가 없습니다: " + loginId));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "해당 사용자가 없습니다: " + loginId));
 
         return map(user);
     }
