@@ -98,7 +98,7 @@ public class JwtProvider {
 
     public String getLoginIdFromJwt(String token) {return getSubject(token);}
 
-    public String getEmailFromJwt(String token) {
+    public String getEmailFromEmailToken(String token) {
         Claims claims = getClaims(token);
         String email = claims.get(CLAIM_EMAIL, String.class);
         return (email != null) ? email : claims.getSubject();
@@ -142,5 +142,4 @@ public class JwtProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-
 }

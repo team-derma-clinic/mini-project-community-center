@@ -5,6 +5,8 @@ import com.example.mini_project_community_center.common.enums.user.RoleStatus;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -122,5 +124,4 @@ public class User extends BaseTimeEntity {
         this.name = name;
         this.email = email;
     }
-
 }

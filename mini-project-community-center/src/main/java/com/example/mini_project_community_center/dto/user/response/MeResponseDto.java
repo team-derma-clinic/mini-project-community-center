@@ -3,29 +3,22 @@ package com.example.mini_project_community_center.dto.user.response;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.user.User;
 
-import java.time.LocalDateTime;
-
-public record UserDetailResponseDto(
+public record MeResponseDto(
         Long id,
-        String name,
         String loginId,
+        String name,
         String email,
-        String phone,
         RoleType role,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        String provider
 ) {
-    public static UserDetailResponseDto from(User user) {
-        return new  UserDetailResponseDto(
+    public static MeResponseDto from(User user) {
+        return new MeResponseDto(
                 user.getId(),
-                user.getName(),
                 user.getLoginId(),
+                user.getName(),
                 user.getEmail(),
-                user.getPhone(),
                 user.getRole(),
-                user.getCreatedAt(),
-                user.getUpdatedAt()
+                user.getProvider().name()
         );
-
     }
 }
