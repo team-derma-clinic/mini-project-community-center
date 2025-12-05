@@ -2,19 +2,16 @@ package com.example.mini_project_community_center.service.user.impl;
 
 import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.dto.ResponseDto;
-import com.example.mini_project_community_center.dto.role.RoleRequestDto;
 import com.example.mini_project_community_center.dto.user.request.PasswordChangeRequestDto;
 import com.example.mini_project_community_center.dto.user.request.UserUpdateRequestDto;
 import com.example.mini_project_community_center.dto.user.response.MeResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserDetailResponseDto;
-import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
 import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.user.UserRepository;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,14 +89,8 @@ public class UserServiceImpl implements UserService {
 
         user.updateUserInfo(newName, newEmail, newPhone);
 
-        MeResponseDto me = MeResponseDto.from(user);
+        MeResponseDto data = MeResponseDto.from(user);
 
-        return ResponseDto.success("회원 정보가 수정되었습니다.", me);
-    }
-
-    @Override
-    @Transactional
-    public ResponseDto<UserListItemResponse> updateRole(Long userId, RoleRequestDto dto) {
-        return null;
+        return ResponseDto.success("회원 정보가 수정되었습니다.", data);
     }
 }
