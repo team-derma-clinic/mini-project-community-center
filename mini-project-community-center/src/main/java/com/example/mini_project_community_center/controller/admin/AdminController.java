@@ -1,22 +1,22 @@
-package com.example.mini_project_community_center.controller.role;
+package com.example.mini_project_community_center.controller.admin;
 
-import com.example.mini_project_community_center.common.apis.RoleApi;
+import com.example.mini_project_community_center.common.apis.AdminApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.role.RoleRequestDto;
 import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
-import com.example.mini_project_community_center.service.role.RoleService;
+import com.example.mini_project_community_center.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(RoleApi.ROOT)
+@RequestMapping(AdminApi.ROOT)
 @RequiredArgsConstructor
-public class RoleController {
+public class AdminController {
 
-    private final RoleService roleService;
+    private final AdminService roleService;
 
-    @PutMapping(RoleApi.ROLE)
+    @PutMapping(AdminApi.ROLE)
     public ResponseEntity<ResponseDto<UserListItemResponse>> updateRoles(
             @PathVariable Long userId,
             @RequestBody RoleRequestDto dto

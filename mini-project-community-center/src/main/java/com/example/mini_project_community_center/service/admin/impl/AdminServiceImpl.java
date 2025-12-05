@@ -1,4 +1,4 @@
-package com.example.mini_project_community_center.service.role.impl;
+package com.example.mini_project_community_center.service.admin.impl;
 
 import com.example.mini_project_community_center.common.enums.error.ErrorCode;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
@@ -8,7 +8,7 @@ import com.example.mini_project_community_center.dto.user.response.UserListItemR
 import com.example.mini_project_community_center.entity.user.User;
 import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.user.UserRepository;
-import com.example.mini_project_community_center.service.role.RoleService;
+import com.example.mini_project_community_center.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class RoleServiceImpl implements RoleService {
+public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
 
     @Override
