@@ -9,9 +9,4 @@ public class ValueMapper {
         }
         return new BigDecimal(value);
     }
-
-    public static Double toDoubleOrNull(BigDecimal value) {
-        if(value == null) return null;
-        return value.doubleValue();
-    }
 }
