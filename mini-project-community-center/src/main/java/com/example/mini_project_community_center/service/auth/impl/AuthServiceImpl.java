@@ -1,6 +1,7 @@
 package com.example.mini_project_community_center.service.auth.impl;
 
 import com.example.mini_project_community_center.common.enums.error.ErrorCode;
+import com.example.mini_project_community_center.common.enums.user.RoleStatus;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.auth.request.LoginRequestDto;
@@ -55,10 +56,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public ResponseDto<SignupResponseDto> register(SignupRequestDto request) {
-
+    public ResponseDto<SignupResponseDto> register(
+            SignupRequestDto request,
+            RoleType roleType,
+            RoleStatus roleStatus
+    ) {
         if (userRepository.findByLoginId(request.loginId()).isPresent()) {
-            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+            throw new BusinessException(ErrorCode.DUPLICATE_USER);
         }
 
         if (!request.password().equals(request.confirmPassword())) {
@@ -69,6 +73,10 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException(ErrorCode.DUPLICATE_USER);
         }
 
+        if (roleType == null || roleStatus == null) {
+            throw new BusinessException(ErrorCode.INVALID_INPUT);
+        }
+
         System.out.println("provider name:" + request.provider().name());
 
         User newUser = User.builder()
@@ -77,28 +85,11 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.email())
                 .name(request.name())
                 .provider(request.provider())
+                .role(roleType)
+                .roleStatus(roleStatus)
                 .build();
 
         userRepository.save(newUser);
-
-        String emailToken = jwtProvider.generateEmailJwtToken(request.email(), "인증된 이메일");
-
-        String verifyUrl = "https://myservice.com/email/verify?token=" + emailToken;
-
-        emailService.sendHtmlEmail(request.email(),
-                "회원가입 이메일 인증",
-                """
-                <div style="padding:20px; font-size:16px;">
-                    <p>회원가입을 환영합니다!</p>
-                    <p>아래 버튼을 눌러 이메일 인증을 완료해주세요.</p>
-                    <a href="%s"
-                        style="display:inline-block; padding:10px 20px; background:#2a5dff;
-                               color:white; text-decoration:none; border-radius:8px; margin-top:10px;">
-                        이메일 인증하기
-                    </a>
-                </div>
-                """.formatted(verifyUrl)
-                );
 
         return ResponseDto.success("회원가입 완료", SignupResponseDto.from(newUser));
     }
@@ -248,6 +239,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public ResponseDto<Void> sendPasswordResetEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        String token = jwtProvider.generateEmailJwtToken(email, "RESET_PASSWORD");
+
+        String url = "https://myservice.com/reset-password?token=" + token;
+
+        emailService.sendPasswordReset(email, url);
+
+        return ResponseDto.success("비밀번호 재설정 이메일 전송 완료되었습니다.");
+    }
+
+    @Override
     @Transactional
     public ResponseDto<PasswordVerifyResponseDto> verifyPasswordToken(String token) {
 
@@ -287,17 +292,4 @@ public class AuthServiceImpl implements AuthService {
         return ResponseDto.success("비밀번호 재설정이 완료되었습니다.");
     }
 
-    @Override
-    public ResponseDto<Void> sendPasswordResetEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        String token = jwtProvider.generateEmailJwtToken(email, "RESET_PASSWORD");
-
-        String url = "https://myservice.com/reset-password?token=" + token;
-
-        emailService.sendPasswordReset(email, url);
-
-        return ResponseDto.success("비밀번호 재설정 이메일 전송 완료되었습니다.");
-    }
 }

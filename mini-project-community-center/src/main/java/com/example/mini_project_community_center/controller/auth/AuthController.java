@@ -1,6 +1,8 @@
 package com.example.mini_project_community_center.controller.auth;
 
 import com.example.mini_project_community_center.common.apis.AuthApi;
+import com.example.mini_project_community_center.common.enums.user.RoleStatus;
+import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.auth.request.LoginRequestDto;
 import com.example.mini_project_community_center.dto.auth.request.PasswordResetRequestDto;
@@ -8,14 +10,12 @@ import com.example.mini_project_community_center.dto.auth.request.SignupRequestD
 import com.example.mini_project_community_center.dto.auth.response.LoginResponseDto;
 import com.example.mini_project_community_center.dto.auth.response.PasswordVerifyResponseDto;
 import com.example.mini_project_community_center.dto.auth.response.SignupResponseDto;
-import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.auth.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,11 +25,39 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(AuthApi.REGISTER)
-    public ResponseEntity<ResponseDto<SignupResponseDto>> register(
+    @PostMapping(AuthApi.REGISTER_STUDENT)
+    public ResponseEntity<ResponseDto<SignupResponseDto>> registerStudent(
             @Valid @RequestBody SignupRequestDto request
     ){
-        ResponseDto<SignupResponseDto> data = authService.register(request);
+        ResponseDto<SignupResponseDto> data = authService.register(
+                request,
+                RoleType.STUDENT,
+                RoleStatus.APPROVED
+        );
+        return ResponseEntity.status(data.getStatus()).body(data);
+    }
+
+    @PostMapping(AuthApi.REGISTER_INSTRUCTOR)
+    public ResponseEntity<ResponseDto<SignupResponseDto>> registerInstructor(
+            @Valid @RequestBody SignupRequestDto request
+    ){
+        ResponseDto<SignupResponseDto> data = authService.register(
+                request,
+                RoleType.INSTRUCTOR,
+                RoleStatus.PENDING
+        );
+        return ResponseEntity.status(data.getStatus()).body(data);
+    }
+
+    @PostMapping(AuthApi.REGISTER_STAFF)
+    public ResponseEntity<ResponseDto<SignupResponseDto>> registerStaff(
+            @Valid @RequestBody SignupRequestDto request
+    ){
+        ResponseDto<SignupResponseDto> data = authService.register(
+                request,
+                RoleType.STAFF,
+                RoleStatus.PENDING
+        );
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
@@ -60,6 +88,14 @@ public class AuthController {
         return ResponseEntity.status(response.getStatus()).body(data);
     }
 
+    @PostMapping(AuthApi.PASSWORD_EMAIL)
+    public ResponseEntity<ResponseDto<Void>> passwordResetEmail(
+        @RequestParam String email
+    ){
+        ResponseDto<Void> data = authService.sendPasswordResetEmail(email);
+        return ResponseEntity.status(data.getStatus()).body(data);
+    }
+
     // 비밀번호 재설정 토큰 확인
     @GetMapping(AuthApi.PASSWORD_VERIFY)
     public ResponseEntity<ResponseDto<PasswordVerifyResponseDto>> passwordVerify(
@@ -77,13 +113,4 @@ public class AuthController {
         ResponseDto<Void> data = authService.resetPassword(request);
         return ResponseEntity.status(data.getStatus()).body(data);
     }
-
-    @PostMapping(AuthApi.PASSWORD_EMAIL)
-    public ResponseEntity<ResponseDto<Void>> passwordResetEmail(
-        @RequestParam String email
-    ){
-        ResponseDto<Void> data = authService.sendPasswordResetEmail(email);
-        return ResponseEntity.status(data.getStatus()).body(data);
-    }
-
 }

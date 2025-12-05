@@ -3,7 +3,6 @@ package com.example.mini_project_community_center.dto.auth.request;
 import jakarta.validation.constraints.NotBlank;
 
 public record PasswordResetRequestDto(
-        // 이미지 링크에 있던 비밀번호 재설정 토큰
         @NotBlank(message = "토큰은 필수입니다.")
         String token,
 

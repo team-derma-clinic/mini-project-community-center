@@ -1,14 +1,11 @@
 package com.example.mini_project_community_center.controller.user;
 
-import com.example.mini_project_community_center.common.apis.RoleApi;
 import com.example.mini_project_community_center.common.apis.UserApi;
 import com.example.mini_project_community_center.dto.ResponseDto;
-import com.example.mini_project_community_center.dto.role.RoleRequestDto;
 import com.example.mini_project_community_center.dto.user.request.PasswordChangeRequestDto;
 import com.example.mini_project_community_center.dto.user.request.UserUpdateRequestDto;
 import com.example.mini_project_community_center.dto.user.response.MeResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserDetailResponseDto;
-import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.user.UserService;
 import jakarta.validation.Valid;
@@ -55,15 +52,6 @@ public class UserController {
     ){
         ResponseDto<MeResponseDto> data = userService.updateUserInfo(userPrincipal, dto);
         return ResponseEntity.status(data.getStatus()).body(data);
-    }
-
-    @PutMapping(RoleApi.ROLE)
-    public ResponseEntity<ResponseDto<UserListItemResponse>> updateRoles(
-            @PathVariable Long userId,
-            @RequestBody RoleRequestDto dto
-    ){
-      ResponseDto<UserListItemResponse> data = userService.updateRole(userId, dto);
-      return ResponseEntity.status(data.getStatus()).body(data);
     }
 
 }

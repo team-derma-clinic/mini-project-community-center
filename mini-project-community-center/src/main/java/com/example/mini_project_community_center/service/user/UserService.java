@@ -19,6 +19,4 @@ public interface UserService {
     ResponseDto<Void> updatePassword(UserPrincipal userPrincipal, @Valid PasswordChangeRequestDto dto);
 
     ResponseDto<MeResponseDto> updateUserInfo(UserPrincipal userPrincipal, UserUpdateRequestDto dto);
-
-    ResponseDto<UserListItemResponse> updateRole(Long userId, RoleRequestDto dto);
 }
