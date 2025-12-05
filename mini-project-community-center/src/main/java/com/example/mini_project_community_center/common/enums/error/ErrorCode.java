@@ -27,7 +27,11 @@ public enum ErrorCode {
 
     // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U001", "사용자를 찾을 수 없습니다.", "User not found"),
-    DUPLICATE_USER(HttpStatus.CONFLICT, "U002", "이미 존재하는 사용자입니다.", "Duplicate user");
+    DUPLICATE_USER(HttpStatus.CONFLICT, "U002", "이미 존재하는 사용자입니다.", "Duplicate user"),
+
+    // Map
+    NAVER_API_ERROR(HttpStatus.BAD_GATEWAY, "M001", "네이버 지도 API 호출 중 오류가 발생했습니다.", "Naver Api Error"),
+    ADDRESS_COORDINATE_MISMATCH(HttpStatus.BAD_REQUEST, "M002", "입력한 주소와 위도/경도 정보가 일치하지 않습니다.", "Address mismatch");
 
     private final HttpStatus status;
     private final String code;

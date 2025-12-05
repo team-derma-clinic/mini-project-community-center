@@ -21,8 +21,8 @@ public record CenterDetailResponse(
                 center.getId(),
                 center.getName(),
                 center.getAddress(),
-                center.getLatitude() != null ? ValueMapper.toDoubleOrNull(center.getLatitude()) : null,
-                center.getLongitude() != null ? ValueMapper.toDoubleOrNull(center.getLongitude()) : null,
+                center.getLatitude() != null ? center.getLatitude().doubleValue(): null,
+                center.getLongitude() != null ? center.getLongitude().doubleValue() : null,
                 center.getPhone(),
                 DateUtils.toKstString(center.getCreatedAt())
         );
