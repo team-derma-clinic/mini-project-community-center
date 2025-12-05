@@ -25,9 +25,7 @@ import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +38,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CourseServiceImpl implements CourseService {
-    /** Authorization Checker 추가 */
     private final CourseRepository courseRepository;
     private final CenterRepository centerRepository;
     private final UserRepository userRepository;
@@ -49,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    @PreAuthorize("")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<CourseDetailResponse> createCourse(UserPrincipal userPrincipal, CourseCreateRequest req) {
         Center center = centerRepository.findById(req.centerId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 센터가 존재하지않습니다. centerId: " + req.centerId()));
@@ -71,10 +68,10 @@ public class CourseServiceImpl implements CourseService {
 
         List<User> instructors = new ArrayList<>();
 
-        if(req.instructorIds() != null && !req.instructorIds().isEmpty()) {
+        if (req.instructorIds() != null && !req.instructorIds().isEmpty()) {
             instructors = userRepository.findAllById(req.instructorIds());
 
-            if(instructors.size() != req.instructorIds().size()) {
+            if (instructors.size() != req.instructorIds().size()) {
                 throw new IllegalArgumentException("강사는 최소 1명이상 등록해야합니다.");
             }
             instructors.forEach(course::addInstructor);
@@ -126,7 +123,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    @PreAuthorize("")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<CourseDetailResponse> updateCourse(UserPrincipal userPrincipal, Long courseId, CourseUpdateRequest req) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 강좌가 존재하지 않습니다. courseId: " + courseId));
@@ -147,11 +144,11 @@ public class CourseServiceImpl implements CourseService {
 
         List<User> instructors = new ArrayList<>();
 
-        if(req.instructorIds() != null) {
-            if(!req.instructorIds().isEmpty()) {
+        if (req.instructorIds() != null) {
+            if (!req.instructorIds().isEmpty()) {
                 instructors = userRepository.findAllById(req.instructorIds());
 
-                if(instructors.size() != req.instructorIds().size()) {
+                if (instructors.size() != req.instructorIds().size()) {
                     throw new IllegalArgumentException("강사는 최소 1명이상 등록해야합니다.");
                 }
             }
@@ -169,7 +166,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    @PreAuthorize("")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<CourseDetailResponse> updateCourseStatus(UserPrincipal userPrincipal, Long courseId, CourseStatusUpdateRequest req) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 강좌가 존재하지 않습니다. courseId: " + courseId));
@@ -188,16 +185,16 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    @PreAuthorize("")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<Void> deleteCourse(UserPrincipal userPrincipal, Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 강좌가 존재하지 않습니다. courseId: " + courseId));
 
-        if(sessionRepository.existsByCourseId(courseId)) {
+        if (sessionRepository.existsByCourseId(courseId)) {
             throw new IllegalArgumentException("해당 강좌에는 등록된 세션이 있어 삭제할 수 없습니다.");
         }
 
-        if(enrollmentRepository.existsByCourseId(courseId)) {
+        if (enrollmentRepository.existsByCourseId(courseId)) {
             throw new IllegalArgumentException("해당 강좌에 수강 등록한 사용자가 있어 삭제할 수 없습니다.");
         }
         courseRepository.delete(course);
@@ -205,12 +202,11 @@ public class CourseServiceImpl implements CourseService {
         return ResponseDto.success(null);
     }
 
-    // 날짜 검증 유틸 메서드
     private void validateDateRange(String start, String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
 
-        if(startDate.isAfter(endDate)) {
+        if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 빠를 수 없습니다.");
         }
     }

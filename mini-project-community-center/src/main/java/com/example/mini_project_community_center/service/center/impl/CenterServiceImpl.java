@@ -24,13 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CenterServiceImpl implements CenterService {
-    /** Authorization Checker 추가 (-) */
-
     private final CenterRepository centerRepository;
 
     @Transactional
     @Override
-    @PreAuthorize("")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<CenterDetailResponse> createCenter(UserPrincipal userPrincipal, CenterCreateRequest req) {
 
         Center center = Center.create(
@@ -63,7 +61,7 @@ public class CenterServiceImpl implements CenterService {
 
         Page<Center> pageResult;
 
-        if(q == null || q.isBlank()) {
+        if (q == null || q.isBlank()) {
             pageResult = centerRepository.findAllActive(pageable);
         } else {
             pageResult = centerRepository.searchActiveByName(q, pageable);
@@ -79,7 +77,7 @@ public class CenterServiceImpl implements CenterService {
 
     @Transactional
     @Override
-    @PreAuthorize("")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<CenterDetailResponse> updateCenter(UserPrincipal userPrincipal, Long centerId, CenterUpdateRequest req) {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 센터가 존재하지 않습니다. centerId: " + centerId));
@@ -101,12 +99,12 @@ public class CenterServiceImpl implements CenterService {
 
     @Transactional
     @Override
-    @PreAuthorize("")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseDto<Void> deleteCenter(UserPrincipal userPrincipal, Long centerId, boolean hardDelete) {
         Center center = centerRepository.findById(centerId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 센터가 존재하지 않습니다. centerId: " + centerId));
 
-        if(hardDelete) {
+        if (hardDelete) {
             centerRepository.delete(center);
             return ResponseDto.success(null);
         }

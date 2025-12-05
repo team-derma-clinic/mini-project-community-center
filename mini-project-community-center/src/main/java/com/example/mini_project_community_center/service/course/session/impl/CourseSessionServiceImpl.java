@@ -16,14 +16,12 @@ import com.example.mini_project_community_center.entity.course.session.CourseSes
 import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.course.course.CourseRepository;
 import com.example.mini_project_community_center.repository.course.session.CourseSessionRepository;
-import com.example.mini_project_community_center.repository.user.UserRepository;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.course.session.CourseSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,15 +31,12 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CourseSessionServiceImpl implements CourseSessionService {
-    /**
-     * Authorization Checker 추가
-     */
     private final CourseSessionRepository sessionRepository;
     private final CourseRepository courseRepository;
-    private final UserRepository userRepository;
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<SessionDetailResponse> createSession(UserPrincipal userPrincipal, Long courseId, SessionCreateRequest req) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
@@ -94,12 +89,13 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<SessionDetailResponse> updateSession(UserPrincipal userPrincipal, Long sessionId, SessionUpdateRequest req) {
         CourseSession session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
                         "해당 세션이 존재하지 않습니다. sessionId: " + sessionId));
 
-        if(req.startTime() != null && req.endTime() != null) {
+        if (req.startTime() != null && req.endTime() != null) {
             validateDateRange(req.startTime(), req.endTime());
         }
 
@@ -117,6 +113,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<SessionDetailResponse> updateSessionStatus(UserPrincipal userPrincipal, Long sessionId, SessionStatusUpdateRequest req) {
         CourseSession session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
@@ -131,27 +128,27 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<Void> deleteSession(UserPrincipal userPrincipal, Long sessionId, boolean hardDelete) {
         CourseSession session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND,
                         "해당 세션이 존재하지 않습니다. sessionId: " + sessionId));
 
-        if(hardDelete) {
+        if (hardDelete) {
             sessionRepository.delete(session);
         } else {
             session.changeStatus(CourseSessionsStatus.CANCELED);
             sessionRepository.save(session);
         }
 
-        return  ResponseDto.success(null);
+        return ResponseDto.success(null);
     }
 
-    // 날짜 검증 유틸 메서드
     private void validateDateRange(String start, String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
 
-        if(startDate.isAfter(endDate)) {
+        if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 빠를 수 없습니다.");
         }
     }

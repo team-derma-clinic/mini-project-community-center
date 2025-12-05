@@ -42,7 +42,7 @@ public class CourseSessionController {
     public ResponseEntity<ResponseDto<Page<SessionListItemResponse>>> getSessions(
             @Valid @ModelAttribute SessionSearchRequest searchReq,
             @Valid @ModelAttribute PageRequestDto pageReq
-            ) {
+    ) {
         ResponseDto<Page<SessionListItemResponse>> data = sessionService.getSessions(searchReq, pageReq);
         return ResponseEntity.ok(data);
     }
