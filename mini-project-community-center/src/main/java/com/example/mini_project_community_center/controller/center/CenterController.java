@@ -23,17 +23,15 @@ import org.springframework.web.bind.annotation.*;
 public class CenterController {
     private final CenterService centerService;
 
-    // 센터 생성 (Staff/Admin)
     @PostMapping
     public ResponseEntity<ResponseDto<CenterDetailResponse>> createCenter(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CenterCreateRequest req
-            ) {
+    ) {
         ResponseDto<CenterDetailResponse> data = centerService.createCenter(userPrincipal, req);
         return ResponseEntity.ok(data);
     }
 
-    // 센터 단건조회 (public)
     @GetMapping(CenterApi.BY_CENTER_ID)
     public ResponseEntity<ResponseDto<CenterDetailResponse>> getCenterDetail(
             @PathVariable Long centerId
@@ -42,28 +40,25 @@ public class CenterController {
         return ResponseEntity.ok(data);
     }
 
-    // 센터 목록/검색 q?,page,size,sort (public)
     @GetMapping
     public ResponseEntity<ResponseDto<Page<CenterListItemResponse>>> getCenters(
             @RequestParam(required = false) String q,
             @Valid @ModelAttribute PageRequestDto req
-            ) {
+    ) {
         ResponseDto<Page<CenterListItemResponse>> data = centerService.getCenters(q, req);
         return ResponseEntity.ok(data);
     }
 
-    // 센터 수정(STAFF, ADMIN)
     @PutMapping(CenterApi.BY_CENTER_ID)
     public ResponseEntity<ResponseDto<CenterDetailResponse>> updateCenter(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long centerId,
             @Valid @RequestBody CenterUpdateRequest req
-            ) {
+    ) {
         ResponseDto<CenterDetailResponse> data = centerService.updateCenter(userPrincipal, centerId, req);
         return ResponseEntity.ok(data);
     }
 
-    // 센터 삭제(권장: 비활성 필드로 대체) (ADMIN)
     @DeleteMapping(CenterApi.BY_CENTER_ID)
     public ResponseEntity<ResponseDto<Void>> deleteCenter(
             @AuthenticationPrincipal UserPrincipal userPrincipal,

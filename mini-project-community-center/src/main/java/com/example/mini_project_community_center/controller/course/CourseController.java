@@ -24,28 +24,25 @@ import org.springframework.web.bind.annotation.*;
 public class CourseController {
     private final CourseService courseService;
 
-    // 강좌 생성(STAFF/ADMIN)
     @PostMapping
     public ResponseEntity<ResponseDto<CourseDetailResponse>> createCourse(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CourseCreateRequest req
-            ) {
+    ) {
         ResponseDto<CourseDetailResponse> data = courseService.createCourse(userPrincipal, req);
         return ResponseEntity.ok(data);
     }
 
-    // 강좌 목록/검색 (Public)
     @GetMapping
     public ResponseEntity<ResponseDto<Page<CourseListItemResponse>>> getCourses(
             @Valid @ModelAttribute CourseSearchRequest searchReq,
             @Valid @ModelAttribute PageRequestDto pageReq
-            ) {
+    ) {
         ResponseDto<Page<CourseListItemResponse>> data = courseService.getCourses(searchReq, pageReq);
 
         return ResponseEntity.ok(data);
     }
 
-    // 강좌 상세 조회(Public)
     @GetMapping(CourseApi.BY_COURSE_ID)
     public ResponseEntity<ResponseDto<CourseDetailResponse>> getCourseDetail(
             @PathVariable Long courseId
@@ -54,19 +51,16 @@ public class CourseController {
         return ResponseEntity.ok(data);
     }
 
-    // 강좌 수정(STAFF/ADMIN)
     @PutMapping(CourseApi.BY_COURSE_ID)
     public ResponseEntity<ResponseDto<CourseDetailResponse>> updateCourse(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId,
             @Valid @RequestBody CourseUpdateRequest req
-            ) {
-        ResponseDto<CourseDetailResponse> data= courseService.updateCourse(userPrincipal, courseId, req);
+    ) {
+        ResponseDto<CourseDetailResponse> data = courseService.updateCourse(userPrincipal, courseId, req);
         return ResponseEntity.ok(data);
     }
 
-
-    // 강좌 상태 변경(STAFF/ADMIN)
     @PutMapping(CourseApi.STATUS)
     public ResponseEntity<ResponseDto<CourseDetailResponse>> updateCourseStatus(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -77,7 +71,6 @@ public class CourseController {
         return ResponseEntity.ok(data);
     }
 
-    // 강좌 삭제(STAFF/ADMIN)
     @DeleteMapping(CourseApi.BY_COURSE_ID)
     public ResponseEntity<ResponseDto<Void>> deleteCourse(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
