@@ -23,7 +23,8 @@ public enum ErrorCode {
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "A003", "접근 권한이 없습니다.", "Access denied"),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A004", "토큰이 만료되었습니다.", "Token expired"),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "A005", "유효하지 않은 토큰입니다.", "Invalid token"),
-    PASSWORD_CONFIRM_MISMATCH(HttpStatus.BAD_REQUEST, "A006", "비밀번호와 비밀번호 확인이 일치하지 않습니다.", "Password mismatch"),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "A006", "토큰을 찾을 수 없습니다.", "Token not found"),
+    PASSWORD_CONFIRM_MISMATCH(HttpStatus.BAD_REQUEST, "A007", "비밀번호와 비밀번호 확인이 일치하지 않습니다.", "Password mismatch"),
 
     // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U001", "사용자를 찾을 수 없습니다.", "User not found"),
