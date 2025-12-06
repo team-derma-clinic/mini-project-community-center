@@ -360,14 +360,16 @@ CREATE TABLE `review_files` (
     COMMENT='리뷰 파일 매핑';
 
 -- 어드민 계정 생성    
-INSERT INTO users (name, login_id, password, email, role, role_status)
+INSERT INTO users (name, login_id, password, email, role, role_status, provider, email_verified)
 VALUES (
     '관리자',
     'admin',
-    '$2a$10$2Axq7JyXYqZP0iYwRjRJ4u6rG6y7W/vA0zpEj6v9IfrU8XKOXuBFO', -- admin123!
+    '$2a$12$Z2y9kgIF.oLo77A23DurDOzJx8Oudfh0mf.rqN/7tgIjXmXy5gL6O', -- admin123
     'admin@example.com',
     'ADMIN', 
-    'APPROVED'
+    'APPROVED',
+    'LOCAL',
+    1
 );
     
 SET FOREIGN_KEY_CHECKS = 1;
