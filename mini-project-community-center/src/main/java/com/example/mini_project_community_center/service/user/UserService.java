@@ -1,12 +1,10 @@
 package com.example.mini_project_community_center.service.user;
 
 import com.example.mini_project_community_center.dto.ResponseDto;
-import com.example.mini_project_community_center.dto.role.RoleRequestDto;
 import com.example.mini_project_community_center.dto.user.request.PasswordChangeRequestDto;
 import com.example.mini_project_community_center.dto.user.request.UserUpdateRequestDto;
 import com.example.mini_project_community_center.dto.user.response.MeResponseDto;
 import com.example.mini_project_community_center.dto.user.response.UserDetailResponseDto;
-import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import jakarta.validation.Valid;
 
