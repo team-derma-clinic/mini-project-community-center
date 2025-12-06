@@ -11,7 +11,7 @@ import com.example.mini_project_community_center.dto.course.request.CourseStatus
 import com.example.mini_project_community_center.dto.course.request.CourseUpdateRequest;
 import com.example.mini_project_community_center.dto.course.response.CourseDetailResponse;
 import com.example.mini_project_community_center.dto.course.response.CourseListItemResponse;
-import com.example.mini_project_community_center.dto.user.response.UserListItemResponse;
+import com.example.mini_project_community_center.dto.user.response.UserListItemResponseDto;
 import com.example.mini_project_community_center.entity.center.Center;
 import com.example.mini_project_community_center.entity.course.Course;
 import com.example.mini_project_community_center.entity.user.User;
@@ -79,8 +79,8 @@ public class CourseServiceImpl implements CourseService {
 
         Course saved = courseRepository.save(course);
 
-        List<UserListItemResponse> instructorsList = instructors.stream()
-                .map(UserListItemResponse::from)
+        List<UserListItemResponseDto> instructorsList = instructors.stream()
+                .map(UserListItemResponseDto::from)
                 .toList();
 
         CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorsList);
@@ -112,8 +112,8 @@ public class CourseServiceImpl implements CourseService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 강좌가 존재하지 않습니다. courseId: " + courseId));
 
-        List<UserListItemResponse> instructors = course.getInstructors().stream()
-                .map(UserListItemResponse::fromCourseInstructor)
+        List<UserListItemResponseDto> instructors = course.getInstructors().stream()
+                .map(UserListItemResponseDto::fromCourseInstructor)
                 .toList();
 
         CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors);
@@ -155,8 +155,8 @@ public class CourseServiceImpl implements CourseService {
             course.updateInstructors(instructors);
         }
 
-        List<UserListItemResponse> instructorList = instructors.stream()
-                .map(UserListItemResponse::from)
+        List<UserListItemResponseDto> instructorList = instructors.stream()
+                .map(UserListItemResponseDto::from)
                 .toList();
 
         CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructorList);
@@ -174,8 +174,8 @@ public class CourseServiceImpl implements CourseService {
         CourseStatus newStatus = req.status();
         course.updateStatus(newStatus);
 
-        List<UserListItemResponse> instructors = course.getInstructors().stream()
-                .map(i -> UserListItemResponse.from(i.getInstructor()))
+        List<UserListItemResponseDto> instructors = course.getInstructors().stream()
+                .map(i -> UserListItemResponseDto.from(i.getInstructor()))
                 .toList();
 
         CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors);
