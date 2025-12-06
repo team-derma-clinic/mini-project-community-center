@@ -27,7 +27,7 @@ public record CenterCreateRequest(
         String longitude,
 
         @Pattern(
-                regexp = "^(\\+82-?)?010-?\\d{3,4}-?\\d{4}$",
+                regexp = "^(\\+82-?)?0\\d{2}-?\\d{3,4}-?\\d{4}$",
                 message = "전화번호 형식이 올바르지 않습니다."
         )
         String phone
