@@ -7,9 +7,7 @@ export const AUTH_PATH = {
   STUDENT_SIGNUP: `${AUTH_PREFIX}/student/signup`,
   TEACHER_SIGNUP: `${AUTH_PREFIX}/teacher/signup`,
   STAFF_SIGNUP: `${AUTH_PREFIX}/staff/signup`,
-  STUDENT_LOGIN: `${AUTH_PREFIX}/login`,
-  TEACHER_LOGIN: `${AUTH_PREFIX}/teacher/login`,
-  STAFF_LOGIN: `${AUTH_PREFIX}/staff/login`,
+  LOGIN: `${AUTH_PREFIX}/login`,
   LOGOUT: `${AUTH_PREFIX}/logout`,
   REFRESH: `${AUTH_PREFIX}/refresh`,
 
