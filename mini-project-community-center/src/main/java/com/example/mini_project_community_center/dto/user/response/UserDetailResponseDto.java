@@ -1,5 +1,6 @@
 package com.example.mini_project_community_center.dto.user.response;
 
+import com.example.mini_project_community_center.common.enums.user.RoleStatus;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.user.User;
 
@@ -12,6 +13,7 @@ public record UserDetailResponseDto(
         String email,
         String phone,
         RoleType role,
+        RoleStatus roleStatus,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -23,6 +25,7 @@ public record UserDetailResponseDto(
                 user.getEmail(),
                 user.getPhone(),
                 user.getRole(),
+                user.getRoleStatus(),
                 user.getCreatedAt(),
                 user.getUpdatedAt()
         );

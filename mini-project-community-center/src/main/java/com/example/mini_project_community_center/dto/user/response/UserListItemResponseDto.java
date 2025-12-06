@@ -3,9 +3,8 @@ package com.example.mini_project_community_center.dto.user.response;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.course.CourseInstructor;
 import com.example.mini_project_community_center.entity.user.User;
-import jakarta.persistence.EntityNotFoundException;
 
-public record UserListItemResponse(
+public record UserListItemResponseDto(
    Long id,
    String name,
    String loginId,
@@ -13,9 +12,9 @@ public record UserListItemResponse(
    String phone,
    RoleType role
 ) {
-    public static UserListItemResponse from(User user) {
+    public static UserListItemResponseDto from(User user) {
 
-        return new UserListItemResponse(
+        return new UserListItemResponseDto(
                 user.getId(),
                 user.getName(),
                 user.getLoginId(),
@@ -25,9 +24,9 @@ public record UserListItemResponse(
         );
     }
 
-    public static UserListItemResponse fromCourseInstructor(CourseInstructor instructor) {
+    public static UserListItemResponseDto fromCourseInstructor(CourseInstructor instructor) {
 
-        return new UserListItemResponse(
+        return new UserListItemResponseDto(
                 instructor.getInstructor().getId(),
                 instructor.getInstructor().getName(),
                 instructor.getInstructor().getLoginId(),
