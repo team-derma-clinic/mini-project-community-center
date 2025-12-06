@@ -4,6 +4,7 @@ import com.example.mini_project_community_center.common.enums.user.AuthProvider;
 import com.example.mini_project_community_center.common.enums.user.RoleStatus;
 import com.example.mini_project_community_center.common.enums.user.RoleType;
 import com.example.mini_project_community_center.entity.user.User;
+import com.example.mini_project_community_center.exception.BusinessException;
 import com.example.mini_project_community_center.repository.user.UserRepository;
 import com.example.mini_project_community_center.security.oauth2.user.GoogleOAuth2UserInfo;
 import com.example.mini_project_community_center.security.oauth2.user.KakaoOAuth2UserInfo;
@@ -71,6 +72,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userRepository.findByProviderAndProviderId(provider, providerId)
                 .map(user -> {
                     user.updateOauthProfile(name, email);
+
+                    if (user.getRole() != RoleType.STUDENT) {
+                        throw new OAuth2AuthenticationException("소셜 로그인은 학생만 가능합니다.");
+                    }
                     return user;
                 })
                 .orElseGet(() -> {

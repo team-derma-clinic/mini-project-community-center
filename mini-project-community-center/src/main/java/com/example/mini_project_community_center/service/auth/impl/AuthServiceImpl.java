@@ -91,7 +91,15 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(newUser);
 
+        boolean isStaffOrInstructor =
+                roleType == RoleType.INSTRUCTOR || roleType == RoleType.STAFF;
+
+        if (isStaffOrInstructor) {
+            return ResponseDto.success("회원가입 완료, 관리자의 승인이 필요합니다.", SignupResponseDto.from(newUser));
+        }
+
         return ResponseDto.success("회원가입 완료", SignupResponseDto.from(newUser));
+
     }
 
     @Override
@@ -128,6 +136,10 @@ public class AuthServiceImpl implements AuthService {
             User user = userRepository.findByLoginId(loginId)
                     .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
+            if (user.getRoleStatus() != RoleStatus.APPROVED) {
+                throw new BusinessException(ErrorCode.USER_NOT_APPROVED);
+            }
+
             refreshTokenRepository.findByUser(user)
                     .ifPresentOrElse(
                             r -> { r.renew(refreshToken, refreshExpiry);
@@ -157,6 +169,8 @@ public class AuthServiceImpl implements AuthService {
 
         } catch (BadCredentialsException ex) {
             throw new BusinessException(ErrorCode.AUTHENTICATION_FAILED);
+        } catch (BusinessException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new BusinessException(ErrorCode.INTERNAL_ERROR, ex.getMessage());
         }
