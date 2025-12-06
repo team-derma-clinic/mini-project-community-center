@@ -5,10 +5,10 @@ import com.example.mini_project_community_center.dto.ResponseDto;
 import com.example.mini_project_community_center.dto.review.request.ReviewCreateRequest;
 import com.example.mini_project_community_center.dto.review.request.ReviewUpdateRequest;
 import com.example.mini_project_community_center.dto.review.response.ReviewDetailResponse;
-import com.example.mini_project_community_center.dto.review.response.ReviewListItemResponse;
 import com.example.mini_project_community_center.security.user.UserPrincipal;
 import com.example.mini_project_community_center.service.review.ReviewService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(ReviewApi.ROOT)
+@RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
 
