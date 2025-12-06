@@ -97,6 +97,7 @@ CREATE TABLE `centers` (
     is_active BOOLEAN NOT NULL DEFAULT TRUE ,
     
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     
     INDEX `idx_centers_geo` (latitude, longitude)
 )
