@@ -28,14 +28,6 @@ public class UserController {
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
-    @GetMapping(UserApi.BY_ID)
-    public ResponseEntity<ResponseDto<UserDetailResponseDto>> getById(
-            @PathVariable Long userId
-    ){
-        ResponseDto<UserDetailResponseDto> data = userService.getUserById(userId);
-        return ResponseEntity.status(data.getStatus()) .body(data);
-    }
-
     @PutMapping(UserApi.PASSWORD)
     public ResponseEntity<ResponseDto<Void>> updatePassword(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
