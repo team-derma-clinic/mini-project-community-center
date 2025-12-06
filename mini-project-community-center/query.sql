@@ -35,7 +35,7 @@ CREATE TABLE `file_infos` (
 	ENGINE=InnoDB
 	DEFAULT CHARSET = utf8mb4
 	COLLATE = utf8mb4_unicode_ci
-	COMMENT = '파일 정보 테이블';
+	COMMENT = '파일 정보 테이블';    
 
 -- 1) 공통: 사용자/권한
 CREATE TABLE `users` (
@@ -48,6 +48,9 @@ CREATE TABLE `users` (
 	phone VARCHAR(30) NULL,
     role VARCHAR(30) NOT NULL,
     role_status VARCHAR(30) NOT NULL,
+    provider VARCHAR(20) NOT NULL DEFAULT 'LOCAL',
+    provider_id VARCHAR(100) NULL,
+    email_verified BOOLEAN NOT NULL DEFAULT 1,
 	
 	created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
@@ -56,7 +59,8 @@ CREATE TABLE `users` (
 	UNIQUE KEY `uk_users_email` (email),
     
     CHECK (role IN ('STUDENT','INSTRUCTOR','STAFF', 'ADMIN')),
-    CHECK (role_status IN ('PENDING','APPROVED','REJECTED'))
+    CHECK (role_status IN ('PENDING','APPROVED','REJECTED')),
+    CHECK (provider IN ('LOCAL','GOOGLE','KAKAO', 'NAVER'))
 )
 	ENGINE=InnoDB
 	DEFAULT CHARSET=utf8mb4
@@ -354,5 +358,16 @@ CREATE TABLE `review_files` (
     DEFAULT CHARSET=utf8mb4
     COLLATE=utf8mb4_unicode_ci
     COMMENT='리뷰 파일 매핑';
+
+-- 어드민 계정 생성    
+INSERT INTO users (name, login_id, password, email, role, role_status)
+VALUES (
+    '관리자',
+    'admin',
+    '$2a$10$2Axq7JyXYqZP0iYwRjRJ4u6rG6y7W/vA0zpEj6v9IfrU8XKOXuBFO', -- admin123!
+    'admin@example.com',
+    'ADMIN', 
+    'APPROVED'
+);
     
 SET FOREIGN_KEY_CHECKS = 1;
