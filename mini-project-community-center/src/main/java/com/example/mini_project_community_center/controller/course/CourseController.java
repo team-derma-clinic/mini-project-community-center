@@ -43,7 +43,7 @@ public class CourseController {
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping(CourseApi.BY_COURSE_ID)
+    @GetMapping(CourseApi.BY_COURSE_ID_ONLY)
     public ResponseEntity<ResponseDto<CourseDetailResponse>> getCourseDetail(
             @PathVariable Long courseId
     ) {
@@ -51,7 +51,7 @@ public class CourseController {
         return ResponseEntity.ok(data);
     }
 
-    @PutMapping(CourseApi.BY_COURSE_ID)
+    @PutMapping(CourseApi.BY_COURSE_ID_ONLY)
     public ResponseEntity<ResponseDto<CourseDetailResponse>> updateCourse(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId,
@@ -71,7 +71,7 @@ public class CourseController {
         return ResponseEntity.ok(data);
     }
 
-    @DeleteMapping(CourseApi.BY_COURSE_ID)
+    @DeleteMapping(CourseApi.BY_COURSE_ID_ONLY)
     public ResponseEntity<ResponseDto<Void>> deleteCourse(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long courseId) {

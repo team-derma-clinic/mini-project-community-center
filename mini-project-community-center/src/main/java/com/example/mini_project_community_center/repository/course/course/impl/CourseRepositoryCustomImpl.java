@@ -85,11 +85,16 @@ public class CourseRepositoryCustomImpl implements CourseRepositoryCustom {
     }
 
     private BooleanExpression betweenDate(String from, String to) {
-        if (from != null && to != null) {
-            return course.startDate.goe(LocalDate.parse(from))
-                    .and(course.endDate.loe(LocalDate.parse(to)));
+        BooleanExpression predicate = null;
+
+        if (from != null && !from.isBlank()) {
+            predicate = course.startDate.goe(LocalDate.parse(from));
         }
-        return null;
+        if (to != null && !to.isBlank()) {
+            BooleanExpression toExpr = course.endDate.loe(LocalDate.parse(to));
+            predicate = (predicate == null) ? toExpr : predicate.and(toExpr);
+        }
+        return predicate;
     }
 
     private BooleanExpression eqWeekday(Integer weekday) {

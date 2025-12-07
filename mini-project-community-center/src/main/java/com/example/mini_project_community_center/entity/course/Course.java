@@ -108,7 +108,7 @@ public class Course extends BaseTimeEntity {
         return course;
     }
 
-    public void updateCenter(
+    public void updateCourse(
             String title,
             CourseCategory category,
             CourseLevel level,
@@ -142,8 +142,16 @@ public class Course extends BaseTimeEntity {
     }
 
     public void updateInstructors(List<User> newInstructors) {
-        this.instructors.clear();
-        newInstructors.forEach(this::addInstructor);
+        this.instructors.removeIf(ci -> !newInstructors.contains(ci.getInstructor()));
+
+        for(User instructor: newInstructors) {
+            boolean exists = this.instructors.stream()
+                    .anyMatch(ci -> ci.getInstructor().equals(instructor));
+
+            if(!exists) {
+                this.instructors.add(CourseInstructor.create(this, instructor));
+            }
+        }
     }
 
     private void validateDate() {

@@ -72,7 +72,7 @@ public class CourseServiceImpl implements CourseService {
             instructors = userRepository.findAllById(req.instructorIds());
 
             if (instructors.size() != req.instructorIds().size()) {
-                throw new IllegalArgumentException("강사는 최소 1명이상 등록해야합니다.");
+                throw new IllegalArgumentException("유효하지 않은 instructorId가 포함되어 있습니다.");
             }
             instructors.forEach(course::addInstructor);
         }
@@ -83,7 +83,7 @@ public class CourseServiceImpl implements CourseService {
                 .map(UserListItemResponseDto::from)
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, instructorsList);
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(saved, null, instructorsList);
 
         return ResponseDto.success(data);
     }
@@ -116,7 +116,9 @@ public class CourseServiceImpl implements CourseService {
                 .map(UserListItemResponseDto::fromCourseInstructor)
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors);
+        Long current = enrollmentRepository.countConfirmedByCourseId(courseId);
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, current, instructors);
 
         return ResponseDto.success(data);
     }
@@ -130,7 +132,7 @@ public class CourseServiceImpl implements CourseService {
 
         validateDateRange(req.startDate(), req.endDate());
 
-        course.updateCenter(
+        course.updateCourse(
                 req.title(),
                 req.category(),
                 req.level(),
@@ -144,14 +146,13 @@ public class CourseServiceImpl implements CourseService {
 
         List<User> instructors = new ArrayList<>();
 
-        if (req.instructorIds() != null) {
-            if (!req.instructorIds().isEmpty()) {
-                instructors = userRepository.findAllById(req.instructorIds());
+        if (req.instructorIds() != null && !req.instructorIds().isEmpty()) {
+            instructors = userRepository.findAllById(req.instructorIds());
 
-                if (instructors.size() != req.instructorIds().size()) {
-                    throw new IllegalArgumentException("강사는 최소 1명이상 등록해야합니다.");
-                }
+            if (instructors.size() != req.instructorIds().size()) {
+                throw new IllegalArgumentException("유효하지 않은 instructorId가 포함되어 있습니다.");
             }
+
             course.updateInstructors(instructors);
         }
 
@@ -159,7 +160,9 @@ public class CourseServiceImpl implements CourseService {
                 .map(UserListItemResponseDto::from)
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructorList);
+        Long current = enrollmentRepository.countConfirmedByCourseId(courseId);
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, current, instructorList);
 
         return ResponseDto.success(data);
     }
@@ -178,7 +181,9 @@ public class CourseServiceImpl implements CourseService {
                 .map(i -> UserListItemResponseDto.from(i.getInstructor()))
                 .toList();
 
-        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, instructors);
+        Long current = enrollmentRepository.countConfirmedByCourseId(courseId);
+
+        CourseDetailResponse data = CourseDetailResponse.fromEntity(course, current, instructors);
 
         return ResponseDto.success(data);
     }
