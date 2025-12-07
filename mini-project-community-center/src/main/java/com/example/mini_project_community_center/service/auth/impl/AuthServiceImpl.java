@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if (userRepository.findByEmail(request.email()).isPresent()) {
-            throw new BusinessException(ErrorCode.DUPLICATE_USER);
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
 
         if (roleType == null || roleStatus == null) {
