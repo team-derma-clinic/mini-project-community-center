@@ -11,10 +11,6 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CourseUpdateRequest(
-        @NotNull(message = "centerId는 필수입니다.")
-        @Positive(message = "centerId는 양수여야합니다.")
-        Long centerId,
-
         @NotBlank(message = "title은 필수입니다.")
         @Size(max = 200)
         String title,
@@ -41,7 +37,7 @@ public record CourseUpdateRequest(
         @Size(max = 1000, message = "description은 1000자 이내여야 합니다.")
         String description,
 
-        @NotNull(message = "instructor 리스트는 비어있을 수 없습니다.")
+        @NotEmpty(message = "instructor 리스트는 비어있을 수 없습니다.")
         List<Long> instructorIds,
 
         @NotBlank(message = "startDate는 필수입니다.")

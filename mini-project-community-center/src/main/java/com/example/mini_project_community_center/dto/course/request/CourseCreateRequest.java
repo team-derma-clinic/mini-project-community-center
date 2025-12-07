@@ -41,7 +41,7 @@ public record CourseCreateRequest(
         @Size(max = 1000, message = "description은 1000자 이내여야 합니다.")
         String description,
 
-        @NotNull(message = "instructor 리스트는 비어있을 수 없습니다.")
+        @NotEmpty(message = "instructor 리스트는 비어있을 수 없습니다.")
         List<Long> instructorIds,
 
         @NotBlank(message = "startDate는 필수입니다.")
