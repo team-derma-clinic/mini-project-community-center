@@ -70,7 +70,7 @@ public class EmailServiceImpl implements EmailService {
             </div>
         """.formatted(verifyCode);
 
-        sendHtmlEmail(to, "[BoardBack] 이메일 인증 코드", html);
+        sendHtmlEmail(to, "[Community Center] 이메일 인증 코드", html);
     }
 
     @Override
@@ -90,6 +90,6 @@ public class EmailServiceImpl implements EmailService {
             </div>
         """.formatted(url);
 
-        sendHtmlEmail(to, "[BoardBack] 비밀번호 재설정 안내", html);
+        sendHtmlEmail(to, "[Community Center] 비밀번호 재설정 안내", html);
     }
 }
