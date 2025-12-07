@@ -16,7 +16,7 @@ public interface AdminService {
 
     ResponseDto<List<UserDetailResponseDto>> getPendingUsers();
 
-    ResponseDto<List<UserListItemResponseDto>> getAllUsers();
+    ResponseDto<List<UserDetailResponseDto>> getAllUsers();
 
     ResponseDto<List<UserListItemResponseDto>> getUsersByRole(RoleType role);
 }

@@ -46,9 +46,9 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<UserListItemResponseDto>>> getAllUsers()
+    public ResponseEntity<ResponseDto<List<UserDetailResponseDto>>> getAllUsers()
     {
-        ResponseDto<List<UserListItemResponseDto>> data = adminService.getAllUsers();
+        ResponseDto<List<UserDetailResponseDto>> data = adminService.getAllUsers();
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
