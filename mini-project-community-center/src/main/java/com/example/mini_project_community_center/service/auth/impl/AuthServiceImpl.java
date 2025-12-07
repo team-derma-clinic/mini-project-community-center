@@ -253,6 +253,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public ResponseDto<Void> sendPasswordResetEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
