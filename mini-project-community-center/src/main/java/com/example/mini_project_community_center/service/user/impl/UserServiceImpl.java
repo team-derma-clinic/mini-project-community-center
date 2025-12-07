@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
         if (dto.oldPassword() != null) {
             if (!passwordEncoder.matches(dto.oldPassword(), user.getPassword())) {
-                throw new BusinessException(ErrorCode.INVALID_INPUT);
+                throw new BusinessException(ErrorCode.PASSWORD_MISMATCH);
             }
         }
 
