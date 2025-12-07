@@ -76,11 +76,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseDto<List<UserListItemResponseDto>> getAllUsers() {
+    public ResponseDto<List<UserDetailResponseDto>> getAllUsers() {
         List<User> users = userRepository.findAll();
 
-        List<UserListItemResponseDto> data = users.stream()
-                .map(UserListItemResponseDto::from)
+        List<UserDetailResponseDto> data = users.stream()
+                .map(UserDetailResponseDto::from)
                 .toList();
 
         return ResponseDto.success(data);
@@ -89,7 +89,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseDto<List<UserListItemResponseDto>> getUsersByRole(RoleType role) {
-        List<User> users = userRepository.findUsersByRole(role);
+        List<User> users = userRepository.findByRoleAndRoleStatus(role, RoleStatus.APPROVED);
+
+        if (users.isEmpty()) {
+            return ResponseDto.success("현재 존재하는 유저가 없습니다.");
+        }
 
         List<UserListItemResponseDto> data = users.stream()
                 .map(UserListItemResponseDto::from)

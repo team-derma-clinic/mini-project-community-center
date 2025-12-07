@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if (userRepository.findByEmail(request.email()).isPresent()) {
-            throw new BusinessException(ErrorCode.DUPLICATE_USER);
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
 
         if (roleType == null || roleStatus == null) {
@@ -253,6 +253,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public ResponseDto<Void> sendPasswordResetEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
