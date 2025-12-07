@@ -25,7 +25,8 @@ public enum ErrorCode {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A005", "토큰이 만료되었습니다.", "Token expired"),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "A006", "유효하지 않은 토큰입니다.", "Invalid token"),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "A007", "토큰을 찾을 수 없습니다.", "Token not found"),
-    PASSWORD_CONFIRM_MISMATCH(HttpStatus.BAD_REQUEST, "A008", "비밀번호와 비밀번호 확인이 일치하지 않습니다.", "Password mismatch"),
+    PASSWORD_CONFIRM_MISMATCH(HttpStatus.BAD_REQUEST, "A008", "비밀번호가 일치하지 않습니다.", "Password mismatch"),
+    DUPLICATE_EMAIL(HttpStatus.CONFLICT, "A009", "이미 가입된 이메일입니다.", "Duplicate email"),
 
     // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U001", "사용자를 찾을 수 없습니다.", "User not found"),
