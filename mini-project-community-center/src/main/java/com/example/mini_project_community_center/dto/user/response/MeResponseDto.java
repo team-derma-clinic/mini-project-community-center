@@ -8,6 +8,7 @@ public record MeResponseDto(
         String loginId,
         String name,
         String email,
+        String phone,
         RoleType role,
         String provider
 ) {
@@ -17,6 +18,7 @@ public record MeResponseDto(
                 user.getLoginId(),
                 user.getName(),
                 user.getEmail(),
+                user.getPhone(),
                 user.getRole(),
                 user.getProvider().name()
         );
