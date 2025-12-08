@@ -41,6 +41,7 @@ public class CourseSession extends BaseTimeEntity {
     private String room;
 
     @Column(name = "status", length = 60, nullable = false)
+    @Enumerated(EnumType.STRING)
     private CourseSessionsStatus status = CourseSessionsStatus.SCHEDULED;
 
     public static CourseSession create(

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -61,6 +62,10 @@ public class CourseSessionServiceImpl implements CourseSessionService {
     @Override
     public ResponseDto<Page<SessionListItemResponse>> getSessions(SessionSearchRequest searchReq, PageRequestDto pageReq) {
         Pageable pageable = pageReq.toPageable();
+
+        LocalDate start = LocalDate.parse(searchReq.from());
+        LocalDate end = LocalDate.parse(searchReq.to());
+        if(start.isAfter(end)) throw new IllegalArgumentException("시작 날짜가 종료 날짜 이후일 수 없습니다.");
 
         Page<CourseSession> pageResult = sessionRepository.searchSessions(searchReq, pageable);
 
@@ -144,11 +149,11 @@ public class CourseSessionServiceImpl implements CourseSessionService {
         return ResponseDto.success(null);
     }
 
-    private void validateDateRange(String start, String end) {
-        LocalDate startDate = LocalDate.parse(start);
-        LocalDate endDate = LocalDate.parse(end);
+    private void validateDateRange(String startTime, String endTime) {
+        LocalDateTime start = LocalDateTime.parse(startTime);
+        LocalDateTime end = LocalDateTime.parse(endTime);
 
-        if (startDate.isAfter(endDate)) {
+        if (start.isAfter(end)) {
             throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 빠를 수 없습니다.");
         }
     }
