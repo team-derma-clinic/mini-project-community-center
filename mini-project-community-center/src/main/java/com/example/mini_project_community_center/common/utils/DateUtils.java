@@ -53,6 +53,7 @@ public class DateUtils {
 
     public static LocalDateTime parseLocalDateTime(String dateTimeStr) {
         try {
+            dateTimeStr = dateTimeStr.replace("T", " ");
             return LocalDateTime.parse(dateTimeStr, KST_FORMAT);
         } catch (DateTimeParseException e) {
             System.out.println("날짜/시간 파싱 오류: " + e.getMessage());

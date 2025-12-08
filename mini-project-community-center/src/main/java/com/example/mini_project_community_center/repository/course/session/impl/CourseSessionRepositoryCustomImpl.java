@@ -30,7 +30,6 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
                 .selectFrom(courseSession)
                 .join(courseSession.course, course)
                 .where(
-                        eqCourseId(req.courseId()),
                         betweenDate(req.from(), req.to()),
                         eqWeekday(req.weekday()),
                         betweenTime(req.timeRange()),
@@ -46,7 +45,6 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
                 .from(courseSession)
                 .join(courseSession.course, course)
                 .where(
-                        eqCourseId(req.courseId()),
                         betweenDate(req.from(), req.to()),
                         eqWeekday(req.weekday()),
                         betweenTime(req.timeRange()),
@@ -57,16 +55,22 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
         return new PageImpl<>(content, pageable, total == null ? 0 : total);
     }
 
-    private BooleanExpression eqCourseId(Long courseId) {
-        return courseId != null ? courseSession.course.id.eq(courseId) : null;
-    }
-
     private BooleanExpression betweenDate(String from, String to) {
-        if(from != null && to != null) {
-            return courseSession.startTime.goe(DateUtils.parseLocalDateTime(from))
-                    .and(courseSession.endTime.loe(DateUtils.parseLocalDateTime(to)));
+        System.out.println("검색 시작");
+        BooleanExpression predicate = null;
+
+        if (from != null && !from.isBlank()) {
+            predicate = Expressions.stringTemplate("DATE_FORMAT({0}, '%H:%i')",
+                    courseSession.startTime).goe(from);
         }
-        return null;
+        if (to != null && !to.isBlank()) {
+            BooleanExpression toExpr = Expressions.stringTemplate("DATE_FORMAT({0}, '%H:%i')",
+                    courseSession.endTime).loe(to);
+
+            predicate = (predicate == null) ? toExpr : predicate.and(toExpr);
+        }
+        System.out.println("검색 완료");
+        return predicate;
     }
 
     private BooleanExpression eqWeekday(Integer weekday) {
@@ -74,15 +78,15 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
     }
 
     private BooleanExpression betweenTime(String timeRange) {
-        if(timeRange == null || timeRange.isBlank()) return null;
+        if (timeRange == null || timeRange.isBlank()) return null;
 
         String[] parts = timeRange.split("-");
-        if(parts.length != 2) return null;
+        if (parts.length != 2) return null;
 
         LocalTime startCondition;
         LocalTime endCondition;
 
-        try{
+        try {
             startCondition = LocalTime.parse(parts[0]);
             endCondition = LocalTime.parse(parts[1]);
         } catch (Exception e) {
@@ -95,8 +99,8 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
                 ).goe(startCondition.toString())
                 .and(
                         Expressions.stringTemplate(
-                        "DATE_FORMAT({0}, '%H:%i')",
-                        courseSession.endTime
+                                "DATE_FORMAT({0}, '%H:%i')",
+                                courseSession.endTime
                         ).loe(endCondition.toString())
                 );
     }
