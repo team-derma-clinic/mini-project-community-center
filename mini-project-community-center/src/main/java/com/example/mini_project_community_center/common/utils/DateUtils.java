@@ -60,4 +60,9 @@ public class DateUtils {
             throw e;
         }
     }
+
+    public static String formatLocalDateTime(LocalDateTime dateTime) {
+        if(dateTime == null) return null;
+        return dateTime.format(KST_FORMAT);
+    }
 }

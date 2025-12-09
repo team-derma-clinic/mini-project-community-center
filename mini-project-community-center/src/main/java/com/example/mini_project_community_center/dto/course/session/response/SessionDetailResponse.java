@@ -22,8 +22,8 @@ public record SessionDetailResponse (
         return new SessionDetailResponse(
                 session.getId(),
                 session.getCourse().getId(),
-                DateUtils.toKstString(session.getStartTime()),
-                DateUtils.toKstString(session.getEndTime()),
+                DateUtils.formatLocalDateTime(session.getStartTime()),
+                DateUtils.formatLocalDateTime(session.getEndTime()),
                 session.getRoom(),
                 session.getStatus(),
                 session.getCreatedAt(),
