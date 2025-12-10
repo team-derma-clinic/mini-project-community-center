@@ -8,12 +8,13 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalTime;
+import java.time.*;
 import java.util.List;
 
 import static com.example.mini_project_community_center.entity.course.QCourse.course;
@@ -25,16 +26,17 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<CourseSession> searchSessions(SessionSearchRequest req, Pageable pageable) {
+    public Page<CourseSession> searchSessions(Long courseId, SessionSearchRequest req, Pageable pageable) {
+        BooleanExpression predicate = courseSession.course.id.eq(courseId)
+                .and(betweenDate(req.from(), req.to()))
+                .and(eqWeekday(req.weekday()))
+                .and(betweenTime(req.timeRange()))
+                .and(containsKeyword(req.q()));
+
         List<CourseSession> content = queryFactory
                 .selectFrom(courseSession)
                 .join(courseSession.course, course)
-                .where(
-                        betweenDate(req.from(), req.to()),
-                        eqWeekday(req.weekday()),
-                        betweenTime(req.timeRange()),
-                        containsKeyword(req.q())
-                )
+                .where(predicate)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(courseSession.createdAt.desc())
@@ -44,32 +46,34 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
                 .select(courseSession.count())
                 .from(courseSession)
                 .join(courseSession.course, course)
-                .where(
-                        betweenDate(req.from(), req.to()),
-                        eqWeekday(req.weekday()),
-                        betweenTime(req.timeRange()),
-                        containsKeyword(req.q())
-                )
+                .where(predicate)
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, total == null ? 0 : total);
     }
 
     private BooleanExpression betweenDate(String from, String to) {
-        System.out.println("검색 시작");
         BooleanExpression predicate = null;
 
         if (from != null && !from.isBlank()) {
-            predicate = Expressions.stringTemplate("DATE_FORMAT({0}, '%H:%i')",
-                    courseSession.startTime).goe(from);
+            LocalDateTime fromUTC = LocalDate.parse(from)
+                    .atStartOfDay()
+                    .atZone(ZoneId.of("Asia/Seoul"))
+                    .withZoneSameInstant(ZoneId.of("UTC"))
+                    .toLocalDateTime();
+
+            predicate = courseSession.startTime.goe(fromUTC);
         }
         if (to != null && !to.isBlank()) {
-            BooleanExpression toExpr = Expressions.stringTemplate("DATE_FORMAT({0}, '%H:%i')",
-                    courseSession.endTime).loe(to);
+            LocalDateTime toUTC = LocalDate.parse(to)
+                    .atTime(23, 59, 59)
+                    .atZone(ZoneId.of("Asia/Seoul"))
+                    .withZoneSameInstant(ZoneId.of("UTC"))
+                    .toLocalDateTime();
 
+            BooleanExpression toExpr = courseSession.startTime.loe(toUTC);
             predicate = (predicate == null) ? toExpr : predicate.and(toExpr);
         }
-        System.out.println("검색 완료");
         return predicate;
     }
 
@@ -83,26 +87,26 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
         String[] parts = timeRange.split("-");
         if (parts.length != 2) return null;
 
-        LocalTime startCondition;
-        LocalTime endCondition;
-
         try {
-            startCondition = LocalTime.parse(parts[0]);
-            endCondition = LocalTime.parse(parts[1]);
+            LocalTime startKstTime = LocalTime.parse(parts[0]);
+            LocalTime endKstTime = LocalTime.parse(parts[1]);
+
+            LocalTime startUtc = DateUtils.convertKstToUtc(startKstTime);
+            LocalTime endUtc = DateUtils.convertKstToUtc(endKstTime);
+
+            System.out.println("startUtc: " + startUtc);
+            System.out.println("endUtc: " + endUtc);
+
+            return Expressions.stringTemplate("TIME({0})", courseSession.startTime)
+                    .goe(startUtc.toString())
+                    .and(
+                            Expressions.stringTemplate("TIME({0})", courseSession.endTime)
+                                    .loe(endUtc.toString())
+                    );
+
         } catch (Exception e) {
             return null;
         }
-
-        return Expressions.stringTemplate(
-                        "DATE_FORMAT({0}, '%H:%i')",
-                        courseSession.startTime
-                ).goe(startCondition.toString())
-                .and(
-                        Expressions.stringTemplate(
-                                "DATE_FORMAT({0}, '%H:%i')",
-                                courseSession.endTime
-                        ).loe(endCondition.toString())
-                );
     }
 
     private BooleanExpression containsKeyword(String q) {

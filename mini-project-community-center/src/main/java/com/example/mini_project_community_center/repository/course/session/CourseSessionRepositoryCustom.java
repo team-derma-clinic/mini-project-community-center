@@ -6,5 +6,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CourseSessionRepositoryCustom {
-    Page<CourseSession> searchSessions(SessionSearchRequest req, Pageable pageable);
+    Page<CourseSession> searchSessions(Long courseId, SessionSearchRequest req, Pageable pageable);
 }

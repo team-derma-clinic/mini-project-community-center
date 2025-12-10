@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public interface CourseSessionService {
     ResponseDto<SessionDetailResponse> createSession(UserPrincipal userPrincipal, Long courseId, @Valid SessionCreateRequest req);
 
-    ResponseDto<Page<SessionListItemResponse>> getSessions(@Valid @ModelAttribute SessionSearchRequest searchReq, @Valid @ModelAttribute PageRequestDto pageReq);
+    ResponseDto<Page<SessionListItemResponse>> getSessions(Long courseId, @Valid @ModelAttribute SessionSearchRequest searchReq, @Valid @ModelAttribute PageRequestDto pageReq);
 
     ResponseDto<SessionDetailResponse> getSessionDetail(Long sessionId);
 

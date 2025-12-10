@@ -40,10 +40,11 @@ public class CourseSessionController {
     // 세션 목록/검색(Public)
     @GetMapping(CourseSessionApi.ROOT)
     public ResponseEntity<ResponseDto<Page<SessionListItemResponse>>> getSessions(
+            @PathVariable Long courseId,
             @Valid @ModelAttribute SessionSearchRequest searchReq,
             @Valid @ModelAttribute PageRequestDto pageReq
     ) {
-        ResponseDto<Page<SessionListItemResponse>> data = sessionService.getSessions(searchReq, pageReq);
+        ResponseDto<Page<SessionListItemResponse>> data = sessionService.getSessions(courseId, searchReq, pageReq);
         return ResponseEntity.ok(data);
     }
 
