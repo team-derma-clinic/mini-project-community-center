@@ -26,7 +26,7 @@ public class CourseFileController {
         return ResponseEntity.ok(data);
     }
 
-    @PostMapping(CourseFileApi.UPDATE)
+    @PutMapping(CourseFileApi.UPDATE)
     public ResponseEntity<ResponseDto<Void>> selectThumbnail(
             @PathVariable Long courseId,
             @PathVariable Long fileId
