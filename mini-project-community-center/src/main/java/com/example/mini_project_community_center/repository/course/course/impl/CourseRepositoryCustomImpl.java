@@ -22,6 +22,7 @@ import java.util.List;
 
 import static com.example.mini_project_community_center.entity.course.QCourse.course;
 import static com.example.mini_project_community_center.entity.course.QCourseInstructor.courseInstructor;
+import static com.example.mini_project_community_center.entity.course.session.QCourseSession.courseSession;
 
 @Repository
 @RequiredArgsConstructor
@@ -107,27 +108,17 @@ public class CourseRepositoryCustomImpl implements CourseRepositoryCustom {
         String[] parts = timeRange.split("-");
         if (parts.length != 2) return null;
 
-        LocalTime startCondition;
-        LocalTime endCondition;
-
         try {
-            startCondition = LocalTime.parse(parts[0]);
-            endCondition = LocalTime.parse(parts[1]);
+            LocalTime fromTime = LocalTime.parse(parts[0]);
+            LocalTime toTime = LocalTime.parse(parts[1]);
+
+            return courseSession.startTime.hour().goe(fromTime.getHour())
+                    .and(courseSession.startTime.minute().goe(fromTime.getMinute()))
+                    .and(courseSession.endTime.hour().loe(toTime.getHour()))
+                    .and(courseSession.endTime.minute().loe(toTime.getMinute()));
         } catch (Exception e) {
             return null;
         }
-
-        return Expressions.stringTemplate(
-                        "DATE_FORMAT({0}, '%H:%i')",
-                        session.startTime
-                ).goe(startCondition.toString())
-                .and(
-                        Expressions.stringTemplate(
-                                "DATE_FORMAT({0}, '%H:%i')",
-                                session.endTime
-                        ).loe(endCondition.toString())
-                );
-
     }
 
     private BooleanExpression containsKeyword(String q) {
