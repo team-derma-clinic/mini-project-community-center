@@ -60,14 +60,16 @@ public class CourseSessionServiceImpl implements CourseSessionService {
     }
 
     @Override
-    public ResponseDto<Page<SessionListItemResponse>> getSessions(SessionSearchRequest searchReq, PageRequestDto pageReq) {
+    public ResponseDto<Page<SessionListItemResponse>> getSessions(Long courseId, SessionSearchRequest searchReq, PageRequestDto pageReq) {
         Pageable pageable = pageReq.toPageable();
 
-        LocalDate start = LocalDate.parse(searchReq.from());
-        LocalDate end = LocalDate.parse(searchReq.to());
-        if(start.isAfter(end)) throw new IllegalArgumentException("시작 날짜가 종료 날짜 이후일 수 없습니다.");
+        if(searchReq.from() != null && searchReq.to() != null) {
+            LocalDate start = LocalDate.parse(searchReq.from());
+            LocalDate end = LocalDate.parse(searchReq.to());
+            if(start.isAfter(end)) throw new IllegalArgumentException("시작 날짜가 종료 날짜 이후일 수 없습니다.");
+        }
 
-        Page<CourseSession> pageResult = sessionRepository.searchSessions(searchReq, pageable);
+        Page<CourseSession> pageResult = sessionRepository.searchSessions(courseId, searchReq, pageable);
 
         Page<SessionListItemResponse> data = pageResult.map(session -> new SessionListItemResponse(
                 session.getId(),

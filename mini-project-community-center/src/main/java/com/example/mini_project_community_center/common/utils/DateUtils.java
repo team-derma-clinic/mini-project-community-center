@@ -65,4 +65,16 @@ public class DateUtils {
         if(dateTime == null) return null;
         return dateTime.format(KST_FORMAT);
     }
+
+    public static LocalDateTime toKstDateTime(LocalTime time) {
+        return LocalDate.now(ZONE_KST).atTime(time);
+    }
+
+    public static LocalTime convertKstToUtc(LocalTime kstTime) {
+        return kstTime
+                .atDate(LocalDate.of(2000, 1, 1))
+                .atZone(ZoneId.of("Asia/Seoul"))
+                .withZoneSameInstant(ZoneId.of("UTC"))
+                .toLocalTime();
+    }
 }

@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface CourseSessionRepository extends JpaRepository<CourseSession, Long>, CourseSessionRepositoryCustom {
     boolean existsByCourseId(Long courseId);
 
-    Page<CourseSession> searchSessions(SessionSearchRequest req, Pageable pageable);
+    Page<CourseSession> searchSessions(Long courseId, SessionSearchRequest req, Pageable pageable);
 }
