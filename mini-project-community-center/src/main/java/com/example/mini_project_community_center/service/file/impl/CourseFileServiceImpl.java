@@ -12,6 +12,7 @@ import com.example.mini_project_community_center.repository.file.CourseFileRepos
 import com.example.mini_project_community_center.service.file.CourseFileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,7 @@ public class CourseFileServiceImpl implements CourseFileService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<Void> uploadThumbnail(Long courseId, MultipartFile file) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
@@ -49,6 +51,7 @@ public class CourseFileServiceImpl implements CourseFileService {
     }
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<Void> selectThumbnail(Long courseId, Long fileId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(()-> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
@@ -63,6 +66,7 @@ public class CourseFileServiceImpl implements CourseFileService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<List<CourseFileListResponseDto>> getFilesByCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 강좌를 찾지 못하였습니다: " + courseId));
@@ -80,6 +84,7 @@ public class CourseFileServiceImpl implements CourseFileService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<Void> deleteCourseFile(Long fileId) {
         CourseFile courseFile = courseFileRepository.findByFileInfoId(fileId)
                 .orElseThrow(() -> new FileStorageException(ErrorCode.INTERNAL_ERROR));

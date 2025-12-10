@@ -3,7 +3,7 @@ package com.example.mini_project_community_center.common.apis;
 public class ReviewFileApi {
     private ReviewFileApi() {}
 
-    public static final String ROOT = ApiBase.BASE + "/review-files";
+    public static final String ROOT = ApiBase.BASE + "/reviews";
     public static final String FILES_BY_REVIEW = "/{reviewId}/files";
 
     public static final String UPLOAD = FILES_BY_REVIEW;

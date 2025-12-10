@@ -123,6 +123,19 @@ public class WebSecurityConfig {
                             .requestMatchers("/api/v1/users/me/**").authenticated()
                             .requestMatchers("/api/v1/users/**").hasAnyRole("ADMIN", "STAFF")
 
+                            // 파일
+                            .requestMatchers(HttpMethod.POST, "/api/v1/courses/files/*").hasAnyRole("ADMIN", "STAFF")
+                            .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/files/**").hasAnyRole("ADMIN", "STAFF")
+
+                            .requestMatchers(HttpMethod.POST, "/api/v1/courses/*/thumbnail").hasAnyRole("ADMIN", "STAFF")
+                            .requestMatchers(HttpMethod.PUT, "/api/v1/courses/*/thumbnail/select/*").hasAnyRole("ADMIN", "STAFF")
+
+                            .requestMatchers(HttpMethod.POST, "/api/v1/reviews/*/files").hasRole("STUDENT")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/reviews/*/files").permitAll()
+                            .requestMatchers(HttpMethod.PUT, "/api/v1/reviews/*/files").hasRole("STUDENT")
+                            .requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/files/*").hasAnyRole("ADMIN", "STAFF")
+
+
                             // 센터/강좌/세션
                             .requestMatchers(HttpMethod.POST,"/api/v1/centers/**").hasAnyRole("ADMIN", "STAFF")
                             .requestMatchers(HttpMethod.GET,"/api/v1/centers/**").permitAll()

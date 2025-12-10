@@ -12,6 +12,7 @@ import com.example.mini_project_community_center.repository.file.ReviewFileRepos
 import com.example.mini_project_community_center.repository.review.ReviewRepository;
 import com.example.mini_project_community_center.service.file.ReviewFileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +33,7 @@ public class ReviewFileServiceImpl implements ReviewFileService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseDto<Void> uploadReviewFiles(Long reviewId, List<MultipartFile> files) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 리뷰를 찾을 수 없습니다: " + reviewId));
@@ -69,6 +71,7 @@ public class ReviewFileServiceImpl implements ReviewFileService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseDto<Void> deleteReviewFile(Long fileId) {
         ReviewFile reviewFile = reviewFileRepository.findByFileInfoId(fileId)
                 .orElseThrow(()-> new BusinessException(ErrorCode.ENTITY_NOT_FOUND, "해당 파일이 존재하지 않습니다: " + fileId));
@@ -83,6 +86,7 @@ public class ReviewFileServiceImpl implements ReviewFileService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('STUDENT') and @authz.isWriter(#reviewId, authentication)")
     public ResponseDto<Void> updateReviewFiles(Long reviewId, ReviewFileUpdateRequestDto dto) {
         List<Long> keepIds = dto.keepFileIds() == null ? List.of() : dto.keepFileIds();
         List<MultipartFile> newFiles = dto.files();
