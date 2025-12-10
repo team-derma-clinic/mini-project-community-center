@@ -1,6 +1,5 @@
 package com.example.mini_project_community_center.repository.course.session.impl;
 
-import com.example.mini_project_community_center.common.utils.DateUtils;
 import com.example.mini_project_community_center.dto.course.session.request.SessionSearchRequest;
 import com.example.mini_project_community_center.entity.course.session.CourseSession;
 import com.example.mini_project_community_center.repository.course.session.CourseSessionRepositoryCustom;
@@ -8,7 +7,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -56,22 +54,14 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
         BooleanExpression predicate = null;
 
         if (from != null && !from.isBlank()) {
-            LocalDateTime fromUTC = LocalDate.parse(from)
-                    .atStartOfDay()
-                    .atZone(ZoneId.of("Asia/Seoul"))
-                    .withZoneSameInstant(ZoneId.of("UTC"))
-                    .toLocalDateTime();
-
-            predicate = courseSession.startTime.goe(fromUTC);
+            LocalDateTime fromKst = LocalDate.parse(from).atStartOfDay();
+            predicate = courseSession.startTime.goe(fromKst);
         }
-        if (to != null && !to.isBlank()) {
-            LocalDateTime toUTC = LocalDate.parse(to)
-                    .atTime(23, 59, 59)
-                    .atZone(ZoneId.of("Asia/Seoul"))
-                    .withZoneSameInstant(ZoneId.of("UTC"))
-                    .toLocalDateTime();
 
-            BooleanExpression toExpr = courseSession.startTime.loe(toUTC);
+        if (to != null && !to.isBlank()) {
+            LocalDateTime toKst = LocalDate.parse(to).atTime(23, 59, 59);
+            BooleanExpression toExpr = courseSession.startTime.loe(toKst);
+
             predicate = (predicate == null) ? toExpr : predicate.and(toExpr);
         }
         return predicate;
@@ -88,22 +78,13 @@ public class CourseSessionRepositoryCustomImpl implements CourseSessionRepositor
         if (parts.length != 2) return null;
 
         try {
-            LocalTime startKstTime = LocalTime.parse(parts[0]);
-            LocalTime endKstTime = LocalTime.parse(parts[1]);
+            LocalTime fromTime = LocalTime.parse(parts[0]);
+            LocalTime toTime = LocalTime.parse(parts[1]);
 
-            LocalTime startUtc = DateUtils.convertKstToUtc(startKstTime);
-            LocalTime endUtc = DateUtils.convertKstToUtc(endKstTime);
-
-            System.out.println("startUtc: " + startUtc);
-            System.out.println("endUtc: " + endUtc);
-
-            return Expressions.stringTemplate("TIME({0})", courseSession.startTime)
-                    .goe(startUtc.toString())
-                    .and(
-                            Expressions.stringTemplate("TIME({0})", courseSession.endTime)
-                                    .loe(endUtc.toString())
-                    );
-
+            return courseSession.startTime.hour().goe(fromTime.getHour())
+                    .and(courseSession.startTime.minute().goe(fromTime.getMinute()))
+                    .and(courseSession.endTime.hour().loe(toTime.getHour()))
+                    .and(courseSession.endTime.minute().loe(toTime.getMinute()));
         } catch (Exception e) {
             return null;
         }
