@@ -40,7 +40,10 @@ public class CourseFileServiceImpl implements CourseFileService {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("업로드할 파일이 없습니다.");
         }
-        FileInfo info = fileService.saveCourseFile(courseId, file);
+
+        String relativePath = "course" + courseId;
+
+        FileInfo info = fileService.saveCourseFile(relativePath, file);
 
         CourseFile courseFile = CourseFile.of(course, info, order++);
         courseFileRepository.save(courseFile);

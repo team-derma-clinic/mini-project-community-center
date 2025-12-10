@@ -109,7 +109,7 @@ public class FileServiceImpl {
     }
 
     /** 파일 업로드 */
-    public FileInfo saveCourseFile(Long courseId, MultipartFile file) {
+    public FileInfo saveCourseFile(String courseId, MultipartFile file) {
         // 업로드할 파일이 아예 없을 수도 있음
         if (file == null || file.isEmpty()) {
             return null;
