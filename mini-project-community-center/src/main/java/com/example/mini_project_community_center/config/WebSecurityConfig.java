@@ -126,6 +126,7 @@ public class WebSecurityConfig {
                             // 파일
                             .requestMatchers(HttpMethod.POST, "/api/v1/courses/files/*").hasAnyRole("ADMIN", "STAFF")
                             .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/files/**").hasAnyRole("ADMIN", "STAFF")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/courses/*/files").hasAnyRole("ADMIN", "STAFF")
 
                             .requestMatchers(HttpMethod.POST, "/api/v1/courses/*/thumbnail").hasAnyRole("ADMIN", "STAFF")
                             .requestMatchers(HttpMethod.PUT, "/api/v1/courses/*/thumbnail/select/*").hasAnyRole("ADMIN", "STAFF")
